@@ -74,9 +74,6 @@ class Game extends React.Component {
     // We are going to wait for the put to the backend
     await api.put("/logout",requestBody);
 
-    // This is for the Navigation Bar
-    this.props.callParent(this.props.changeNavState);
-
     // We send the user to the login screen -> loged out
     this.props.history.push('/login');
   }

@@ -97,10 +97,6 @@ class Register extends React.Component {
       localStorage.setItem('id',user.id);
       localStorage.setItem('username',user.username);
       localStorage.setItem('name',user.name);
-    
-      // This is for the navigation bar -> Calls changeNavState in the parent
-      this.props.callParent(this.props.changeNavState);
-
 
       // Login successfully worked --> navigate to the route /game in the GameRouter,
       // If something went wrong send the user back to the registration

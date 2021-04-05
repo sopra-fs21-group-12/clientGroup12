@@ -25,19 +25,6 @@ import TestPage from "../../../TestPage";
  * 
  */
 class AppRouter extends React.Component {
-  constructor(props) {
-    super(props);
-    // This here creates a Reference to the Navigation bar -> ref={this.childTwo}
-    this.childTwo = React.createRef();
-    }
-
-/*
-// As we now have a reference to the Navigation bar, we can call the changeState() method inside it.
-// We mainly use this spesific method to refresh our Navigation bar.
-changeNavState = () => {
-    this.childTwo.current.changeState();
-    }
-*/
   render() {
     return (
       <BrowserRouter>
@@ -48,7 +35,7 @@ changeNavState = () => {
               path="/game"
               render={() => (
                 <GameGuard>
-                  <GameRouter callGameParent={this.changeNavState} base={"/game"} />
+                  <GameRouter base={"/game"} />
                 </GameGuard>
               )}
             />
@@ -57,7 +44,7 @@ changeNavState = () => {
             exact
             render={() => (
               <LoginGuard>
-                <Login callParent={this.changeNavState}/>
+                <Login />
               </LoginGuard>
             )}
           />
@@ -66,7 +53,7 @@ changeNavState = () => {
               exact
               render={() => (
                 <RegistrationGuard>
-                  <Register callParent={this.changeNavState}/>
+                  <Register />
                 </RegistrationGuard>
               )}
             />
