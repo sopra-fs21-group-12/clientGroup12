@@ -10,7 +10,7 @@ class TestPage extends React.Component {
   render() {
     return (
       <div>
-      <TagPicker/>
+      <TagPickerRS/>
       <Button variant="contained" onClick={() => alert(sessionStorage.getItem("selectedTags"))}>Show selected Tags</Button>
       </div>
     );

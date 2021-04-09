@@ -1,31 +1,43 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { TagPicker } from 'rsuite';
 
-const data = [
+const tags = [
     {
-        "label": "Eugenia",
-        "value": "Eugenia",
-        "role": "Master"
+        "label": "Electronics",
+        "value": "Electronics",
       },
       {
-        "label": "Kariane",
-        "value": "Kariane",
-        "role": "Master"
+        "label": "Furniture",
+        "value": "Furniture",
+      },
+      {
+        "label": "Fashion",
+        "value": "Fashion",
+      },
+      {
+        "label": "Collectibles & Art",
+        "value": "Collectibles & Art",
+      },
+      {
+        "label": "Toys",
+        "value": "Toys",
       },
 ];
-
 
 export default function TagPickerRS() {
 
     const [selectedTags, setTags] = React.useState([]);
     
     const handleChange = (event) => {
-    setTags(event.target.value);
+    setTags(event);
+    };
 
-    console.log(selectedTags);
-};
+    // safe the selectedTags in sessionStorage
+    useEffect(() =>{
+        sessionStorage.setItem("selectedTags", selectedTags);
+      }, [selectedTags]);
 
     return (
-        <TagPicker date={data} style={{ width: 300 }} onChange={handleChange}  />
+        <TagPicker placeholder="Add Tags" size='lg' data={tags} style={{ width: 300 }} onChange={handleChange}  />
     )
 }
