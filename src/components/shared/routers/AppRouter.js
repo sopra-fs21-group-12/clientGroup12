@@ -8,7 +8,7 @@ import {LoginGuard} from "../routeProtectors/LoginGuard";
 
 
 import Register from "../../Registration/Register";
-import Login from "../../login/Login";
+import LoginHooks from "../../login/LoginHooks";
 import { ProfileGuard } from "../routeProtectors/ProfileGuard";
 import TestPage from "../../../TestPage";
 
@@ -44,7 +44,7 @@ class AppRouter extends React.Component {
             exact
             render={() => (
               <LoginGuard>
-                <Login />
+                <LoginHooks />
               </LoginGuard>
             )}
           />
