@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import AppRouter from "./components/shared/routers/AppRouter";
+import 'rsuite/dist/styles/rsuite-default.css';
 
 /**
  * Happy coding!

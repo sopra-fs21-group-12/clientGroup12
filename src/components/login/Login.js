@@ -95,12 +95,10 @@ class Login extends React.Component {
       localStorage.setItem('username',user.username);
       localStorage.setItem('name',user.name);
       
-      // This part is for the navigationbar-> Calls the changeNavState in the Parent -> AppRouter
-      this.props.callParent(this.props.changeNavState);
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
       // Otherwise an error is displayed
-      this.props.history.push(`/game`);
+      //this.props.history.push(`/game`);
     } catch (error) {
       alert(`Something went wrong during the login: \n${handleError(error)}`);
     }
