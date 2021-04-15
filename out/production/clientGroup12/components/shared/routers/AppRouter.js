@@ -66,12 +66,6 @@ class AppRouter extends React.Component {
                 //</ProfileGuard>
               )}
             />
-              <Route
-                  path="/edit"
-                  render={() => (
-                      <editForm/>
-                  )}
-              />
             {
               /*
               New Route for TestPage
