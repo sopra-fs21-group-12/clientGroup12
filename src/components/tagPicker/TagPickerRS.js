@@ -24,20 +24,13 @@ const tags = [
       },
 ];
 
-export default function TagPickerRS() {
-
-    const [selectedTags, setTags] = React.useState([]);
+export default function TagPickerRS(props) {
     
-    const handleChange = (event) => {
-    setTags(event);
-    };
-
-    // safe the selectedTags in sessionStorage
-    useEffect(() =>{
-        sessionStorage.setItem("selectedTags", selectedTags);
-      }, [selectedTags]);
+    function handleChange(event) {
+      props.onChange(event);
+    }
 
     return (
-        <TagPicker placeholder="Add Tags" size='lg' data={tags} style={{ width: 300 }} onChange={handleChange}  />
+        <TagPicker placeholder="Add Tags" size='lg' data={tags} style={{ width: 300 }} onChange={handleChange}/>
     )
 }

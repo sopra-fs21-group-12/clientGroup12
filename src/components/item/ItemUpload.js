@@ -1,4 +1,4 @@
-import { React, useState } from 'react'
+import { React, useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { useHistory } from "react-router-dom";
 
@@ -38,10 +38,15 @@ function ItemUpload() {
     }
     );
     const [image, setImage] = useState();
-    var selectedTags = sessionStorage.getItem("selectedTags");
+    const [selectedTags, setTags] = useState("");
+
+    function handleChange(newValue){
+        setTags(newValue);
+        console.log(selectedTags)
+    }
 
 
-    const handleChange = (e) => {
+    const handleChangeiii = (e) => {
         const{id, value} = e.target
         setState(prevState => ({
           ...prevState,
@@ -49,10 +54,13 @@ function ItemUpload() {
       }))
     }
 
-    function allEntriesNonEmpty(){
-        return (!state.title || !state.description || !selectedTags)
-    }
+    useEffect(() =>{
+        sessionStorage.setItem("selectedTags", selectedTags);
+      }, [selectedTags]);
 
+    function fieldsNotEmpty(){
+        return (!state.title || !state.description || !state.selectedTags)
+    }
 
     return (
         <Grid container justify="center" spacing={4}>
@@ -70,7 +78,7 @@ function ItemUpload() {
               label="Item Title"
               name="title"
               autoFocus
-              onChange={handleChange}
+              onChange={handleChangeiii}
             />
             <TextField
               variant="outlined"
@@ -82,13 +90,17 @@ function ItemUpload() {
               id="description"
               rows={5}
               multiline
-              onChange={handleChange}
+              onChange={handleChangeiii}
             />
-            <TagPickerRS/>
+
+
+            <TagPickerRS value={selectedTags} onChange={handleChange}/>
+
+
             <Grid container justify="flex-start" alignItems="flex-start">
               <Grid item xs={12}>
                 <Button
-                  disabled={allEntriesNonEmpty}
+                  disabled={!state.title || !state.description || !state.selectedTags}
                   type="submit"
                   variant="contained"
                   color="primary"
