@@ -11,6 +11,7 @@ import Register from "../../Registration/Register";
 import LoginHooks from "../../login/LoginHooks";
 import { ProfileGuard } from "../routeProtectors/ProfileGuard";
 import TestPage from "../../../TestPage";
+import ItemUpload from "../../item/ItemUpload";
 
 
 
@@ -30,7 +31,6 @@ class AppRouter extends React.Component {
       <BrowserRouter>
       {/* Gives the reference of the navigarion*/}
         <Switch>
-          <div>
             <Route
               path="/game"
               render={() => (
@@ -65,6 +65,14 @@ class AppRouter extends React.Component {
                 </ProfileGuard>
               )}
             />
+            <Route
+              path="/upload"
+              render={() => (
+                <ProfileGuard>
+                  <ItemUpload />
+                </ProfileGuard>
+              )}
+            />
             {
               /*
               New Route for TestPage
@@ -78,7 +86,6 @@ class AppRouter extends React.Component {
             )}
             />
             <Route path="/" exact render={() => <Redirect to={"/game"} />} />
-          </div>
         </Switch>
       </BrowserRouter>
     );
