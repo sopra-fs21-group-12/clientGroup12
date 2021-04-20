@@ -2,7 +2,7 @@ import { React, useState, Redirect } from 'react';
 import { api, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
-
+import Registration from "../Registration/Registration";
 import { useHistory } from "react-router-dom";
 
 import { Avatar, Button, CssBaseline, TextField, Link, Grid, Box, Typography, Container, Paper, Card, CardContent } from '@material-ui/core';
@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-
   },
   avatar: {
     margin: theme.spacing(1),
@@ -38,7 +37,7 @@ function LoginHooks() {
       password: ""
   }
   );
-  
+
   const handleChange = (e) => {
       const{id, value} = e.target
       setState(prevState => ({
@@ -56,17 +55,17 @@ function LoginHooks() {
         });
         // We create a Put Request to the backend to /login
         const response = await api.put('/login', requestBody);
-  
+
         // Get the returned user and update a new object (UserGetDTO)
         const user = new User(response.data);
-  
+
         // Store the token, the username,id, token and name into the local storage.
         localStorage.setItem('token', user.token);
         localStorage.setItem('id',user.id);
         localStorage.setItem('username',user.username);
         localStorage.setItem('name',user.name);
-        
-  
+
+
         // Login successfully worked --> navigate to the route /game in the GameRouter
         // Otherwise an error is displayed
         // Hooks version of this.props.history.push(`/game`);?
@@ -87,46 +86,46 @@ function LoginHooks() {
         <Typography component="h1" variant="h5">
           Login to Finder
         </Typography>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            autoFocus
-            onChange={handleChange}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            onChange={handleChange}
-          />
-                </div>
-            <Grid justify="flex-start" alignItems="flex-start">
-            <Button
-            disabled={!state.username || !state.password}
-            type="submit"
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={handleLogin}
-          >
-            Login
-          </Button>
-            <Grid item justify="flex-start" >
-              <Link href="/registration" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="username"
+          label="Username"
+          name="username"
+          autoFocus
+          onChange={handleChange}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          onChange={handleChange}
+        />
+      </div>
+      <Grid justify="flex-start" alignItems="flex-start">
+        <Button
+        disabled={!state.username || !state.password}
+        type="submit"
+        variant="contained"
+        color="primary"
+        className={classes.submit}
+        onClick={handleLogin}
+        >
+          Login
+        </Button>
+        <Grid item justify="flex-start" >
+          <Link href="/registration" variant="body2">
+            {"Don't have an account? Sign Up"}
+          </Link>
+        </Grid>
+      </Grid>
       <Box mt={8}>
       </Box>
     </Container>

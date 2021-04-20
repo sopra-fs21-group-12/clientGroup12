@@ -11,6 +11,8 @@ import Register from "../../Registration/Register";
 import LoginHooks from "../../login/LoginHooks";
 import { ProfileGuard } from "../routeProtectors/ProfileGuard";
 import TestPage from "../../../TestPage";
+import Registration from "../../Registration/Registration";
+import MyInventory from "../../Inventory/MyInventory";
 
 
 
@@ -22,7 +24,7 @@ import TestPage from "../../../TestPage";
  * /login renders another component without any sub-route
  * /game renders a Router that contains other sub-routes that render in turn other react components
  * Documentation about routing in React: https://reacttraining.com/react-router/web/guides/quick-start changes done
- * 
+ *
  */
 class AppRouter extends React.Component {
   render() {
@@ -39,8 +41,8 @@ class AppRouter extends React.Component {
                 </GameGuard>
               )}
             />
-            <Route 
-            path="/login" 
+            <Route
+            path="/login"
             exact
             render={() => (
               <LoginGuard>
@@ -51,12 +53,12 @@ class AppRouter extends React.Component {
             <Route
               path="/registration"
               exact
-              render={() => (
+              render={() =>(
                 <RegistrationGuard>
-                  <Register />
+                  <Registration/>
                 </RegistrationGuard>
-              )}
-            />
+            )}
+              />
              <Route
               path="/profilepage"
               render={() => (
@@ -65,19 +67,26 @@ class AppRouter extends React.Component {
                 </ProfileGuard>
               )}
             />
-            {
-              /*
-              New Route for TestPage
-              */
-            }
-            <Route 
+            <Route
+            path="/inventory"
+            render={() => (
+              <MyInventory/>
+            )}>
+            </Route>
+            <Route
             path="/test"
             exact
             render={() => (
               <TestPage/>
             )}
             />
-            <Route path="/" exact render={() => <Redirect to={"/game"} />} />
+            <Route
+              path="/"
+              exact
+              render={() =>
+                <Redirect to={"/game"} />
+              }
+            />
           </div>
         </Switch>
       </BrowserRouter>
