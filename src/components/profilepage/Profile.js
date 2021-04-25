@@ -1,10 +1,12 @@
-import { withRouter } from 'react-router-dom';
+import {useHistory, withRouter} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 import {api, handleError} from "../../helpers/api";
 import Loader from "rsuite/es/Loader";
 import {Button} from "rsuite";
 import {TextField, Typography} from "@material-ui/core";
+import { Modal } from 'rsuite';
 import User from "../shared/models/User";
+import Edit from "./Edit";
 
 const loader = (
     <div>
@@ -13,6 +15,7 @@ const loader = (
 
 function Profile() {
     const id = localStorage.getItem("id")
+    const history = useHistory();
     const [loading, setLoading] = useState(false)
     const [userData, setUserData] = useState({
         id: '',
@@ -22,10 +25,6 @@ function Profile() {
         timestamp: "",
         birthday: "",
         token: "",
-    })
-    const [edit, setEdit] = useState({
-        username: "",
-        birthday: "",
     })
 
     useEffect(async () => {
@@ -44,67 +43,21 @@ function Profile() {
 
     }, [])
 
-    const handleChange = (e) => {
-        const {id, value} = e.target
-        setEdit((prevState) => ({...prevState, [id]: value}));
-    }
-    async function handleEdit() {
-        try {
-            // What we send back to the backend
-            const requestBody = JSON.stringify({
-                username: edit.username,
-                birthday: edit.birthday
-            });
-            console.log(id)
-            console.log(edit.username)
-
-            // We create a Put Request to the backend to /users/{id}
-            await api.put('/users/' + id, requestBody);
-
-            //useEffect();
-
-        } catch (error) {
-            alert(`Something went wrong during the login: \n${handleError(error)}`);
-        }
-    }
-
     return (
-        <div>{loading ? loader : "hello " + userData.username + ' ' + id + ' ' + edit.username}
+        <div>
             <Typography component="h1" variant="h5">
-                Login to Finder
-            </Typography>
-            <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                label="change your Username"
-                name="username"
-                autoFocus
-                onChange={handleChange}
-            />
-            <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="birthday"
-                label="fill in your Birthday"
-                id="birthday"
-                onChange={handleChange}
-            />
-            <Button
-                //disabled={!state.username || !state.birthday}
-                type="submit"
-                variant="contained"
-                color="primary"
-                onClick={handleEdit}
-            >
-                save changes
-            </Button>
-        </div>
-    )
-}
+            {loading ? loader :
+                <div>
+                    <h3>Username: {userData.username}</h3>
+                    <h3>Creation Date: {userData.timestamp}</h3>
 
+                    <Edit>
+                    </Edit>
+
+                </div>
+            }
+            </Typography>
+        </div>
+    );
+}
 export default withRouter(Profile);
