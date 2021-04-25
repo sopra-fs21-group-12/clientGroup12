@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { useHistory } from "react-router-dom";
 
@@ -7,6 +7,8 @@ import { Grid, Typography, TextField, Button, Link } from '@material-ui/core'
 import { Panel } from 'rsuite'
 
 import TagPickerRS from '../tagPicker/TagPickerRS'
+import {api, handleError} from "../../helpers/api";
+import User from "../shared/models/User";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -38,15 +40,13 @@ function ItemUpload() {
     }
     );
     const [image, setImage] = useState();
-    const [selectedTags, setTags] = useState("");
+    const [selectedTags, setTags] = useState();
 
-    function handleChange(newValue){
+    function handleTags(newValue){
         setTags(newValue);
-        console.log(selectedTags)
     }
 
-
-    const handleChangeiii = (e) => {
+    const handleChange = (e) => {
         const{id, value} = e.target
         setState(prevState => ({
           ...prevState,
@@ -58,17 +58,47 @@ function ItemUpload() {
         sessionStorage.setItem("selectedTags", selectedTags);
       }, [selectedTags]);
 
-    function fieldsNotEmpty(){
-        return (!state.title || !state.description || !state.selectedTags)
+
+    async function handleSave() {
+        try {
+            // What we send back to the backend
+            const requestBody = JSON.stringify({
+                userId: localStorage.getItem("id"),
+                title: state.title,
+                description: state.description,
+                tagsItem: selectedTags
+            });
+            // We create a Put Request to the backend to /login
+            const response = await api.post('/{}', requestBody);
+
+            // Get the returned user and update a new object (UserGetDTO)
+            const user = new User(response.data);
+
+            // Store the token, the username,id, token and name into the local storage.
+            localStorage.setItem('token', user.token);
+            localStorage.setItem('id',user.id);
+            localStorage.setItem('username',user.username);
+            localStorage.setItem('name',user.name);
+
+
+            // Login successfully worked --> navigate to the route /game in the GameRouter
+            // Otherwise an error is displayed
+            // Hooks version of this.props.history.push(`/game`);?
+            history.push('/game')
+        } catch (error) {
+            alert(`Something went wrong during the login: \n${handleError(error)}`);
+        }
     }
 
     return (
         <Grid container justify="center" spacing={4}>
         <Grid item xs={12}/>
         <Grid item xs={12}/>
+
         <Grid item xs={6}>
           <Panel shaded>
             <Typography variant="h5">Add new Item to your Inventory</Typography>
+
             <TextField
               variant="outlined"
               margin="normal"
@@ -78,8 +108,9 @@ function ItemUpload() {
               label="Item Title"
               name="title"
               autoFocus
-              onChange={handleChangeiii}
+              onChange={handleChange}
             />
+
             <TextField
               variant="outlined"
               margin="normal"
@@ -90,17 +121,15 @@ function ItemUpload() {
               id="description"
               rows={5}
               multiline
-              onChange={handleChangeiii}
+              onChange={handleChange}
             />
 
+              <TagPickerRS value={selectedTags} onChange={handleTags}/>
 
-            <TagPickerRS value={selectedTags} onChange={handleChange}/>
-
-
-            <Grid container justify="flex-start" alignItems="flex-start">
+            <Grid container justify="flex-start" alignItems="stretch">
               <Grid item xs={12}>
                 <Button
-                  disabled={!state.title || !state.description || !state.selectedTags}
+                  disabled={!state.title || !state.description || !selectedTags}
                   type="submit"
                   variant="contained"
                   color="primary"
@@ -109,6 +138,14 @@ function ItemUpload() {
                 Save
                 </Button>
               </Grid>
+                <Grid item xs={12}>
+                    <Button
+                        variant="outlined"
+                        color="default"
+                    >
+                        Cancel
+                    </Button>
+                </Grid>
             </Grid>
           </Panel>
         </Grid>

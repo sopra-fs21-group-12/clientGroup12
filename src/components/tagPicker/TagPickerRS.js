@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import { TagPicker } from 'rsuite';
 
+
+// save this in backend and make api call?
 const tags = [
     {
         "label": "Electronics",
@@ -31,6 +33,12 @@ export default function TagPickerRS(props) {
     }
 
     return (
-        <TagPicker placeholder="Add Tags" size='lg' data={tags} style={{ width: 300 }} onChange={handleChange}/>
+        <TagPicker
+            placeholder="Add Tags"
+            size='lg'
+            data={tags}
+            style={{ width: 300 }}
+            onChange={handleChange}
+            value={props.value}/>
     )
 }
