@@ -4,12 +4,12 @@ import {TextField} from "@material-ui/core";
 import {api, handleError} from "../../helpers/api";
 
 
-const Edit = () => {
+export default function Edit(props) {
     const id = localStorage.getItem("id")
     const [modal, setModal] = useState({show: false})
     const [edit, setEdit] = useState({
-        username: "",
-        birthday: "",
+        username: props.userdata.username,
+        birthday: props.userdata.birthday,
     })
 
     const handleChange = (e) => {
@@ -58,7 +58,8 @@ const Edit = () => {
                         required
                         fullWidth
                         id="username"
-                        label="change your Username"
+                        defaultValue={edit.username}
+                        label="username"
                         name="username"
                         autoFocus
                         onChange={handleChange}
@@ -69,7 +70,8 @@ const Edit = () => {
                         required
                         fullWidth
                         name="birthday"
-                        label="fill in your Birthday"
+                        defaultValue={edit.birthday}
+                        label="birthday"
                         id="birthday"
                         onChange={handleChange}
                     />
@@ -91,4 +93,3 @@ const Edit = () => {
         </div>
         );
 }
-export default Edit;
