@@ -68,23 +68,10 @@ function ItemUpload() {
                 description: state.description,
                 tagsItem: selectedTags
             });
-            // We create a Put Request to the backend to /login
-            const response = await api.post('/{}', requestBody);
-
-            // Get the returned user and update a new object (UserGetDTO)
-            const user = new User(response.data);
-
-            // Store the token, the username,id, token and name into the local storage.
-            localStorage.setItem('token', user.token);
-            localStorage.setItem('id',user.id);
-            localStorage.setItem('username',user.username);
-            localStorage.setItem('name',user.name);
+            console.log(requestBody);
+            await api.post(`/users/${localStorage.getItem("id")}/items`, requestBody);
 
 
-            // Login successfully worked --> navigate to the route /game in the GameRouter
-            // Otherwise an error is displayed
-            // Hooks version of this.props.history.push(`/game`);?
-            history.push('/game')
         } catch (error) {
             alert(`Something went wrong during the login: \n${handleError(error)}`);
         }
@@ -134,6 +121,7 @@ function ItemUpload() {
                   variant="contained"
                   color="primary"
                   className={classes.submit}
+                  onClick={handleSave}
                 >
                 Save
                 </Button>
