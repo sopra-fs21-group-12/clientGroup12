@@ -41,6 +41,7 @@ function ItemUpload() {
     );
     const [image, setImage] = useState();
     const [selectedTags, setTags] = useState();
+    const [tags, setAvailableTags] = useState([]);
 
     function handleTags(newValue){
         setTags(newValue);
@@ -54,6 +55,25 @@ function ItemUpload() {
       }))
     }
 
+    // fetch available tags from backend
+    useEffect(async () => {
+        try {
+            const response = await api.get("/Tags")
+
+            // map response data for the TagPicker component
+            const arr = response.data.map(obj => ({
+                label: obj.description,
+                value: obj.description
+            }))
+            setAvailableTags(arr)
+
+        } catch (error) {
+            alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
+        }
+
+    }, [])
+
+    
     useEffect(() =>{
         sessionStorage.setItem("selectedTags", selectedTags);
       }, [selectedTags]);
@@ -111,7 +131,7 @@ function ItemUpload() {
               onChange={handleChange}
             />
 
-              <TagPickerRS value={selectedTags} onChange={handleTags}/>
+              <TagPickerRS value={selectedTags} onChange={handleTags} tags={tags}/>
 
             <Grid container justify="flex-start" alignItems="stretch">
               <Grid item xs={12}>
