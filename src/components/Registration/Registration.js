@@ -107,9 +107,7 @@ function Registration() {
       // registration successfully  --> navigate to the route /game in the GameRouter,
       // If something went wrong send the user back to the registration
       // TODO: tobe refactored
-      this.props.history.push(`/game`);
     } catch (error) {
-      this.props.history.push("/registration")
       alert(`Something went wrong during the registration: \n${handleError(error)}`);
     }
     history.push('/inventory')
