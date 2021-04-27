@@ -9,10 +9,12 @@
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.2",
+    "react-validation": "^3.0.7",
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",
     "rsuite": "^4.9.3",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "validator": "^13.6.0"
   },
   "scripts": {
     "dev": "react-scripts start",
@@ -32,6 +34,8 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/plugin-syntax-class-properties": "^7.12.13",
     "redux-devtools-extension": "^2.13.9"
   }
 }
