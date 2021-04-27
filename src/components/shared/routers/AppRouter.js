@@ -3,6 +3,7 @@ import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { GameGuard } from "../routeProtectors/GameGuard";
 import GameRouter from "./GameRouter";
 import ProfileRouter from "./ProfileRouter"
+import ChatRouter from "./chatRouter"
 import {RegistrationGuard} from "../routeProtectors/RegistrationGuard";
 import {LoginGuard} from "../routeProtectors/LoginGuard";
 
@@ -11,6 +12,7 @@ import Register from "../../Registration/Register";
 import LoginHooks from "../../login/LoginHooks";
 import { ProfileGuard } from "../routeProtectors/ProfileGuard";
 import TestPage from "../../../TestPage";
+import MyItemsList from "../../chatlist/myItems";
 import Profile from "../../profilepage/Profile";
 
 
@@ -81,6 +83,19 @@ class AppRouter extends React.Component {
             exact
             render={() => (
               <TestPage/>
+            )}
+            />
+            <Route 
+            path="/itemsToChat"
+            exact
+            render={() => (
+              <MyItemsList/>
+            )}
+            />
+            <Route 
+            path="/chat"
+            render={() => (
+                <ChatRouter base={"/chat"} />
             )}
             />
             <Route path="/" exact render={() => <Redirect to={"/game"} />} />
