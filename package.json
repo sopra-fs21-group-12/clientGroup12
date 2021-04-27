@@ -9,6 +9,8 @@
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.2",
+    "redux": "^4.1.0",
+    "redux-thunk": "^2.3.0",
     "rsuite": "^4.9.3",
     "styled-components": "^5.2.1"
   },
@@ -28,5 +30,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "redux-devtools-extension": "^2.13.9"
+  }
 }

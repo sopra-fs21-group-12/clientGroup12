@@ -1,6 +1,8 @@
 import React from 'react';
 import {useHistory, withRouter} from 'react-router-dom';
 import {Avatar, Button, Container, Grid, makeStyles, TextField, Typography, Paper} from "@material-ui/core";
+import {api, handleError} from "../../helpers/api";
+import User from "../shared/models/User";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -14,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -25,7 +27,34 @@ const useStyles = makeStyles((theme) => ({
 function Registration() {
   const classes = useStyles();
   const history = useHistory();
-  function handleRegistration() {
+  const handleRegistration = async () => {
+    try {
+      // What we want to send back to the backend
+      const requestBody = JSON.stringify({
+        username: this.state.username.toLowerCase(),
+        name: this.state.name,
+        password: this.state.password,
+        birthday: this.state.birthday
+      });
+      // Post request to the backend with given data
+      const response = await api.post('/users', requestBody);
+
+      // Get the returned user and update a new object.
+      const user = new User(response.data);
+
+      // Store the token, id, username & name into the local storage.
+      localStorage.setItem('token', user.token);
+      localStorage.setItem('id',user.id);
+      localStorage.setItem('username',user.username);
+      localStorage.setItem('name',user.name);
+
+      // Login successfully worked --> navigate to the route /game in the GameRouter,
+      // If something went wrong send the user back to the registration
+      this.props.history.push(`/game`);
+    } catch (error) {
+      this.props.history.push("/registration")
+      alert(`Something went wrong during the registration: \n${handleError(error)}`);
+    }
     history.push('/inventory')
   }
 
@@ -67,7 +96,6 @@ function Registration() {
           label="Address"
           variant="outlined"
           fullWidth
-          required
         >
         </TextField>
         <TextField
@@ -76,7 +104,6 @@ function Registration() {
           label="City"
           variant="outlined"
           fullWidth
-          required
         >
         </TextField>
         <TextField
@@ -85,7 +112,6 @@ function Registration() {
           label="Postcode"
           variant="outlined"
           fullWidth
-          required
         >
         </TextField>
         <TextField

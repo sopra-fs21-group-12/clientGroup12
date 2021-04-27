@@ -7,10 +7,8 @@ import {RegistrationGuard} from "../routeProtectors/RegistrationGuard";
 import {LoginGuard} from "../routeProtectors/LoginGuard";
 
 
-import Register from "../../Registration/Register";
 import LoginHooks from "../../login/LoginHooks";
 import { ProfileGuard } from "../routeProtectors/ProfileGuard";
-import TestPage from "../../../TestPage";
 import Registration from "../../Registration/Registration";
 import MyInventory from "../../Inventory/MyInventory";
 
@@ -73,13 +71,6 @@ class AppRouter extends React.Component {
               <MyInventory/>
             )}>
             </Route>
-            <Route
-            path="/test"
-            exact
-            render={() => (
-              <TestPage/>
-            )}
-            />
             <Route
               path="/"
               exact
