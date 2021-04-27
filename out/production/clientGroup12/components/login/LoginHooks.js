@@ -8,10 +8,6 @@ import { useHistory } from "react-router-dom";
 import { Avatar, Button, CssBaseline, TextField, Link, Grid, Box, Typography, Container, Paper, Card, CardContent } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Panel } from 'rsuite';
-
-import FinderLogo from '../../views/design/logo.svg';
-
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -83,27 +79,14 @@ function LoginHooks() {
 
 
   return (
-    <Grid container justify="center" spacing={4}>
-      <Grid item xs={12}/>
-      <Grid item xs={12}/>
-
-      <Grid container justify="flex-end" spacing={1}>
-        <Grid item xs={6}/>
-        <Grid item xs={3}>
-          <img src={FinderLogo}/>
-        </Grid>
-        <Grid item xs={3}/>
-        
-        <Grid item xs={6}/>
-        <Grid item xs={6}>
-          <Typography variant="body1">find and swap items with the community</Typography>
-        </Grid>
-      </Grid>
-      <Grid item xs={12}/>
-
-      <Grid item xs={6}>
-        <Panel shaded>
-          <Typography variant="h5">Login</Typography>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Login to Finder
+        </Typography>
           <TextField
             variant="outlined"
             margin="normal"
@@ -126,27 +109,27 @@ function LoginHooks() {
             id="password"
             onChange={handleChange}
           />
-          <Grid container justify="flex-start" alignItems="flex-start">
-            <Grid item xs={12}>
-              <Button
-                disabled={!state.username || !state.password}
-                type="submit"
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={handleLogin}
-              >
-              Login
-              </Button>
-            </Grid>
-            <Grid item xs={12}>
-              <Link href="/registration" variant="body2">{"Don't have an account? Sign Up"}</Link>
+                </div>
+            <Grid justify="flex-start" alignItems="flex-start">
+            <Button
+            disabled={!state.username || !state.password}
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={handleLogin}
+          >
+            Login
+          </Button>
+            <Grid item justify="flex-start" >
+              <Link href="/registration" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
             </Grid>
           </Grid>
-        </Panel>
-      </Grid>
-
-    </Grid>
+      <Box mt={8}>
+      </Box>
+    </Container>
   );
 }
 
