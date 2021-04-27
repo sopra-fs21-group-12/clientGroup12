@@ -74,7 +74,6 @@ class MyItemsList extends React.Component {
     try {
       const response = await api.get(`/users/${this.state.id}/items`);
       const myItems = response.data;
-      console.log(myItems[0]);
       this.setState({ 
           items: myItems
         });

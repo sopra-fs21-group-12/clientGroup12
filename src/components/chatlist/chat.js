@@ -57,12 +57,9 @@ const Chat = ({match:{params:{id}}}) => {
   };
 
   const onMessageReceived = useCallback((msg) => {
-    console.log(activeContact);
     const notification = JSON.parse(msg.body);
-    console.log(notification);
     if (stateRef.current.id === notification.senderId) {
       findChatMessage(notification.id).then((message) => {
-        console.log(chatRef.current);
         const newMessages = [...chatRef.current];
         newMessages.push(message)
         setMessages(newMessages);
@@ -77,10 +74,8 @@ const Chat = ({match:{params:{id}}}) => {
     stompClient && stompClient.disconnect();
     //setCurrentItem(getItem(idNumber))
     getItem(id).then((item)=>{
-      console.log(item);
       setCurrentItem(item);
     });
-    console.log(curremtItem);
     connect();
     loadChats();
   }
@@ -97,7 +92,6 @@ const Chat = ({match:{params:{id}}}) => {
         content: msg,
         timestamp: new Date(),
       };
-      console.log()
       stompClient.send("/app/chat", {}, JSON.stringify(message));
 
       const newMessages = [...messages];
