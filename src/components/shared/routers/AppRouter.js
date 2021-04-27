@@ -12,8 +12,11 @@ import Register from "../../Registration/Register";
 import LoginHooks from "../../login/LoginHooks";
 import { ProfileGuard } from "../routeProtectors/ProfileGuard";
 import TestPage from "../../../TestPage";
+import ItemUpload from "../../item/ItemUpload";
+
 import MyItemsList from "../../chatlist/myItems";
 import Profile from "../../profilepage/Profile";
+
 
 
 
@@ -67,12 +70,14 @@ class AppRouter extends React.Component {
                 //</ProfileGuard>
               )}
             />
-              <Route
-                  path="/edit"
-                  render={() => (
-                      <editForm/>
-                  )}
-              />
+            <Route
+              path="/upload"
+              render={() => (
+                <ProfileGuard>
+                  <ItemUpload />
+                </ProfileGuard>
+              )}
+            />
             {
               /*
               New Route for TestPage
