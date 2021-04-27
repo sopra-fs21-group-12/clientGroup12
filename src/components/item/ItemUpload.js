@@ -8,7 +8,6 @@ import { Panel } from 'rsuite'
 
 import TagPickerRS from '../tagPicker/TagPickerRS'
 import {api, handleError} from "../../helpers/api";
-import User from "../shared/models/User";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -73,12 +72,13 @@ function ItemUpload() {
 
     }, [])
 
-    
+    // save selected tags from user
     useEffect(() =>{
         sessionStorage.setItem("selectedTags", selectedTags);
       }, [selectedTags]);
 
 
+    // send item data to the backend
     async function handleSave() {
         try {
             // What we send back to the backend
@@ -91,7 +91,7 @@ function ItemUpload() {
             console.log(requestBody);
             await api.post(`/users/${localStorage.getItem("id")}/items`, requestBody);
 
-
+            history.push('/game')
         } catch (error) {
             alert(`Something went wrong during the login: \n${handleError(error)}`);
         }
