@@ -15,7 +15,7 @@ const loader = (
 
 function SwipingGame(){
     const [loading, setLoading] = useState(false)
-    const [counter, setCounter] = useState(null)
+    const [sizeItems, setSizeItems] = useState(null)
     const [index, setIndex] = useState(1)
     const [ownItem, setOwnItem] = useState()
     const [items, setItems] = useState({})
@@ -45,7 +45,7 @@ function SwipingGame(){
             const response = await api.get("/items/2/proposal")
             setItems(response.data)
             setCurrItem(response.data[0])
-            setCounter(response.data.length)
+            setSizeItems(response.data.length)
             setLoading(false)
 
         } catch (error) {
@@ -93,7 +93,7 @@ function SwipingGame(){
         <div>
             <Typography component="h1" variant="h5">
                 {loading ? loader :
-                    index <= counter ?
+                    index <= sizeItems ?
                         <div>
 
                             <h1>{currItem.title}</h1>
