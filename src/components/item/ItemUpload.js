@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 function ItemUpload() {
     const history = useHistory();
     const classes = useStyles();
+    const id = localStorage.getItem("id")
     const [state, setState] = useState({
         title: "",
         description: ""
@@ -57,7 +58,7 @@ function ItemUpload() {
     // fetch available tags from backend
     useEffect(async () => {
         try {
-            const response = await api.get("/Tags")
+            const response = await api.get("/tags")
 
             // map response data for the TagPicker component
             const arr = response.data.map(obj => ({
@@ -83,12 +84,11 @@ function ItemUpload() {
         try {
             // What we send back to the backend
             const requestBody = JSON.stringify({
-                userId: localStorage.getItem("id"),
+                userId: id,
                 title: state.title,
                 description: state.description,
                 tagsItem: selectedTags
             });
-            console.log(requestBody);
             await api.post(`/users/${localStorage.getItem("id")}/items`, requestBody);
 
             history.push('/game')
