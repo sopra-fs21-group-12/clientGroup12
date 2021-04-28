@@ -2,7 +2,6 @@ import {useHistory, withRouter} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 import {api, handleError} from "../../helpers/api";
 import Loader from "rsuite/es/Loader";
-import {Button} from "rsuite";
 import {TextField, Typography} from "@material-ui/core";
 import { Modal } from 'rsuite';
 import User from "../shared/models/User";

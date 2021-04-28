@@ -12,6 +12,7 @@ import LoginHooks from "../../login/LoginHooks";
 import { ProfileGuard } from "../routeProtectors/ProfileGuard";
 import TestPage from "../../../TestPage";
 import Profile from "../../profilepage/Profile";
+import SwipingGame from "../../game/SwipingGame";
 
 
 
@@ -31,13 +32,13 @@ class AppRouter extends React.Component {
       <BrowserRouter>
       {/* Gives the reference of the navigarion*/}
         <Switch>
-            <Route
+            {/*<Route
               path="/game"
               render={() => (
                 <GameGuard>
                   <GameRouter base={"/game"} />
                 </GameGuard>
-              )}
+              )}*/}
             />
             <Route 
             path="/login" 
@@ -71,6 +72,13 @@ class AppRouter extends React.Component {
                       <editForm/>
                   )}
               />
+              <Route
+                  path="/game"
+                  exact
+                  render={() => (
+                  <SwipingGame/>
+                  )}
+            />
             {
               /*
               New Route for TestPage
