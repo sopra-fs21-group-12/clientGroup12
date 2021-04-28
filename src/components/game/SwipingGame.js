@@ -28,16 +28,7 @@ function SwipingGame(){
     })
     useEffect(async () => {
         try {
-            setLoading(true)
-            //await new Promise(resolve => setTimeout(resolve, 2000));
-            //@GetMapping("/items/{itemId}/proposal")
-            const response = await api.get("/items/2/proposal")
-            setItems(response.data)
-            setCurrItem(response.data[0])
-            console.log(response.data[0].title)
-            console.log("index in useEffect: " + index)
-            setCounter(response.data.length)
-            setLoading(false)
+            fetch()
 
         } catch (error) {
             alert(`Something went wrong while fetching the items: \n${handleError(error)}`);
@@ -45,21 +36,38 @@ function SwipingGame(){
 
     }, [])
 
+    async function fetch() {
+        try {
+            setLoading(true)
+            setIndex(1)
+            //await new Promise(resolve => setTimeout(resolve, 2000));
+            //@GetMapping("/items/{itemId}/proposal")
+            const response = await api.get("/items/2/proposal")
+            setItems(response.data)
+            setCurrItem(response.data[0])
+            setCounter(response.data.length)
+            setLoading(false)
+
+        } catch (error) {
+            alert(`Something went wrong while fetching the items: \n${handleError(error)}`);
+        }
+
+    }
+
     const increment = useCallback(() =>{
         setIndex(i => i+1)
-    },[setIndex])
+    },[])
 
     async function like(){
         try {
             const requestBody = JSON.stringify({
-                "itemIDSwiper": 1,                      //localStorage.getItem("id"),
-                "itemIDSwiped": currItem.userId,
+                "itemIDSwiper": 2,                      //localStorage.getItem("id"),
+                "itemIDSwiped": currItem.id,
                 "liked": true
             })
             await api.post('/likes', requestBody);
             setIndex(index+1)
-            console.log("index: " + index)
-
+            setCurrItem(items[index])
         }catch (error){
             alert(`Something went wrong during the like request: \n${handleError(error)}`);
         }
@@ -67,14 +75,12 @@ function SwipingGame(){
     async function dislike(){
         try {
             const requestBody = JSON.stringify({
-                "itemIDSwiper": 1,                      //localStorage.getItem("id"),
-                "itemIDSwiped": currItem.userId,
+                "itemIDSwiper": 2,                      //localStorage.getItem("id"),
+                "itemIDSwiped": currItem.id,
                 "liked": false
             })
             await api.post('/likes', requestBody);
-
             setIndex(index+1)
-            console.log("index in dislike: " + index)
             setCurrItem(items[index])
         }catch (error){
             alert(`Something went wrong during the like request: \n${handleError(error)}`);
@@ -88,18 +94,20 @@ function SwipingGame(){
             <Typography component="h1" variant="h5">
                 {loading ? loader :
                     index <= counter ?
-                    <div>
-                        <h1>{currItem.title}</h1>
-                        <h3>{currItem.description}</h3>
-                        <h3>ItemId: {currItem.id}</h3>
-                        <h3>UserId: {currItem.userId}</h3>
+                        <div>
 
-                        <ButtonToolbar>
-                            <Button onClick={like}> like</Button>
-                            <Button onClick={dislike}> dislike: {index}</Button>
-                        </ButtonToolbar>
-                    </div>
-                        : "no items to swipe"
+                            <h1>{currItem.title}</h1>
+                            <h3>{currItem.description}</h3>
+                            <h5>ItemId: {currItem.id}</h5>
+                            <h5>UserId: {currItem.userId}</h5>
+
+                            <ButtonToolbar>
+                                <Button onClick={dislike}> dislike</Button>
+                                <Button onClick={like}> like</Button>
+                            </ButtonToolbar>
+
+                        </div>
+                        : <Button onClick={() => fetch()}>Load more</Button>
                 }
             </Typography>
         </div>
