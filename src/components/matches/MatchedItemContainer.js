@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
+import { useHistory } from "react-router-dom";
 import {Panel} from "rsuite";
-import {Grid, Typography} from "@material-ui/core";
+import {Grid, Button} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import styled from 'styled-components';
 
@@ -45,16 +46,29 @@ const ItemTitle = styled.title`
 
 export default function MatchedItemContainer(props) {
 
+    const history = useHistory();
+
 
     return (
         <Grid container justify="center" spacing={6}>
             <Grid item xs={12}>
                 <Panel shaded collapsible
                        header={
-                           <div>
-                           <Label>Matched with</Label>
-                           <h3>{props.item.title}</h3>
-                           </div>
+                           <Grid container justify="center" alignItems="center">
+                               <Grid item xs={9}>
+                                   <Label>Matched with</Label>
+                                   <h3>{props.item.title}</h3>
+                               </Grid>
+                               <Grid item xs={3}>
+                                   <Button
+                                       variant="contained"
+                                       color="primary"
+                                       onClick={() => history.push('/chat/' + props.item.id)}
+                                   >
+                                       Chat
+                                   </Button>
+                               </Grid>
+                           </Grid>
                        }>
                     <h6>{props.item.description}</h6>
                 </Panel>
