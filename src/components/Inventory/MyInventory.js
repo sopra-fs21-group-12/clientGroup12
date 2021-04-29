@@ -1,19 +1,12 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import {
-  Avatar,
   Button,
-  Container,
   Grid,
   makeStyles,
-  TextField,
-  Typography,
-  Paper,
-  Box,
   Card,
   CardActions
 } from "@material-ui/core";
-import {TagPicker} from "rsuite";
 import TagPickerRS from "../tagPicker/TagPickerRS";
 
 const useStyles = makeStyles((theme) => ({
