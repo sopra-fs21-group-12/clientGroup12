@@ -15,5 +15,5 @@ export const  RegistrationGuard = props => {
     return props.children;
   }
   // if user is already Registered, he is redirected to the main /app
-  return <Redirect to={"/game"} />;
+  return <Redirect to={"/inventory"} />;
 };

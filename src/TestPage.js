@@ -21,9 +21,9 @@ import ItemEdit from "./components/item/ItemEdit";
       axios.get("http://sopra-fs21-group-12-server.herokuapp.com/users/1/items").then(res=> {
         setUserItems(res.data);
       });
-      
+
     }
-    // Executes fetch all items and maps the elements 
+    // Executes fetch all items and maps the elements
     useEffect(()=> {
       fetchAllItemsFromUser();
     }, [])
@@ -41,8 +41,8 @@ import ItemEdit from "./components/item/ItemEdit";
       )
     })
   }
-  
- 
+
+
   // We will implement DropZone to send files to our Server!
 function MyDropzone({id}) {
   const onDrop = useCallback(acceptedFiles => {
@@ -73,7 +73,7 @@ function MyDropzone({id}) {
 
 // Fetching all images
 const ItemImages = ({id}) => {
-  
+
   const [itemImages,setItemImages] = useState([]);
   const fetchPicturesFromAws = () => {
     axios.get(`http://sopra-fs21-group-12-server.herokuapp.com/items/${id}/pictures/download`).then(res=> {
@@ -99,7 +99,7 @@ const ItemImages = ({id}) => {
     </Grid>
 
 
-    
+
   )
 }
 */
@@ -110,6 +110,6 @@ function TestPage(){
       <ItemEdit id={5}/>
   )
 };
- 
+
 
 export default withRouter(TestPage);
