@@ -55,9 +55,9 @@ class AppRouter extends React.Component {
            <Route
             path="/profile"
             render={() => (
-              //<ProfileGuard>
+              <ProfileGuard>
                 <Profile/>
-              //</ProfileGuard>
+              </ProfileGuard>
             )}
           />
           <Route
