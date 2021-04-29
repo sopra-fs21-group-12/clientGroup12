@@ -74,7 +74,6 @@ export const login = (username, password) => (dispatch ) => {
 
 export const logout = () => (dispatch) => {
   authenticator.logout();
-
   dispatch({
     type: LOGOUT,
   });

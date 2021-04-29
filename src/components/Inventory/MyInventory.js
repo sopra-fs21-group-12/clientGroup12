@@ -51,6 +51,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function MyInventory() {
+  function logout() {
+    //log the user out
+  }
+
   const classes = useStyles();
   return (
     <Grid

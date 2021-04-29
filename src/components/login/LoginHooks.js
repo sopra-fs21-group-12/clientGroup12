@@ -73,7 +73,7 @@ function LoginHooks() {
         // Login successfully worked --> navigate to the route /game in the GameRouter
         // Otherwise an error is displayed
         // Hooks version of this.props.history.push(`/game`);?
-        history.push('/game')
+        history.push('/inventory')
       } catch (error) {
         alert(`Something went wrong during the login: \n${handleError(error)}`);
       }
@@ -82,23 +82,23 @@ function LoginHooks() {
 
 
   return (
-    <Grid container justify="center" spacing={4}>
-      <Grid item xs={12}/>
-      <Grid item xs={12}/>
+      <Grid container justify="center" spacing={4}>
+        <Grid item xs={12}/>
+        <Grid item xs={12}/>
 
-      <Grid container justify="flex-end" spacing={1}>
-        <Grid item xs={6}/>
-        <Grid item xs={3}>
-          <img src={FinderLogo}/>
-        </Grid>
-        <Grid item xs={3}/>
+        <Grid container justify="flex-end" spacing={1}>
+          <Grid item xs={6}/>
+          <Grid item xs={3}>
+            <img src={FinderLogo}/>
+          </Grid>
+          <Grid item xs={3}/>
 
-        <Grid item xs={6}/>
-        <Grid item xs={6}>
-          <Typography variant="body1">find and swap items with the community</Typography>
+          <Grid item xs={6}/>
+          <Grid item xs={6}>
+            <Typography variant="body1">find and swap items with the community</Typography>
+          </Grid>
         </Grid>
-      </Grid>
-      <Grid item xs={12}/>
+        <Grid item xs={12}/>
 
       <Grid item xs={6}>
         <Panel shaded>

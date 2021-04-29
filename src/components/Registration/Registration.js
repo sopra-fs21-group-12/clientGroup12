@@ -4,36 +4,9 @@ import {useHistory, withRouter} from 'react-router-dom';
 import {Avatar, Button, Container, Grid, makeStyles, TextField, Typography, Paper} from "@material-ui/core";
 import {api, handleError} from "../../helpers/api";
 import User from "../shared/models/User";
+import FinderLogo from "../../views/design/logo.svg";
+import {Panel} from "rsuite";
 
-const required = (value) => {
-  if(!value) {
-    return (
-      <div className={"alert alert-danger"} role="alert">
-        This field is required!
-      </div>
-    )
-  }
-}
-
-const validUsername = (value) => {
-  if (value.length < 3 || value.length > 20) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        this username must be between 3 and 20 characters.
-      </div>
-    )
-  }
-}
-
-const validPassword = (value) => {
-  if (value.length < 6 || value.length > 40) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        The password must be between 6 and 40 characters.
-      </div>
-    );
-  }
-};
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   avatar: {
+    display: 'center',
     margin: theme.spacing(1),
     backgroundColor: theme.palette.primary.main,
   },
@@ -57,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Registration() {
   const classes = useStyles();
+  const history = useHistory();
 
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
@@ -64,7 +39,6 @@ function Registration() {
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [postCode, setPostCode] = useState();
-  const [successful, setSuccessful] = useState(false);
 
   const onChangeUsername = (input) => {
     const username = input.target.value;
@@ -80,7 +54,7 @@ function Registration() {
     const password = input.target.value;
     setPassword(password);
   }
-  const history = useHistory();
+
   const handleRegistration = async () => {
     try {
       // What we want to send back to the backend
@@ -88,9 +62,10 @@ function Registration() {
         username: username.toLowerCase(),
         name: name,
         password: password,
-        address: address,
-        city: city,
-        postCode: postCode,
+        //TODO: uncomment these when backend is ready to store those
+        //address: address,
+        //city: city,
+        //postCode: postCode,
       });
       // Post request to the backend with given data
       const response = await api.post('/users', requestBody);
@@ -103,14 +78,12 @@ function Registration() {
       localStorage.setItem('id',user.id);
       localStorage.setItem('username',user.username);
       localStorage.setItem('name',user.name);
-
-      // registration successfully  --> navigate to the route /game in the GameRouter,
+      history.push('/inventory')
+      // registration successfully  --> navigate to the route /inventory ,
       // If something went wrong send the user back to the registration
-      // TODO: tobe refactored
     } catch (error) {
       alert(`Something went wrong during the registration: \n${handleError(error)}`);
     }
-    history.push('/inventory')
   }
 
   return (
@@ -119,78 +92,60 @@ function Registration() {
       maxWidth="xs"
     >
       <div className={classes.paper}>
+        <Panel shaded>
+          <Typography
+            component="h1"
+            variant="h5">
+            Register to upload your first item and start swiping
+          </Typography>
         <Avatar
           className={classes.avatar}
         />
-        <Typography
-          component="h1"
-          variant="h5">
-          Register to upload your first item and start swiping
-        </Typography>
-        <TextField
-          id="outlined-basic"
-          margin="normal"
-          label="Username"
-          variant="outlined"
-          fullWidth
-          required
-        >
-        </TextField>
-        <TextField
-          id="outlined-basic"
-          margin="normal"
-          label="Name"
-          variant="outlined"
-          fullWidth
-          required
-        >
-        </TextField>
-        <TextField
-          id="outlined-basic"
-          margin="normal"
-          label="Address"
-          variant="outlined"
-          fullWidth
-        >
-        </TextField>
-        <TextField
-          id="outlined-basic"
-          margin="normal"
-          label="City"
-          variant="outlined"
-          fullWidth
-        >
-        </TextField>
-        <TextField
-          id="outlined-basic"
-          margin="normal"
-          label="Postcode"
-          variant="outlined"
-          fullWidth
-        >
-        </TextField>
-        <TextField
-          id="outlined-basic"
-          margin="normal"
-          label="Password"
-          type="password"
-          variant= "outlined"
-          fullWidth
-          required
-        >
-        </TextField>
-        <TextField
-          id="outlined-basic"
-          margin="normal"
-          label="Password verification"
-          variant="outlined"
-          type="password"
-          fullWidth
-          required
-        >
-        </TextField>
+          <TextField
+            id=""
+            margin="normal"
+            label="Username"
+            variant="outlined"
+            fullWidth
+            required
+            onChange={onChangeUsername}
+          >
+          </TextField>
+          <TextField
+            id="outlined-basic"
+            margin="normal"
+            label="Name"
+            variant="outlined"
+            fullWidth
+            required
+            onChange={onChangeName}
+          >
+          </TextField>
+          <TextField
+            id="outlined-basic"
+            margin="normal"
+            label="Password"
+            type="password"
+            variant= "outlined"
+            fullWidth
+            required
+            onChange={onChangePassword}
+          >
+          </TextField>
+          <TextField
+            id="outlined-basic"
+            margin="normal"
+            label="Password verification"
+            variant="outlined"
+            type="password"
+            fullWidth
+            required
+          >
+          </TextField>
+        </Panel>
       </div>
       <Button
+        disabled={!username || !name || !password}
         className={classes.submit}
         size="medium"
         type="submit"
