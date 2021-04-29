@@ -2,15 +2,11 @@ import { React, useState, Redirect } from 'react';
 import { api, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
-import Registration from "../Registration/Registration";
+
 import { useHistory } from "react-router-dom";
 
 import { Avatar, Button, CssBaseline, TextField, Link, Grid, Box, Typography, Container, Paper, Card, CardContent } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
-import { Panel } from 'rsuite';
-
-import FinderLogo from '../../views/design/logo.svg';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -19,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+
   },
   avatar: {
     margin: theme.spacing(1),
@@ -41,7 +38,7 @@ function LoginHooks() {
       password: ""
   }
   );
-
+  
   const handleChange = (e) => {
       const{id, value} = e.target
       setState(prevState => ({
@@ -59,17 +56,17 @@ function LoginHooks() {
         });
         // We create a Put Request to the backend to /login
         const response = await api.put('/login', requestBody);
-
+  
         // Get the returned user and update a new object (UserGetDTO)
         const user = new User(response.data);
-
+  
         // Store the token, the username,id, token and name into the local storage.
         localStorage.setItem('token', user.token);
         localStorage.setItem('id',user.id);
         localStorage.setItem('username',user.username);
         localStorage.setItem('name',user.name);
-
-
+        
+  
         // Login successfully worked --> navigate to the route /game in the GameRouter
         // Otherwise an error is displayed
         // Hooks version of this.props.history.push(`/game`);?
@@ -82,27 +79,14 @@ function LoginHooks() {
 
 
   return (
-    <Grid container justify="center" spacing={4}>
-      <Grid item xs={12}/>
-      <Grid item xs={12}/>
-
-      <Grid container justify="flex-end" spacing={1}>
-        <Grid item xs={6}/>
-        <Grid item xs={3}>
-          <img src={FinderLogo}/>
-        </Grid>
-        <Grid item xs={3}/>
-
-        <Grid item xs={6}/>
-        <Grid item xs={6}>
-          <Typography variant="body1">find and swap items with the community</Typography>
-        </Grid>
-      </Grid>
-      <Grid item xs={12}/>
-
-      <Grid item xs={6}>
-        <Panel shaded>
-          <Typography variant="h5">Login</Typography>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Login to Finder
+        </Typography>
           <TextField
             variant="outlined"
             margin="normal"
@@ -125,27 +109,27 @@ function LoginHooks() {
             id="password"
             onChange={handleChange}
           />
-          <Grid container justify="flex-start" alignItems="flex-start">
-            <Grid item xs={12}>
-              <Button
-                disabled={!state.username || !state.password}
-                type="submit"
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={handleLogin}
-              >
-              Login
-              </Button>
-            </Grid>
-            <Grid item xs={12}>
-              <Link href="/registration" variant="body2">{"Don't have an account? Sign Up"}</Link>
+                </div>
+            <Grid justify="flex-start" alignItems="flex-start">
+            <Button
+            disabled={!state.username || !state.password}
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={handleLogin}
+          >
+            Login
+          </Button>
+            <Grid item justify="flex-start" >
+              <Link href="/registration" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
             </Grid>
           </Grid>
-        </Panel>
-      </Grid>
-
-    </Grid>
+      <Box mt={8}>
+      </Box>
+    </Container>
   );
 }
 
