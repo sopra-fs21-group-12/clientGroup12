@@ -3,6 +3,29 @@ import {withRouter} from "react-router-dom";
 import {api, handleError} from "../../helpers/api";
 import Loader from "rsuite/es/Loader";
 import Player from "../../views/Player";
+import MatchedItemContainer from "./MatchedItemContainer";
+import {Grid} from "@material-ui/core";
+import {Panel} from "rsuite";
+import styled from "styled-components";
+
+
+const Label = styled.label`
+  position: static;
+  left: 14.95%;
+  right: 75.81%;
+  top: 27.34%;
+  bottom: 60.16%;
+  
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+
+  /* identical to box height, or 133% */
+  text-align: center;
+
+  color: #000000;
+`;
 
 function MyMatches(props) {
     const {id} = props.match.params
@@ -36,16 +59,25 @@ function MyMatches(props) {
             {!matchedItems ? (
                 <Loader/>
             ) : (
-                <div>
+                <Grid container justify="center" spacing={10}>
+                    <Grid item xs={6}>
+                        <Panel shaded>
+                            <Label>Matches with your</Label>
+                            <h3>{id}</h3>
+                        </Panel>
+                    </Grid>
+                    <Grid item xs={8}>
                     {matchedItems.map(item => {
                         return (
-                            <h3>
-                                {item.title}
-                                {item.description}
-                            </h3>
+                            <div key={item.id}>
+                                <Grid item>
+                                <MatchedItemContainer item={item}/>
+                                </Grid>
+                            </div>
                         );
                     })}
-                </div>
+                    </Grid>
+                </Grid>
             )}
         </div>
     );
