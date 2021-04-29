@@ -16,6 +16,7 @@ import ItemUpload from "../../item/ItemUpload";
 
 import MyItemsList from "../../chatlist/myItems";
 import Profile from "../../profilepage/Profile";
+import MatchRouter from "./MatchRouter";
 
 
 
@@ -34,7 +35,7 @@ class AppRouter extends React.Component {
   render() {
     return (
       <BrowserRouter>
-      {/* Gives the reference of the navigarion*/}
+      {/* Gives the reference of the navigation*/}
         <Switch>
             <Route
               path="/game"
@@ -101,6 +102,12 @@ class AppRouter extends React.Component {
             path="/chat"
             render={() => (
                 <ChatRouter base={"/chat"} />
+            )}
+            />
+            <Route
+            path="/"
+            render={() => (
+                <MatchRouter base={"/matches"} />
             )}
             />
             <Route path="/" exact render={() => <Redirect to={"/game"} />} />
