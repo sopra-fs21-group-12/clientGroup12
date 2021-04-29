@@ -1,10 +1,8 @@
 import React, {useState, useRef} from 'react';
-import {register} from "../../actions/AAuth";
 import {useHistory, withRouter} from 'react-router-dom';
 import {Avatar, Button, Container, Grid, makeStyles, TextField, Typography, Paper} from "@material-ui/core";
 import {api, handleError} from "../../helpers/api";
 import User from "../shared/models/User";
-import FinderLogo from "../../views/design/logo.svg";
 import {Panel} from "rsuite";
 
 
