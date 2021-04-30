@@ -55,18 +55,14 @@ export default function MyItemsContainer(props) {
           shaded
           collapsible
           header={
-            <Grid container justify="center" alignItems="center">
-              <Grid item xs={6}>
+            <Grid container justify="center" alignItems="center" spacing={2}>
+              <Grid item xs={5}>
                 <h3>{props.item.title}</h3>
               </Grid>
-              <Grid item xs={6}>
-              <Button
-                variant="contained"
-                color="primary"
-              >
+              <Grid item xs={2}>
                 <ItemEdit id={props.item.id}/>
-                Edit
-              </Button>
+              </Grid>
+                <Grid item xs={2}>
               <Button
                 variant="contained"
                 color="primary"
@@ -74,6 +70,8 @@ export default function MyItemsContainer(props) {
               >
                 Matches
               </Button>
+                    </Grid>
+                <Grid item xs={3}>
               <Button
                 variant="contained"
                 color="primary"
@@ -81,7 +79,7 @@ export default function MyItemsContainer(props) {
               >
                 Start Swiping
               </Button>
-              </Grid>
+                </Grid>
             </Grid>
             }>
            <h6>{props.item.description}</h6>

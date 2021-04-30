@@ -130,7 +130,7 @@ function MyInventory() {
           return(
             <div key={item.id}>
               <Grid item>
-                <MyItemsContainer item={items}/>
+                <MyItemsContainer item={item}/>
               </Grid>
             </div>
           )})}
