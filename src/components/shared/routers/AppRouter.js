@@ -16,6 +16,7 @@ import MyInventory from "../../Inventory/MyInventory";
 import ItemUpload from "../../item/ItemUpload";
 import MyItemsList from "../../chatlist/myItems";
 import Profile from "../../profilepage/Profile";
+import MatchRouter from "./MatchRouter";
 
 
 /**
@@ -32,7 +33,7 @@ class AppRouter extends React.Component {
   render() {
     return (
       <BrowserRouter>
-      {/* Gives the reference of the navigarion*/}
+      {/* Gives the reference of the navigation*/}
         <Switch>
             <Route
             path="/login"
@@ -67,7 +68,14 @@ class AppRouter extends React.Component {
                 <ItemUpload />
               </ProfileGuard>
             )}
-          />
+
+            />
+            <Route
+            path="/"
+            render={() => (
+                <MatchRouter base={"/matches"} />
+            )}
+            />
           <Route
             path="/test"
             exact
@@ -81,13 +89,6 @@ class AppRouter extends React.Component {
             <MyInventory/>
           )}>
           </Route>
-          <Route
-            path="/"
-            exact
-            render={() =>
-              <Redirect to={"/game"} />
-            }
-          />
           <Route
           path="/itemsToChat"
           exact
