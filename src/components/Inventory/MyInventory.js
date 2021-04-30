@@ -4,12 +4,10 @@ import {
   Button,
   Grid,
   makeStyles,
-  Card,
-  CardActions
 } from "@material-ui/core";
 import TagPickerRS from "../tagPicker/TagPickerRS";
 import { api, handleError } from '../../helpers/api';
-import MatchedItemContainer from "../matches/MatchedItemContainer";
+import MyItemsContainer from "./MyItemsContainer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,8 +47,6 @@ function MyInventory() {
   const history = useHistory();
   const id = localStorage.getItem('id');
   const [items, setItem] = useState([]);
-  const [titles, setTitle] = useState([]);
-  const [descriptions, setDescription] = useState([]);
 
   async function logOut() {
     const requestBody = JSON.stringify({
@@ -63,20 +59,22 @@ function MyInventory() {
     history.push('/login');
   }
 
-  const getMyItems = async () => {
+  useEffect(() => {
+    const fetchData = async () => {
     try {
       const response = await api.get('/users/' + id + '/items');
       setItem(response.data);
     } catch (error) {
       alert(`Something went wrong, make sure you have an item stored or try again later: \n${handleError(error)}`)
-    }
-    console.log(items);
-}
+    }}
+    fetchData();
+  }, []);
 
   const classes = useStyles();
   return (
     <Grid
       container
+      justify="center"
       component="main"
       className={classes.root}
     >
@@ -89,7 +87,7 @@ function MyInventory() {
           variant="contained"
           color="primary"
           className={classes.submit}
-          onClick={getMyItems}
+          onClick={() => history.push('/profile')}
         >
           My Profile
         </Button>
@@ -122,22 +120,34 @@ function MyInventory() {
         xs={10}
         className={classes.itemSection}
       >
-        Here are your items you have put on Finder.
+        Here are your items you have put on Finder so far
       </Grid>
       <Grid
-        item xs={2}
-        {...items.map(item => {
+        item
+        xs={10}
+      >
+        {items.map(item => {
           return(
             <div key={item.id}>
               <Grid item>
-                <MatchedItemContainer item={item}/>
+                <MyItemsContainer item={items}/>
               </Grid>
             </div>
           )})}
-      />
-        <Button> Edit </Button>
-        <Button className={classes.buttonMatches}> Matches </Button>
-        <Button> Start swiping </Button>
+      </Grid>
+      <Grid container justify="center">
+        <Grid item xs={1}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={() => history.push('/upload')}
+          >
+            Add item
+          </Button>
+        </Grid>
+      </Grid>
     </Grid>
   )
 }

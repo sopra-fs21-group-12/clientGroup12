@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {withRouter} from "react-router-dom";
+import {useHistory, withRouter} from "react-router-dom";
 import {api, handleError} from "../../helpers/api";
 import Loader from "rsuite/es/Loader";
 import Player from "../../views/Player";
 import MatchedItemContainer from "./MatchedItemContainer";
-import {Grid} from "@material-ui/core";
+import {Button, Grid} from "@material-ui/core";
 import {Panel} from "rsuite";
 import styled from "styled-components";
 
