@@ -1,5 +1,5 @@
-import React from 'react';
-import { withRouter } from 'react-router-dom';
+import React, {useState} from 'react';
+import {useHistory, withRouter} from 'react-router-dom';
 import {
   Button,
   Grid,
@@ -8,6 +8,7 @@ import {
   CardActions
 } from "@material-ui/core";
 import TagPickerRS from "../tagPicker/TagPickerRS";
+import { api, handleError } from '../../helpers/api';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,8 +45,29 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function MyInventory() {
-  function logout() {
-    //log the user out
+  const history = useHistory();
+  const id = localStorage.getItem('id');
+  const [title, useTitle] = useState("");
+  const [picture, setPicture] = useState();
+
+  async function logOut() {
+    const requestBody = JSON.stringify({
+      username: localStorage.getItem('username'),
+      name: localStorage.getItem('name'),
+      id: localStorage.getItem('id'),
+    });
+    await api.put('/logout', requestBody);
+    localStorage.clear();
+    history.push('/login');
+  }
+
+  const getMyItems = async () => {
+    try {
+      const response = await api.get('/users/' + id + '/items')
+      console.log(response);
+    } catch (error) {
+      alert(`Something went wrong, make sure you have an item stored or try again later: \n${handleError(error)}`)
+    }
   }
 
   const classes = useStyles();
@@ -53,7 +75,6 @@ function MyInventory() {
     <Grid
       container
       component="main"
-      maxWidth="xs"
       className={classes.root}
     >
       <Grid item xs={8}>
@@ -64,7 +85,9 @@ function MyInventory() {
           type="submit"
           variant="contained"
           color="primary"
-          className={classes.submit}>
+          className={classes.submit}
+          onClick={getMyItems}
+        >
           My Profile
         </Button>
       </Grid>
@@ -73,7 +96,9 @@ function MyInventory() {
           type="submit"
           variant="contained"
           color="primary"
-          className={classes.submit}>
+          className={classes.submit}
+          onClick={logOut}
+        >
           Logout
         </Button>
       </Grid>
@@ -102,7 +127,9 @@ function MyInventory() {
         className={classes.itemContainer}
         variant="outlined"
       >
-        <CardActions>
+        <CardActions
+          onLoad={getMyItems}
+        >
           <Button> Edit </Button>
           <Button className={classes.buttonMatches}> Matches </Button>
           <Button> Start swiping </Button>
