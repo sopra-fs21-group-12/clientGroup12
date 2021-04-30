@@ -71,7 +71,7 @@ class AppRouter extends React.Component {
 
             />
             <Route
-            path="/"
+            path="/matches"
             render={() => (
                 <MatchRouter base={"/matches"} />
             )}
