@@ -1,10 +1,14 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { withRouter } from 'react-router-dom';
 
 import { Grid, Paper,} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Panel } from 'rsuite';
 import SwipingGame from "./SwipingGame";
+import MatchedItemContainer from "../matches/MatchedItemContainer";
+import {api, handleError} from "../../helpers/api";
+import Loader from "rsuite/es/Loader";
+import UserItemContainer from "./UserItemContainer";
 
 const useStyles = makeStyles((theme) => ({
     description: {
@@ -15,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
         height: "40em"
     },
     swipe: {
-        height: "25em"
+        height: "30em"
     },
     userItem:{
         height: "10em"
@@ -25,21 +29,37 @@ const useStyles = makeStyles((theme) => ({
 function SwipePage(props) {
     const {id} = props.match.params
     const classes = useStyles();
+    const [userItem, setUserItem] = useState();
+
+    useEffect(async () => {
+        try {
+            //await new Promise(resolve => setTimeout(resolve, 2000));
+            // get matches of item
+            const response = await api.get(`/items/${id}`)
+            setUserItem(response.data);
+            console.log(response.data)
+
+        } catch (error) {
+            alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
+        }
+
+    }, [])
 
     return (
+<div>
+        {!userItem ? (
+        <Loader/>
+    ) : (
         <Grid container justify="center" spacing={4}>
             <Grid item xs={12}/>
             <Grid item xs={12}/>
 
             <Grid item xs={4}>
                 <Panel shaded>
-                    <Paper className={classes.description} elevation ={0}>
+                    <Paper className={classes.description} elevation={0}>
                         <h2>
                             Title of Item
                         </h2>
-                        <body>
-
-                        </body>
                     </Paper>
                 </Panel>
             </Grid>
@@ -47,20 +67,18 @@ function SwipePage(props) {
                 <Grid container spacing={4}>
                     <Grid item xs={12}>
                         <Panel shaded>
-                            <Paper className={classes.swipe} elevation ={0}>
+                            <Paper className={classes.swipe} elevation={0}>
                             </Paper>
                         </Panel>
                     </Grid>
                     <Grid item xs={12}>
-                        <Panel shaded>
-                            <Paper className={classes.userItem} elevation ={0}>
-
-                            </Paper>
-                        </Panel>
+                        <UserItemContainer item={userItem}/>
                     </Grid>
                 </Grid>
             </Grid>
         </Grid>
+    )}
+</div>
     );
 
 }
