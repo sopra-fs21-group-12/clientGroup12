@@ -59,13 +59,6 @@ export default function UserItemContainer(props) {
                                    <h3>{props.item.title}</h3>
                                </Grid>
                                <Grid item xs={3}>
-                                   <Button
-                                       variant="contained"
-                                       color="primary"
-                                       onClick={() => history.push('/chat/' + props.item.id)}
-                                   >
-                                       Chat
-                                   </Button>
                                </Grid>
                            </Grid>
                 </Panel>
