@@ -3,17 +3,20 @@ import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { GameGuard } from "../routeProtectors/GameGuard";
 import GameRouter from "./GameRouter";
 import ProfileRouter from "./ProfileRouter"
+import ChatRouter from "./chatRouter"
 import {RegistrationGuard} from "../routeProtectors/RegistrationGuard";
 import {LoginGuard} from "../routeProtectors/LoginGuard";
 
 
-import Register from "../../Registration/Register";
 import LoginHooks from "../../login/LoginHooks";
 import { ProfileGuard } from "../routeProtectors/ProfileGuard";
 import TestPage from "../../../TestPage";
+import Registration from "../../Registration/Registration";
+import MyInventory from "../../Inventory/MyInventory";
+import ItemUpload from "../../item/ItemUpload";
+import MyItemsList from "../../chatlist/myItems";
 import Profile from "../../profilepage/Profile";
-import SwipingGame from "../../game/SwipingGame";
-
+import MatchRouter from "./MatchRouter";
 
 
 /**
@@ -24,24 +27,16 @@ import SwipingGame from "../../game/SwipingGame";
  * /login renders another component without any sub-route
  * /game renders a Router that contains other sub-routes that render in turn other react components
  * Documentation about routing in React: https://reacttraining.com/react-router/web/guides/quick-start changes done
- * 
+ *
  */
 class AppRouter extends React.Component {
   render() {
     return (
       <BrowserRouter>
-      {/* Gives the reference of the navigarion*/}
+      {/* Gives the reference of the navigation*/}
         <Switch>
-            {/*<Route
-              path="/game"
-              render={() => (
-                <GameGuard>
-                  <GameRouter base={"/game"} />
-                </GameGuard>
-              )}*/}
-            />
-            <Route 
-            path="/login" 
+            <Route
+            path="/login"
             exact
             render={() => (
               <LoginGuard>
@@ -49,49 +44,65 @@ class AppRouter extends React.Component {
               </LoginGuard>
             )}
           />
+          <Route
+            path="/registration"
+            exact
+            render={() => (
+              <RegistrationGuard>
+                <Registration/>
+              </RegistrationGuard>
+            )}
+          />
+           <Route
+            path="/profile"
+            render={() => (
+              <ProfileGuard>
+                <Profile/>
+              </ProfileGuard>
+            )}
+          />
+          <Route
+            path="/upload"
+            render={() => (
+              <ProfileGuard>
+                <ItemUpload />
+              </ProfileGuard>
+            )}
+
+            />
             <Route
-              path="/registration"
-              exact
-              render={() => (
-                <RegistrationGuard>
-                  <Register />
-                </RegistrationGuard>
-              )}
+            path="/"
+            render={() => (
+                <MatchRouter base={"/matches"} />
+            )}
             />
-             <Route
-              path="/profile"
-              render={() => (
-                //<ProfileGuard>
-                  <Profile/>
-                //</ProfileGuard>
-              )}
-            />
-              <Route
-                  path="/edit"
-                  render={() => (
-                      <editForm/>
-                  )}
-              />
-              <Route
-                  path="/game"
-                  exact
-                  render={() => (
-                  <SwipingGame/>
-                  )}
-            />
-            {
-              /*
-              New Route for TestPage
-              */
-            }
-            <Route 
+          <Route
             path="/test"
             exact
             render={() => (
               <TestPage/>
             )}
-            />
-            <Route path="/" exact render={() => <Redirect to={"/game"} />} />
+          />
+          <Route
+          path="/inventory"
+          render={() => (
+            <MyInventory/>
+          )}>
+          </Route>
+          <Route
+          path="/itemsToChat"
+          exact
+          render={() => (
+            <MyItemsList/>
+          )}
+          />
+          <Route
+          path="/chat"
+          render={() => (
+              <ChatRouter base={"/chat"} />
+          )}
+          />
+          <Route path="/" exact render={() => <Redirect to={"/game"} />} />
         </Switch>
       </BrowserRouter>
     );

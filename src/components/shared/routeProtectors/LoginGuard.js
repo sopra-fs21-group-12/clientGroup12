@@ -15,5 +15,5 @@ export const LoginGuard = props => {
     return props.children;
   }
   // If the user is loged in -> He is redirected to the game
-  return <Redirect to={"/game"} />;
+  return <Redirect to={"/inventory"} />;
 };
