@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useHistory, withRouter} from 'react-router-dom';
 import {
   Button,
@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import TagPickerRS from "../tagPicker/TagPickerRS";
 import { api, handleError } from '../../helpers/api';
+import MatchedItemContainer from "../matches/MatchedItemContainer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,8 +48,9 @@ const useStyles = makeStyles((theme) => ({
 function MyInventory() {
   const history = useHistory();
   const id = localStorage.getItem('id');
-  const [title, useTitle] = useState("");
-  const [picture, setPicture] = useState();
+  const [items, setItem] = useState([]);
+  const [titles, setTitle] = useState([]);
+  const [descriptions, setDescription] = useState([]);
 
   async function logOut() {
     const requestBody = JSON.stringify({
@@ -63,12 +65,13 @@ function MyInventory() {
 
   const getMyItems = async () => {
     try {
-      const response = await api.get('/users/' + id + '/items')
-      console.log(response);
+      const response = await api.get('/users/' + id + '/items');
+      setItem(response.data);
     } catch (error) {
       alert(`Something went wrong, make sure you have an item stored or try again later: \n${handleError(error)}`)
     }
-  }
+    console.log(items);
+}
 
   const classes = useStyles();
   return (
@@ -112,7 +115,6 @@ function MyInventory() {
       </Grid>
       <Grid item xs={2}/>
       <Grid item xs={10} className={classes.tags}>
-        <TagPickerRS></TagPickerRS>
       </Grid>
       <Grid item xs={2}/>
       <Grid
@@ -122,19 +124,20 @@ function MyInventory() {
       >
         Here are your items you have put on Finder.
       </Grid>
-      <Grid item xs={2}/>
-      <Card
-        className={classes.itemContainer}
-        variant="outlined"
-      >
-        <CardActions
-          onLoad={getMyItems}
-        >
-          <Button> Edit </Button>
-          <Button className={classes.buttonMatches}> Matches </Button>
-          <Button> Start swiping </Button>
-        </CardActions>
-      </Card>
+      <Grid
+        item xs={2}
+        {...items.map(item => {
+          return(
+            <div key={item.id}>
+              <Grid item>
+                <MatchedItemContainer item={item}/>
+              </Grid>
+            </div>
+          )})}
+      />
+        <Button> Edit </Button>
+        <Button className={classes.buttonMatches}> Matches </Button>
+        <Button> Start swiping </Button>
     </Grid>
   )
 }
