@@ -1,8 +1,5 @@
 import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import { GameGuard } from "../routeProtectors/GameGuard";
-import GameRouter from "./GameRouter";
-import ProfileRouter from "./ProfileRouter"
 import ChatRouter from "./chatRouter"
 import {RegistrationGuard} from "../routeProtectors/RegistrationGuard";
 import {LoginGuard} from "../routeProtectors/LoginGuard";

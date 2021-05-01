@@ -2,10 +2,11 @@ import {useHistory, withRouter} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 import {api, handleError} from "../../helpers/api";
 import Loader from "rsuite/es/Loader";
-import {TextField, Typography} from "@material-ui/core";
+import {Button, TextField, Typography} from "@material-ui/core";
 import { Modal } from 'rsuite';
 import User from "../shared/models/User";
 import Edit from "./Edit";
+import BackToInventory from "../RedirectButtons/BackToInventory";
 
 const loader = (
     <div>
@@ -14,7 +15,6 @@ const loader = (
 
 function Profile() {
     const id = localStorage.getItem("id")
-    const history = useHistory();
     const [loading, setLoading] = useState(false)
     const [userData, setUserData] = useState({
         id: "",
@@ -52,10 +52,10 @@ function Profile() {
 
                     <Edit userdata={userData}>
                     </Edit>
-
                 </div>
             }
             </Typography>
+            <BackToInventory/>
         </div>
     );
 }

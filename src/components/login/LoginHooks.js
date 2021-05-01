@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import Registration from "../Registration/Registration";
 import { useHistory } from "react-router-dom";
 
-import { Avatar, Button, CssBaseline, TextField, Link, Grid, Box, Typography, Container, Paper, Card, CardContent } from '@material-ui/core';
+import { Button, TextField, Link, Grid, Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Panel } from 'rsuite';

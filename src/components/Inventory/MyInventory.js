@@ -1,13 +1,14 @@
-import React from 'react';
-import { withRouter } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useHistory, withRouter} from 'react-router-dom';
 import {
   Button,
   Grid,
   makeStyles,
-  Card,
-  CardActions
 } from "@material-ui/core";
-import TagPickerRS from "../tagPicker/TagPickerRS";
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { api, handleError } from '../../helpers/api';
+import MyItemsContainer from "./MyItemsContainer";
+import {Panel} from "rsuite";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,8 +20,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "25px",
     fontWeight: "bold",
   },
+  addItem: {
+    margin: theme.spacing(2),
+    background: "#0E4DA4"
+  },
   submit: {
     margin: theme.spacing(10, 3),
+    background: "#FFFFFF"
   },
   tags: {
     paddingTop: "20px",
@@ -36,24 +42,41 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "25px",
     fontWeight: "bold",
   },
-  itemContainer: {
-    marginTop: "20px",
-    minWidth: 900,
-    minHeight: 275,
-  },
 }))
 
 function MyInventory() {
-  function logout() {
-    //log the user out
+  const history = useHistory();
+  const id = localStorage.getItem('id');
+  const [items, setItem] = useState([]);
+
+  async function logOut() {
+    const requestBody = JSON.stringify({
+      username: localStorage.getItem('username'),
+      name: localStorage.getItem('name'),
+      id: localStorage.getItem('id'),
+    });
+    await api.put('/logout', requestBody);
+    localStorage.clear();
+    history.push('/login');
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+    try {
+      const response = await api.get('/users/' + id + '/items');
+      setItem(response.data);
+    } catch (error) {
+      alert(`Something went wrong, make sure you have an item stored or try again later: \n${handleError(error)}`)
+    }}
+    fetchData();
+  }, []);
 
   const classes = useStyles();
   return (
     <Grid
       container
+      justify="center"
       component="main"
-      maxWidth="xs"
       className={classes.root}
     >
       <Grid item xs={8}>
@@ -63,8 +86,9 @@ function MyInventory() {
         <Button
           type="submit"
           variant="contained"
-          color="primary"
-          className={classes.submit}>
+          className={classes.submit}
+          onClick={() => history.push('/profile')}
+        >
           My Profile
         </Button>
       </Grid>
@@ -72,8 +96,9 @@ function MyInventory() {
         <Button
           type="submit"
           variant="contained"
-          color="primary"
-          className={classes.submit}>
+          className={classes.submit}
+          onClick={logOut}
+        >
           Logout
         </Button>
       </Grid>
@@ -87,7 +112,6 @@ function MyInventory() {
       </Grid>
       <Grid item xs={2}/>
       <Grid item xs={10} className={classes.tags}>
-        <TagPickerRS></TagPickerRS>
       </Grid>
       <Grid item xs={2}/>
       <Grid
@@ -95,19 +119,37 @@ function MyInventory() {
         xs={10}
         className={classes.itemSection}
       >
-        Here are your items you have put on Finder.
+        Here are your items you have put on Finder so far
       </Grid>
-      <Grid item xs={2}/>
-      <Card
-        className={classes.itemContainer}
-        variant="outlined"
-      >
-        <CardActions>
-          <Button> Edit </Button>
-          <Button className={classes.buttonMatches}> Matches </Button>
-          <Button> Start swiping </Button>
-        </CardActions>
-      </Card>
+      <Grid item xs={10}>
+        {items.map(item => {
+          return(
+            <div key={item.id}>
+              <Grid item>
+                <MyItemsContainer item={item}/>
+              </Grid>
+            </div>
+          )})}
+      </Grid>
+      <Grid item xs={10}>
+        <Panel
+        shaded
+        bordered
+        header={<h3>Add new Item</h3>}
+        style={{height: 200}}
+        >
+          <Grid item xs={12}>
+            <Button
+              type="submit"
+              variant="contained"
+              className={classes.addItem}
+              startIcon={<AddCircleIcon />}
+              onClick={() => history.push('/upload')}
+            >
+            </Button>
+          </Grid>
+        </Panel>
+      </Grid>
     </Grid>
   )
 }
