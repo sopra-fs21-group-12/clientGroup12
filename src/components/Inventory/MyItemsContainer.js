@@ -1,52 +1,22 @@
 import React  from 'react'
 import { useHistory } from "react-router-dom";
 import {Panel} from "rsuite";
-import {Grid, Button} from "@material-ui/core";
-import styled from 'styled-components';
+import {Grid, Button, makeStyles} from "@material-ui/core";
 import ItemEdit from "../item/ItemEdit";
 
-const Label = styled.label`
-  position: static;
-  left: 14.95%;
-  right: 75.81%;
-  top: 27.34%;
-  bottom: 60.16%;
-  
-  font-style: normal;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 16px;
-
-  /* identical to box height, or 133% */
-  text-align: center;
-
-  color: #000000;
-`;
-
-const ItemTitle = styled.title`
-  position: static;
-  left: 14.95%;
-  right: 57.2%;
-  top: 39.84%;
-  bottom: 28.91%;
-  
-  font-style: normal;
-  font-weight: 800;
-  font-size: 24px;
-  line-height: 40px;
-
-  /* identical to box height, or 167% */
-
-  /* Colors / Black */
-  color: #18191F;
-
-
-`;
+const useStyles = makeStyles((theme) => ({
+  matchesButton: {
+    background: "#6FCF97",
+  },
+  swipingButton: {
+    background: "#FFBB12",
+  }
+}));
 
 export default function MyItemsContainer(props) {
 
   const history = useHistory();
-
+  const classes = useStyles();
 
   return (
     <Grid container justify="center" spacing={6}>
@@ -65,7 +35,7 @@ export default function MyItemsContainer(props) {
                 <Grid item xs={2}>
               <Button
                 variant="contained"
-                color="primary"
+                className={classes.matchesButton}
                 onClick={() => history.push('/matches/' + props.item.id)}
               >
                 Matches
@@ -74,7 +44,7 @@ export default function MyItemsContainer(props) {
                 <Grid item xs={3}>
               <Button
                 variant="contained"
-                color="primary"
+                className={classes.swipingButton}
                 onClick={() => history.push('/swipe/' + props.item.id)}
               >
                 Start Swiping

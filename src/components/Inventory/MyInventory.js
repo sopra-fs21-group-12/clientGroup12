@@ -5,9 +5,10 @@ import {
   Grid,
   makeStyles,
 } from "@material-ui/core";
-import TagPickerRS from "../tagPicker/TagPickerRS";
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { api, handleError } from '../../helpers/api';
 import MyItemsContainer from "./MyItemsContainer";
+import {Panel} from "rsuite";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,8 +20,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "25px",
     fontWeight: "bold",
   },
+  addItem: {
+    margin: theme.spacing(2),
+    background: "#0E4DA4"
+  },
   submit: {
     margin: theme.spacing(10, 3),
+    background: "#FFFFFF"
   },
   tags: {
     paddingTop: "20px",
@@ -35,11 +41,6 @@ const useStyles = makeStyles((theme) => ({
     color: 'dimgray',
     fontSize: "25px",
     fontWeight: "bold",
-  },
-  itemContainer: {
-    marginTop: "20px",
-    minWidth: 900,
-    minHeight: 275,
   },
 }))
 
@@ -85,7 +86,6 @@ function MyInventory() {
         <Button
           type="submit"
           variant="contained"
-          color="primary"
           className={classes.submit}
           onClick={() => history.push('/profile')}
         >
@@ -96,7 +96,6 @@ function MyInventory() {
         <Button
           type="submit"
           variant="contained"
-          color="primary"
           className={classes.submit}
           onClick={logOut}
         >
@@ -122,10 +121,7 @@ function MyInventory() {
       >
         Here are your items you have put on Finder so far
       </Grid>
-      <Grid
-        item
-        xs={10}
-      >
+      <Grid item xs={10}>
         {items.map(item => {
           return(
             <div key={item.id}>
@@ -135,18 +131,24 @@ function MyInventory() {
             </div>
           )})}
       </Grid>
-      <Grid container justify="center">
-        <Grid item xs={1}>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={() => history.push('/upload')}
-          >
-            Add item
-          </Button>
-        </Grid>
+      <Grid item xs={10}>
+        <Panel
+        shaded
+        bordered
+        header={<h3>Add new Item</h3>}
+        style={{height: 200}}
+        >
+          <Grid item xs={12}>
+            <Button
+              type="submit"
+              variant="contained"
+              className={classes.addItem}
+              startIcon={<AddCircleIcon />}
+              onClick={() => history.push('/upload')}
+            >
+            </Button>
+          </Grid>
+        </Panel>
       </Grid>
     </Grid>
   )
