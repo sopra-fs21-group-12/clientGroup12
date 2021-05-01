@@ -8,6 +8,7 @@ import {
   CardActions
 } from "@material-ui/core";
 import TagPickerRS from "../tagPicker/TagPickerRS";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,8 +45,13 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function MyInventory() {
+  const history = useHistory();
   function logout() {
     //log the user out
+  }
+
+  const goToChat = () =>{
+    history.push('/itemsToChat')
   }
 
   const classes = useStyles();
@@ -56,8 +62,18 @@ function MyInventory() {
       maxWidth="xs"
       className={classes.root}
     >
-      <Grid item xs={8}>
+      <Grid item xs={5}>
         <header> My Inventory </header>
+      </Grid>
+      <Grid item xs={2}>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          onClick={goToChat}
+          className={classes.submit}>
+          Chat
+        </Button>
       </Grid>
       <Grid item xs={2}>
         <Button
