@@ -17,6 +17,7 @@ import ItemUpload from "../../item/ItemUpload";
 import MyItemsList from "../../chatlist/myItems";
 import Profile from "../../profilepage/Profile";
 import MatchRouter from "./MatchRouter";
+import Picture from "../../pictures/Picture";
 
 
 /**
@@ -80,7 +81,7 @@ class AppRouter extends React.Component {
             path="/test"
             exact
             render={() => (
-              <TestPage/>
+              <Picture/>
             )}
           />
           <Route
