@@ -73,7 +73,7 @@ export default function ItemEdit(props) {
                     <ButtonToolbar>
                         <Button
                             variant="contained"
-                            color="default"
+                            color="primary"
                             onClick={open}
                         >
                             Edit Item

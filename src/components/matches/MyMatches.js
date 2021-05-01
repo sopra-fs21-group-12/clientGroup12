@@ -30,6 +30,19 @@ const Label = styled.label`
 function MyMatches(props) {
     const {id} = props.match.params
     const [matchedItems, setMatchedItems] = useState([]);
+    const [itemData, setItemData] = useState();
+
+    useEffect(async () => {
+        try {
+
+            const response = await api.get(/items/ + id)
+            setItemData(response.data)
+
+        } catch (error) {
+            alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
+        }
+
+    }, [])
 
     useEffect(async () => {
         try {
@@ -56,14 +69,14 @@ function MyMatches(props) {
 
     return (
         <div>
-            {!matchedItems ? (
+            {!matchedItems ||!itemData ? (
                 <Loader/>
             ) : (
                 <Grid container justify="center" spacing={10}>
                     <Grid item xs={6}>
                         <Panel shaded>
                             <Label>Matches with your</Label>
-                            <h3>{id}</h3>
+                            <h3>{itemData.title}</h3>
                         </Panel>
                     </Grid>
                     <Grid item xs={8}>
