@@ -18,6 +18,8 @@ import MyItemsList from "../../chatlist/myItems";
 import Profile from "../../profilepage/Profile";
 import MatchRouter from "./MatchRouter";
 import Picture from "../../pictures/Picture";
+import SwipePage from "../../game/SwipePage";
+import SwipeRouter from "./SwipeRouter";
 
 
 /**
@@ -103,6 +105,12 @@ class AppRouter extends React.Component {
               <ChatRouter base={"/chat"} />
           )}
           />
+            <Route
+                path="/swipe"
+                render={() => (
+                    <SwipeRouter base={"/swipe"}/>
+                )}
+            />
           <Route path="/" exact render={() => <Redirect to={"/game"} />} />
         </Switch>
       </BrowserRouter>
