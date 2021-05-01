@@ -3,11 +3,12 @@ import { withRouter } from 'react-router-dom'
 import { useHistory } from "react-router-dom";
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Typography, TextField, Button, Link } from '@material-ui/core'
-import {Button as RsuiteButton, Modal, Panel, Uploader} from 'rsuite'
+import { Grid, Typography, TextField, Button } from '@material-ui/core'
+import { Modal, Panel, Uploader} from 'rsuite'
 
 import TagPickerRS from '../tagPicker/TagPickerRS'
 import {api, handleError} from "../../helpers/api";
+import BackToInventory from "../RedirectButtons/BackToInventory";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -15,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-  
+
     },
     avatar: {
       margin: theme.spacing(1),
@@ -119,7 +120,6 @@ function ItemUpload() {
         <Grid container justify="center" spacing={4}>
             <Grid item xs={12}/>
             <Grid item xs={12}/>
-
             <Grid item xs={6}>
               <Panel shaded>
                 <Typography variant="h5">Add new Item to your Inventory</Typography>
@@ -174,6 +174,7 @@ function ItemUpload() {
                     </Grid>
                 </Grid>
               </Panel>
+              <BackToInventory/>
             </Grid>
 
             <Modal show={modal.show} onHide={close} backdrop="static">

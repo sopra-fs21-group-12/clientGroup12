@@ -1,10 +1,15 @@
 import React, {useEffect, useState} from "react";
 import {Modal, ButtonToolbar,} from "rsuite";
-import {TextField, Button} from "@material-ui/core";
+import {TextField, Button, makeStyles} from "@material-ui/core";
 import {api, handleError} from "../../helpers/api";
 import Loader from "rsuite/es/Loader";
 import { Button  as RsuiteButton } from "rsuite";
 
+const useStyles = makeStyles((theme) => ({
+    editButton: {
+        background: "#FFFFFF",
+    }
+}));
 
 export default function ItemEdit(props) {
     const [itemData, setItemData] = useState();
@@ -14,7 +19,6 @@ export default function ItemEdit(props) {
             description: ""
         }
     );
-
 
     const handleChange = (e) => {
         const{id, value} = e.target
@@ -36,8 +40,6 @@ export default function ItemEdit(props) {
         }
 
     }, [])
-
-
 
     // send item data to the backend
     async function handleSave() {
@@ -64,6 +66,8 @@ export default function ItemEdit(props) {
         setModal({show: true});
     }
 
+    const classes = useStyles();
+
     return (
         <div>
             {!itemData ? (
@@ -73,7 +77,7 @@ export default function ItemEdit(props) {
                     <ButtonToolbar>
                         <Button
                             variant="contained"
-                            color="default"
+                            className={classes.editButton}
                             onClick={open}
                         >
                             Edit Item

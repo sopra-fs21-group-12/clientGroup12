@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react'
+import React  from 'react'
 import { useHistory } from "react-router-dom";
 import {Panel} from "rsuite";
 import {Grid, Button} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
 import styled from 'styled-components';
 
 
