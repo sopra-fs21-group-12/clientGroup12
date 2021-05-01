@@ -71,7 +71,7 @@ function MyMatches(props) {
                         return (
                             <div key={item.id}>
                                 <Grid item>
-                                <MatchedItemContainer item={item}/>
+                                    <MatchedItemContainer item={item}/>
                                 </Grid>
                             </div>
                         );
