@@ -1,4 +1,5 @@
-const CHAT_SERVICE = "http://localhost:8080";
+import { getDomain } from '../../helpers/getDomain';
+const CHAT_SERVICE = getDomain();
 
 const request = (options) => {
   const headers = new Headers();
