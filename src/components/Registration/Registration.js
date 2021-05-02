@@ -36,7 +36,7 @@ function Registration() {
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
-  const [postCode, setPostCode] = useState();
+  const [postcode, setPostCode] = useState();
 
   const onChangeUsername = (input) => {
     const username = input.target.value;
@@ -53,6 +53,21 @@ function Registration() {
     setPassword(password);
   }
 
+  const onChangeAddress = (input) => {
+    const address = input.target.value;
+    setAddress(address);
+  }
+
+  const onChangeCity = (input) => {
+    const city = input.target.value;
+    setCity(city);
+  }
+
+  const onChangePostCode = (input) => {
+    const postcode = input.target.value;
+    setPostCode(postcode);
+  }
+
   const handleRegistration = async () => {
     try {
       // What we want to send back to the backend
@@ -60,10 +75,9 @@ function Registration() {
         username: username.toLowerCase(),
         name: name,
         password: password,
-        //TODO: uncomment these when backend is ready to store those
-        //address: address,
-        //city: city,
-        //postCode: postCode,
+        address: address,
+        city: city,
+        postcode: postcode,
       });
       // Post request to the backend with given data
       const response = await api.post('/users', requestBody);
@@ -76,8 +90,8 @@ function Registration() {
       localStorage.setItem('id',user.id);
       localStorage.setItem('username',user.username);
       localStorage.setItem('name',user.name);
-      history.push('/inventory')
       // registration successfully  --> navigate to the route /inventory ,
+      history.push('/inventory')
       // If something went wrong send the user back to the registration
     } catch (error) {
       alert(`Something went wrong during the registration: \n${handleError(error)}`);
@@ -122,6 +136,36 @@ function Registration() {
           <TextField
             id="outlined-basic"
             margin="normal"
+            label="City"
+            variant="outlined"
+            fullWidth
+            required
+            onChange={onChangeCity}
+          >
+          </TextField>
+          <TextField
+            id="outlined-basic"
+            margin="normal"
+            label="Address"
+            variant="outlined"
+            fullWidth
+            required
+            onChange={onChangeAddress}
+          >
+          </TextField>
+          <TextField
+            id="outlined-basic"
+            margin="normal"
+            label="Postale Code"
+            variant="outlined"
+            fullWidth
+            required
+            onChange={onChangePostCode}
+          >
+          </TextField>
+          <TextField
+            id="outlined-basic"
+            margin="normal"
             label="Password"
             type="password"
             variant= "outlined"
@@ -152,6 +196,17 @@ function Registration() {
         onClick={handleRegistration}
       >
         Register
+      </Button>
+      <Button
+        disabled={!username || !name || !password}
+        className={classes.submit}
+        size="medium"
+        type="submit"
+        variant="contained"
+        color="primary"
+        onClick={() => history.push('/login')}
+      >
+        Back to Login
       </Button>
     </Container>
   )

@@ -1,13 +1,22 @@
-import {useHistory, withRouter} from 'react-router-dom';
+import { withRouter} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 import {api, handleError} from "../../helpers/api";
 import Loader from "rsuite/es/Loader";
-import {Button, TextField, Typography} from "@material-ui/core";
-import { Modal } from 'rsuite';
-import User from "../shared/models/User";
+import { Grid, makeStyles, Paper, TextField, Typography} from "@material-ui/core";
+import { Panel} from 'rsuite';
 import Edit from "./Edit";
 import BackToInventory from "../RedirectButtons/BackToInventory";
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        margin: 20
+      },
+    profileFields: {
+        paddingTop: 30,
+        justifyItems: "center",
+    },
+  })
+)
 const loader = (
     <div>
          <Loader size="md" backdrop content="loading..." vertical />
@@ -22,8 +31,11 @@ function Profile() {
         username: "",
         status: "",
         timestamp: "",
-        birthday: "",
         token: "",
+        password: "",
+        address: "",
+        city: "",
+        postcode: 0,
     })
 
     useEffect(async () => {
@@ -42,20 +54,142 @@ function Profile() {
 
     }, [])
 
+    const classes = useStyles();
+
     return (
         <div>
-            <Typography component="h1" variant="h5">
-            {loading ? loader :
-                <div>
-                    <h3>Username: {userData.username}</h3>
-                    <h3>Creation Date: {userData.timestamp}</h3>
-
-                    <Edit userdata={userData}>
-                    </Edit>
-                </div>
-            }
-            </Typography>
-            <BackToInventory/>
+            <Grid container>
+                <Grid item xs={10}>
+                    <header> Your Profile Page </header>
+                </Grid>
+                <Grid item xs={2}>
+                    <BackToInventory/>
+                </Grid>
+            </Grid>
+            <Grid
+              container
+              justify="center"
+              component="main"
+            >
+                <Panel
+                  shaded
+                  bordered
+                >
+                    <Paper
+                    elevation={0}
+                    className={classes.root}
+                    >
+                        <Typography component="h1" variant="h5">
+                        {loading ? loader :
+                            <div>
+                                <Grid
+                                  container
+                                  justify="center"
+                                >
+                                    <Grid
+                                      item xs={6}
+                                      className={classes.profileFields}
+                                    >
+                                    <h4>Username:</h4>
+                                    </Grid>
+                                    <Grid
+                                      item xs={6}
+                                      className={classes.profileFields}
+                                    >
+                                    <TextField
+                                      value={userData.username}
+                                      disabled
+                                    >
+                                    </TextField>
+                                    </Grid>
+                                </Grid>
+                                <Grid
+                                  container
+                                  justify="center"
+                                >
+                                    <Grid item xs={6}
+                                          className={classes.profileFields}
+                                    >
+                                        <h4>Name:</h4>
+                                    </Grid>
+                                    <Grid item xs={6}
+                                          className={classes.profileFields}
+                                    >
+                                        <TextField
+                                          value={userData.name}
+                                          disabled
+                                        >
+                                        </TextField>
+                                    </Grid>
+                                </Grid>
+                                <Grid
+                                  container
+                                  justify="center"
+                                >
+                                    <Grid item xs={6}
+                                          className={classes.profileFields}
+                                    >
+                                        <h4>Address:</h4>
+                                    </Grid>
+                                    <Grid item xs={6}
+                                          className={classes.profileFields}
+                                    >
+                                        <TextField
+                                          value={userData.address}
+                                          disabled
+                                        >
+                                        </TextField>
+                                    </Grid>
+                                </Grid>
+                                <Grid
+                                  container
+                                  justify="center"
+                                >
+                                    <Grid item xs={6}
+                                          className={classes.profileFields}
+                                    >
+                                        <h4>City:</h4>
+                                    </Grid>
+                                    <Grid item xs={6}
+                                          className={classes.profileFields}
+                                    >
+                                        <TextField
+                                          value={userData.city}
+                                          disabled
+                                        >
+                                        </TextField>
+                                    </Grid>
+                                </Grid>
+                                <Grid
+                                  container
+                                  justify="center"
+                                >
+                                    <Grid item xs={6}
+                                          className={classes.profileFields}
+                                    >
+                                        <h4>Postal Code:</h4>
+                                    </Grid>
+                                    <Grid item xs={6}
+                                          className={classes.profileFields}
+                                    >
+                                        <TextField
+                                          value={userData.postcode}
+                                          disabled
+                                        >
+                                        </TextField>
+                                    </Grid>
+                                </Grid>
+                                <Grid item xs={12}
+                                      className={classes.profileFields}>
+                                    <Edit userdata={userData}>
+                                    </Edit>
+                                </Grid>
+                            </div>
+                        }
+                        </Typography>
+                    </Paper>
+                </Panel>
+            </Grid>
         </div>
     );
 }
