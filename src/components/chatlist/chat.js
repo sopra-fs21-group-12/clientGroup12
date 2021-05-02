@@ -141,27 +141,22 @@ const Chat = ({match:{params:{id}}}) => {
             {contacts && contacts.map((contact) => (
               <div> 
                 <li
-                onClick={() => setActiveContact(contact)}
-                class={
+                  onClick={() => setActiveContact(contact)}
+                  class={
                   activeContact && contact.id === activeContact.id
                     ? "contact active"
                     : "contact"
-                }
-              >
-                <div class="wrap">
-                  <div class="meta">
-                    <p class="name">{contact.name}</p>
-                    <div>unmatch</div>
-                    {contact.newMessages !== undefined &&
-                      contact.newMessages > 0 && (
-                        <p class="preview">
-                          {contact.newMessages} new messages
-                        </p>
-                      )}
+                  }
+                >
+                  <div class="wrap">
+                    <div class="meta">
+                      <p class="name">{contact.name}</p>
+                    </div>
                   </div>
-                </div>
-              </li>
-                </div>
+                </li>
+                  <div onClick={() => alert("unmatch this item")}>unmatch</div>
+                  <div onClick={() => alert("report this item")}>report</div>
+              </div>
             ))}
           </ul>
         </div>
