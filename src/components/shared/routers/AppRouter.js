@@ -34,7 +34,8 @@ class AppRouter extends React.Component {
       <BrowserRouter>
       {/* Gives the reference of the navigation*/}
         <Switch>
-            <Route
+
+          <Route
             path="/login"
             exact
             render={() => (
@@ -67,47 +68,50 @@ class AppRouter extends React.Component {
                 <ItemUpload />
               </ProfileGuard>
             )}
-
-            />
-            <Route
+          />
+          <Route
             path="/matches"
             render={() => (
                 <MatchRouter base={"/matches"} />
             )}
-            />
+          />
           <Route
             path="/test"
             exact
             render={() => (
-              <TestPage/>
+                <TestPage/>
             )}
           />
           <Route
-          path="/inventory"
-          render={() => (
-            <MyInventory/>
-          )}>
-          </Route>
+            path="/inventory"
+            render={() => (
+                <MyInventory/>
+            )}
+          />
           <Route
-          path="/itemsToChat"
-          exact
-          render={() => (
-            <MyItemsList/>
+            path="/itemsToChat"
+            exact
+            render={() => (
+                <MyItemsList/>
+            )}
+          />
+          <Route
+            path="/chat"
+            render={() => (
+                <ChatRouter base={"/chat"} />
+            )}
+          />
+          <Route
+            path="/swipe"
+            render={() => (
+                <SwipeRouter base={"/swipe"}/>
           )}
           />
           <Route
-          path="/chat"
-          render={() => (
-              <ChatRouter base={"/chat"} />
-          )}
+            path="/" exact
+            render={() => <Redirect to={"/game"} />}
           />
-            <Route
-                path="/swipe"
-                render={() => (
-                    <SwipeRouter base={"/swipe"}/>
-                )}
-            />
-          <Route path="/" exact render={() => <Redirect to={"/game"} />} />
+
         </Switch>
       </BrowserRouter>
     );
