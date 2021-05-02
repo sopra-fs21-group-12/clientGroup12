@@ -35,7 +35,12 @@ function MyMatches(props) {
     useEffect(async () => {
         try {
 
-            const response = await api.get(/items/ + id)
+            //user authentication
+            const requestBody = JSON.stringify({
+                userid: localStorage.getItem("id")
+            });
+
+            const response = await api.get(/items/ + id, requestBody)
             setItemData(response.data)
 
         } catch (error) {

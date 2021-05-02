@@ -41,8 +41,14 @@ function SwipePage(props) {
     useEffect(async () => {
         try {
             //await new Promise(resolve => setTimeout(resolve, 2000));
+
+            //user authentication
+            const requestBody = JSON.stringify({
+                userid: parseInt(localStorage.getItem("id"))
+            });
+
             // get matches of item
-            const response = await api.get(`/items/${id}`)
+            const response = await api.get(`/items/${id}`, requestBody)
             setUserItem(response.data);
             console.log(response.data)
 
