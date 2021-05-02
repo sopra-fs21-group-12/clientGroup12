@@ -99,41 +99,25 @@ function SwipePage(props) {
         setIndex(i => i+1)
     },[])
 
-    async function like(){
+    async function like(like){
         try {
             setLoading(true)
             const requestBody = JSON.stringify({
-                "itemIDSwiper": userItem.id,                      //localStorage.getItem("id"),
+                "itemIDSwiper": userItem.id,                      
                 "itemIDSwiped": currItem.id,
-                "liked": true
+                "liked": like
             })
             await api.post('/likes', requestBody);
             setIndex(index+1)
             setCurrItem(items[index])
             setLoading(false)
+            if(index == items.length) {
+                fetch();
+            }
         }catch (error){
             alert(`Something went wrong during the like request: \n${handleError(error)}`);
         }
     }
-
-    async function dislike(){
-        try {
-            setLoading(true)
-            const requestBody = JSON.stringify({
-                "itemIDSwiper": userItem.id,                      //localStorage.getItem("id"),
-                "itemIDSwiped": currItem.id,
-                "liked": false
-            })
-            await api.post('/likes', requestBody);
-            setIndex(index+1)
-            setCurrItem(items[index])
-            setLoading(false)
-        }catch (error){
-            alert(`Something went wrong during the like request: \n${handleError(error)}`);
-        }
-
-    }
-
 
     return (
 <div>
@@ -163,18 +147,16 @@ function SwipePage(props) {
                         <Panel shaded>
                             <Paper className={classes.swipe} elevation={0}>
                                 {loading ? loader :
-                                    index <= sizeItems ?
                                         <Grid container alignItems="center" justify="center" spacing={4}>
                                             <Grid item xs={12}>
                                                 <PictureForSwipe itemId={currItem.id}/>
                                             </Grid>
                                             <Grid>
-                                                <Button onClick={dislike}> dislike</Button>
-                                                <Button onClick={like}> like</Button>
+                                                <Button onClick={() => like(false)}> dislike</Button>
+                                                <Button onClick={() => like(true)}> like</Button>
                                             </Grid>
 
                                         </Grid>
-                                        : <Button onClick={() => fetch()}>Load more</Button>
                                 }
                             </Paper>
                         </Panel>
