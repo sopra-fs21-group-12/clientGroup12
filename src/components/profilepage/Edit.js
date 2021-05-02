@@ -89,17 +89,6 @@ export default function Edit(props) {
                       margin="normal"
                       required
                       fullWidth
-                      name="password"
-                      defaultValue={edit.password}
-                      label="password"
-                      id="password"
-                      onChange={handleChange}
-                    />
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
                       name="address"
                       defaultValue={edit.address}
                       label="address"
@@ -128,6 +117,17 @@ export default function Edit(props) {
                       id="postcode"
                       onChange={handleChange}
                     />
+                    <TextField
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="password"
+                      defaultValue={edit.password}
+                      label="Re-enter your Password or change it"
+                      id="password"
+                      onChange={handleChange}
+                    />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
@@ -135,10 +135,15 @@ export default function Edit(props) {
                         variant="contained"
                         color="primary"
                         onClick={handleEdit}
-                        appearance="primary">
+                        appearance="primary"
+                        disabled={!edit.password}
+                    >
                         Ok
                     </Button>
-                    <Button onClick={close} appearance="subtle">
+                    <Button
+                      onClick={close}
+                      appearance="subtle"
+                    >
                         Cancel
                     </Button>
                 </Modal.Footer>
