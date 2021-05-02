@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import {Panel} from "rsuite";
 import {Grid, Button, makeStyles} from "@material-ui/core";
 import ItemEdit from "../item/ItemEdit";
+import Picture from "../pictures/Picture";
 
 const useStyles = makeStyles((theme) => ({
   matchesButton: {
@@ -25,9 +26,14 @@ export default function MyItemsContainer(props) {
           shaded
           collapsible
           header={
-            <Grid container justify="center" alignItems="center" spacing={2}>
-              <Grid item xs={5}>
-                <h3>{props.item.title}</h3>
+            <Grid container justify="flex-start" alignItems="center" spacing={10}>
+              <Grid container item xs={5} justify="center" alignItems="center" spacing={1}>
+                <Grid item xs={4}>
+                  <Picture key={props.item.id}/>
+                </Grid>
+                <Grid item xs={8}>
+                  <h3>{props.item.title}</h3>
+                </Grid>
               </Grid>
               <Grid item xs={2}>
                 <ItemEdit id={props.item.id}/>

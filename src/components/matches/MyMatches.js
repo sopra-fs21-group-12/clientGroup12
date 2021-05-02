@@ -7,6 +7,7 @@ import MatchedItemContainer from "./MatchedItemContainer";
 import {Button, Grid} from "@material-ui/core";
 import {Panel} from "rsuite";
 import styled from "styled-components";
+import Picture from "../pictures/Picture";
 
 
 const Label = styled.label`
@@ -72,10 +73,18 @@ function MyMatches(props) {
                 <Loader/>
             ) : (
                 <Grid container justify="center" spacing={10}>
-                    <Grid item xs={6}>
+                    <Grid item xs={12}/>
+                    <Grid item xs={7}>
                         <Panel shaded>
-                            <Label>Matches with your</Label>
-                            <h3>{itemData.title}</h3>
+                        <Grid container justify="flex-start"  alignItems="center" spacing={1}>
+                                <Grid item xs={2}>
+                                    <Picture key={itemData.id}/>
+                                </Grid>
+                                <Grid item xs={10}>
+                                        <Label>Matches with your</Label>
+                                        <h3>{itemData.title}</h3>
+                                </Grid>
+                        </Grid>
                         </Panel>
                     </Grid>
                     <Grid item xs={8}>

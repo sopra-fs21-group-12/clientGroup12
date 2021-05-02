@@ -37,10 +37,23 @@ function SwipePage(props) {
     const {id} = props.match.params
     const classes = useStyles();
     const [userItem, setUserItem] = useState();
+    const [loading, setLoading] = useState(false)
+    const [sizeItems, setSizeItems] = useState(null)
+    const [index, setIndex] = useState(1)
+    const [items, setItems] = useState({})
+    const [currItem, setCurrItem] = useState({
+        id: "",
+        userId: "",
+        description: "",
+        title: "",
+        tagsItem: "",
+    })
 
+    // fetch itemData
     useEffect(async () => {
         try {
             //await new Promise(resolve => setTimeout(resolve, 2000));
+
             // get matches of item
             const response = await api.get(`/items/${id}`)
             setUserItem(response.data);
@@ -53,22 +66,7 @@ function SwipePage(props) {
     }, [])
 
 
-
-
-
-
-
-    const [loading, setLoading] = useState(false)
-    const [sizeItems, setSizeItems] = useState(null)
-    const [index, setIndex] = useState(1)
-    const [items, setItems] = useState({})
-    const [currItem, setCurrItem] = useState({
-        id: "",
-        userId: "",
-        description: "",
-        title: "",
-        tagsItem: "",
-    })
+    // fetch proposal
     useEffect(() => {
         try {
             fetch()
@@ -94,7 +92,12 @@ function SwipePage(props) {
         } catch (error) {
             alert(`Something went wrong while fetching the items: \n${handleError(error)}`);
         }
+
     }
+
+    const increment = useCallback(() =>{
+        setIndex(i => i+1)
+    },[])
 
     async function like(){
         try {
@@ -110,6 +113,7 @@ function SwipePage(props) {
             alert(`Something went wrong during the like request: \n${handleError(error)}`);
         }
     }
+
     async function dislike(){
         try {
             const requestBody = JSON.stringify({
@@ -123,59 +127,63 @@ function SwipePage(props) {
         }catch (error){
             alert(`Something went wrong during the like request: \n${handleError(error)}`);
         }
+
     }
 
-    return (
-        <div>
-                {!userItem ? (
-                <Loader/>
-            ) : (
-                <Grid container justify="center" spacing={4}>
-                    <Grid item xs={12}/>
-                    <Grid item xs={12}/>
 
-                    <Grid item xs={4}>
+    return (
+<div>
+        {!userItem ? (
+        <Loader/>
+    ) : (
+        <Grid container justify="center" spacing={4}>
+            <Grid item xs={12}/>
+            <Grid item xs={12}/>
+
+            <Grid item xs={4}>
+                <Panel shaded>
+                    <Paper className={classes.description} elevation={0}>
+                        <h2>
+                            {currItem.title}
+                        </h2>
+                        <h5>
+                            {currItem.description}
+                        </h5>
+                    </Paper>
+                </Panel>
+            </Grid>
+            <Grid item xs={6}>
+                <Grid container spacing={4}>
+                    <Grid item xs={12}>
                         <Panel shaded>
-                            <Paper className={classes.description} elevation={0}>
-                                <h2>
-                                    {currItem.title}
-                                </h2>
-                                <h5>
-                                    {currItem.description}
-                                </h5>
+                            <Paper className={classes.swipe} elevation={0}>
+                                {loading ? loader :
+                                    index <= sizeItems ?
+                                        <Grid container alignItems="center" justify="center" spacing={4}>
+                                            <Grid item xs={12}>
+                                                <PictureForSwipe key={currItem.id}/>
+                                            </Grid>
+                                            <Grid>
+                                                <Button onClick={dislike}> dislike</Button>
+                                                <Button onClick={like}> like</Button>
+                                            </Grid>
+
+                                        </Grid>
+                                        : <Button onClick={() => fetch()}>Load more</Button>
+                                }
                             </Paper>
                         </Panel>
                     </Grid>
-                    <Grid item xs={6}>
-                        <Grid container spacing={4}>
-                            <Grid item xs={12}>
-                                <Panel shaded>
-                                    <Paper className={classes.swipe} elevation={0}>
-                                        {loading ? loader :
-                                            index <= sizeItems ?
-                                                <div>
-
-                                                    <h1>{currItem.title}</h1>
-
-                                                    <ButtonToolbar>
-                                                        <Button onClick={dislike}> dislike</Button>
-                                                        <Button onClick={like}> like</Button>
-                                                    </ButtonToolbar>
-
-                                                </div>
-                                                : <Button onClick={() => fetch()}>Load more</Button>
-                                        }
-                                    </Paper>
-                                </Panel>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <UserItemContainer item={userItem}/>
-                            </Grid>
-                        </Grid>
+                    <Grid item xs={12}>
+                        <UserItemContainer item={userItem}/>
                     </Grid>
                 </Grid>
-            )}
-        </div>
+            </Grid>
+        </Grid>
+    )}
+</div>
     );
+
 }
+
 export default withRouter(SwipePage);
