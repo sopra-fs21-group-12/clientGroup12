@@ -32,14 +32,6 @@ export default function ItemEdit(props) {
     useEffect(async () => {
         try {
 
-            /*
-            //user authentication
-            const requestBody = JSON.stringify({
-                userid: localStorage.getItem("id")
-            });
-
-             */
-
             const response = await api.get(/items/ + props.id)
             setItemData(response.data)
 
