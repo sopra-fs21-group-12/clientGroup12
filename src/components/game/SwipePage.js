@@ -8,6 +8,8 @@ import MatchedItemContainer from "../matches/MatchedItemContainer";
 import {api, handleError} from "../../helpers/api";
 import Loader from "rsuite/es/Loader";
 import UserItemContainer from "./UserItemContainer";
+import Picture from "../pictures/Picture";
+import PictureForSwipe from "../pictures/PictureForSwipe";
 
 const useStyles = makeStyles((theme) => ({
     description: {
@@ -18,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         height: "40em"
     },
     swipe: {
-        height: "30em"
+        height: "28em"
     },
     userItem:{
         height: "10em"
@@ -37,33 +39,6 @@ function SwipePage(props) {
     const {id} = props.match.params
     const classes = useStyles();
     const [userItem, setUserItem] = useState();
-
-    useEffect(async () => {
-        try {
-            //await new Promise(resolve => setTimeout(resolve, 2000));
-
-            //user authentication
-            const requestBody = JSON.stringify({
-                userid: parseInt(localStorage.getItem("id"))
-            });
-
-            // get matches of item
-            const response = await api.get(`/items/${id}`, requestBody)
-            setUserItem(response.data);
-            console.log(response.data)
-
-        } catch (error) {
-            alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
-        }
-
-    }, [])
-
-
-
-
-
-
-
     const [loading, setLoading] = useState(false)
     const [sizeItems, setSizeItems] = useState(null)
     const [index, setIndex] = useState(1)
@@ -75,6 +50,25 @@ function SwipePage(props) {
         title: "",
         tagsItem: "",
     })
+
+    // fetch itemData
+    useEffect(async () => {
+        try {
+            //await new Promise(resolve => setTimeout(resolve, 2000));
+
+            // get matches of item
+            const response = await api.get(`/items/${id}`)
+            setUserItem(response.data);
+            console.log(response.data)
+
+        } catch (error) {
+            alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
+        }
+
+    }, [])
+
+
+    // fetch proposal
     useEffect(() => {
         try {
             fetch()
@@ -103,8 +97,6 @@ function SwipePage(props) {
 
     }
 
-
-
     const increment = useCallback(() =>{
         setIndex(i => i+1)
     },[])
@@ -123,6 +115,7 @@ function SwipePage(props) {
             alert(`Something went wrong during the like request: \n${handleError(error)}`);
         }
     }
+
     async function dislike(){
         try {
             const requestBody = JSON.stringify({
@@ -138,9 +131,6 @@ function SwipePage(props) {
         }
 
     }
-
-
-
 
 
     return (
@@ -171,16 +161,16 @@ function SwipePage(props) {
                             <Paper className={classes.swipe} elevation={0}>
                                 {loading ? loader :
                                     index <= sizeItems ?
-                                        <div>
-
-                                            <h1>{currItem.title}</h1>
-
-                                            <ButtonToolbar>
+                                        <Grid container alignItems="center" justify="center" spacing={4}>
+                                            <Grid item xs={12}>
+                                                <PictureForSwipe key={currItem.id}/>
+                                            </Grid>
+                                            <Grid>
                                                 <Button onClick={dislike}> dislike</Button>
                                                 <Button onClick={like}> like</Button>
-                                            </ButtonToolbar>
+                                            </Grid>
 
-                                        </div>
+                                        </Grid>
                                         : <Button onClick={() => fetch()}>Load more</Button>
                                 }
                             </Paper>

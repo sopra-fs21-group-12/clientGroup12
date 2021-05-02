@@ -26,23 +26,19 @@ export default function MyItemsContainer(props) {
           shaded
           collapsible
           header={
-            <Grid container justify="flex-start" alignItems="center" spacing={2}>
+            <Grid container justify="flex-start" alignItems="center" spacing={10}>
+              <Grid container item xs={5} justify="center" alignItems="center" spacing={1}>
+                <Grid item xs={4}>
+                  <Picture key={props.item.id}/>
+                </Grid>
+                <Grid item xs={8}>
+                  <h3>{props.item.title}</h3>
+                </Grid>
+              </Grid>
               <Grid item xs={2}>
-                <Picture key={3}/>
+                <ItemEdit id={props.item.id}/>
               </Grid>
-              <Grid item xs={5}>
-                <h3>{props.item.title}</h3>
-              </Grid>
-              <Grid item xs={2}>
-
-                {/*
-                                <ItemEdit id={props.item.id}/>
-                */}
-
-                <Button>Edit</Button>
-
-              </Grid>
-                <Grid item xs={1}>
+                <Grid item xs={2}>
               <Button
                 variant="contained"
                 className={classes.matchesButton}
@@ -51,7 +47,7 @@ export default function MyItemsContainer(props) {
                 Matches
               </Button>
                     </Grid>
-                <Grid item xs={1}>
+                <Grid item xs={3}>
               <Button
                 variant="contained"
                 className={classes.swipingButton}
