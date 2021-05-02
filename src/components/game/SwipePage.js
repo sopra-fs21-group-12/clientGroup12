@@ -9,12 +9,13 @@ import {api, handleError} from "../../helpers/api";
 import Loader from "rsuite/es/Loader";
 import UserItemContainer from "./UserItemContainer";
 import PictureForSwipe from "../pictures/PictureForSwipe";
+import BackToInventory from "../RedirectButtons/BackToInventory";
 
 const useStyles = makeStyles((theme) => ({
     description: {
         display: 'flex',
         flexDirection: 'column',
-        paddingTop: 50,
+        paddingTop: 0,
         padding: 20,
         height: "40em"
     },
@@ -122,7 +123,15 @@ function SwipePage(props) {
     return (
 <div>
         {!userItem || !currItem ? (
-            !currItem? <div>no item to swipe on</div> :
+            !currItem? (
+                <Grid container justify="center" alignItems="center" spacing={5}>
+                    <Grid item xs={12}/>
+                    <Grid item xs={3}>
+                        <h1>No items to swipe on left</h1>
+                    </Grid>
+                    <BackToInventory/>
+                </Grid>
+                ) :
                 <Loader/>
     ) : (
         <Grid container justify="center" spacing={4}>
@@ -132,12 +141,27 @@ function SwipePage(props) {
             <Grid item xs={4}>
                 <Panel shaded>
                     <Paper className={classes.description} elevation={0}>
-                        <h2>
-                            {currItem.title}
-                        </h2>
-                        <h5>
-                            {currItem.description}
-                        </h5>
+                        <Grid container justify="left" spacing={3}>
+                            <Grid item xs={9}/>
+                            <Grid item xs={2}>
+                                <Button
+                                    appearance="subtle"
+                                    onClick={dislike}
+                                >
+                                    Report item
+                                </Button>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <h2>
+                                    {currItem.title}
+                                </h2>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <h5>
+                                    {currItem.description}
+                                </h5>
+                            </Grid>
+                        </Grid>
                     </Paper>
                 </Panel>
             </Grid>

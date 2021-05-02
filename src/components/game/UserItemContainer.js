@@ -5,6 +5,7 @@ import {Grid, Button} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import styled from 'styled-components';
 import Picture from "../pictures/Picture";
+import BackToInventory from "../RedirectButtons/BackToInventory";
 
 
 const Label = styled.label`
@@ -58,11 +59,12 @@ export default function UserItemContainer(props) {
                                <Grid item xs={2}>
                                    <Picture itemId={props.item.id}/>
                                </Grid>
-                               <Grid item xs={7}>
+                               <Grid item xs={6}>
                                    <Label>Swiping with your</Label>
                                    <h3>{props.item.title}</h3>
                                </Grid>
-                               <Grid item xs={3}>
+                               <Grid item xs={4}>
+                                   <BackToInventory/>
                                </Grid>
                            </Grid>
                 </Panel>

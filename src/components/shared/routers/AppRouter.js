@@ -29,89 +29,99 @@ import SwipeRouter from "./SwipeRouter";
  *
  */
 class AppRouter extends React.Component {
-  render() {
-    return (
-      <BrowserRouter>
-      {/* Gives the reference of the navigation*/}
-        <Switch>
+    render() {
+        return (
+            <BrowserRouter>
+                {/* Gives the reference of the navigation*/}
+                <Switch>
 
-          <Route
-            path="/login"
-            exact
-            render={() => (
-              <LoginGuard>
-                <LoginHooks />
-              </LoginGuard>
-            )}
-          />
-          <Route
-            path="/registration"
-            exact
-            render={() => (
-              <RegistrationGuard>
-                <Registration/>
-              </RegistrationGuard>
-            )}
-          />
-           <Route
-            path="/profile"
-            render={() => (
-              <ProfileGuard>
-                <Profile/>
-              </ProfileGuard>
-            )}
-          />
-          <Route
-            path="/upload"
-            render={() => (
-              <ProfileGuard>
-                <ItemUpload />
-              </ProfileGuard>
-            )}
-          />
-          <Route
-            path="/matches"
-            render={() => (
-                <MatchRouter base={"/matches"} />
-            )}
-          />
-          <Route
-            path="/test"
-            exact
-            render={() => (
-                <TestPage/>
-            )}
-          />
-          <Route
-            path="/inventory"
-            render={() => (
-                <MyInventory/>
-            )}
-          />
-          <Route
-            path="/itemsToChat"
-            exact
-            render={() => (
-                <MyItemsList/>
-            )}
-          />
-          <Route
-            path="/chat"
-            render={() => (
-                <ChatRouter base={"/chat"} />
-            )}
-          />
-          <Route
-            path="/swipe"
-            render={() => (
-                <SwipeRouter base={"/swipe"}/>
-          )}
-          />
-          <Route path="/" exact render={() => <Redirect to={"/login"} />} />
-        </Switch>
-      </BrowserRouter>
-    );
-  }
+                    <Route
+                        path="/login"
+                        exact
+                        render={() => (
+                            <LoginGuard>
+                                <LoginHooks />
+                            </LoginGuard>
+                        )}
+                    />
+                    <Route
+                        path="/registration"
+                        exact
+                        render={() => (
+                            <RegistrationGuard>
+                                <Registration/>
+                            </RegistrationGuard>
+                        )}
+                    />
+                    <Route
+                        path="/profile"
+                        render={() => (
+                            <ProfileGuard>
+                                <Profile/>
+                            </ProfileGuard>
+                        )}
+                    />
+                    <Route
+                        path="/upload"
+                        render={() => (
+                            <ProfileGuard>
+                                <ItemUpload />
+                            </ProfileGuard>
+                        )}
+                    />
+                    <Route
+                        path="/matches"
+                        render={() => (
+                            <ProfileGuard>
+                                <MatchRouter base={"/matches"} />
+                            </ProfileGuard>
+                        )}
+                    />
+                    <Route
+                        path="/test"
+                        exact
+                        render={() => (
+                            <TestPage/>
+                        )}
+                    />
+                    <Route
+                        path="/inventory"
+                        render={() => (
+                            <ProfileGuard>
+                                <MyInventory/>
+                            </ProfileGuard>
+                        )}
+                    />
+                    <Route
+                        path="/itemsToChat"
+                        exact
+                        render={() => (
+                            <ProfileGuard>
+                                <MyItemsList/>
+                            </ProfileGuard>
+                        )}
+                    />
+                    <Route
+                        path="/chat"
+                        render={() => (
+                            <ProfileGuard>
+                                <ChatRouter base={"/chat"} />
+                            </ProfileGuard>
+                        )}
+                    />
+                    <Route
+                        path="/swipe"
+                        render={() => (
+                            <ProfileGuard>
+                                <SwipeRouter base={"/swipe"}/>
+                            </ProfileGuard>
+                        )}
+                    />
+                    <Route path="/" exact render={() => <Redirect to={"/inventory"} />} />
+                </Switch>
+            </BrowserRouter>
+        );
+    }
 }
 /*
 * Don't forget to export your component!

@@ -116,18 +116,6 @@ function MyInventory() {
           Logout
         </Button>
       </Grid>
-      <Grid item xs={2}/>
-      <Grid
-        item
-        xs={10}
-        className={classes.inventoryText}
-      >
-        Choose filter for swiping
-      </Grid>
-      <Grid item xs={2}/>
-      <Grid item xs={10} className={classes.tags}>
-      </Grid>
-      <Grid item xs={2}/>
       <Grid
         item
         xs={10}

@@ -168,6 +168,7 @@ function ItemUpload() {
                         <Button
                             variant="outlined"
                             color="default"
+                            onClick={close}
                         >
                             Cancel
                         </Button>
