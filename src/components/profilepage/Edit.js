@@ -21,7 +21,6 @@ export default function Edit(props) {
             // What we send back to the backend
             const requestBody = JSON.stringify({
                 username: edit.username,
-                birthday: edit.birthday
             });
             // We create a Put Request to the backend to /users/{id}
             await api.put('/users/' + id, requestBody);

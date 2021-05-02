@@ -53,6 +53,21 @@ function Registration() {
     setPassword(password);
   }
 
+  const onChangeAddress = (input) => {
+    const address = input.target.value;
+    setPassword(password);
+  }
+
+  const onChangeCity = (input) => {
+    const city = input.target.value;
+    setPassword(password);
+  }
+
+  const onChangePostCode = (input) => {
+    const postCode = input.target.value;
+    setPassword(password);
+  }
+
   const handleRegistration = async () => {
     try {
       // What we want to send back to the backend
@@ -152,6 +167,17 @@ function Registration() {
         onClick={handleRegistration}
       >
         Register
+      </Button>
+      <Button
+        disabled={!username || !name || !password}
+        className={classes.submit}
+        size="medium"
+        type="submit"
+        variant="contained"
+        color="primary"
+        onClick={() => history.push('/login')}
+      >
+        Back to Login
       </Button>
     </Container>
   )
