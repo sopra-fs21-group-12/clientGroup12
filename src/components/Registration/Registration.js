@@ -75,10 +75,9 @@ function Registration() {
         username: username.toLowerCase(),
         name: name,
         password: password,
-        //TODO: uncomment these when backend is ready to store those
-        //address: address,
-        //city: city,
-        //postCode: postCode,
+        address: address,
+        city: city,
+        postCode: postCode,
       });
       // Post request to the backend with given data
       const response = await api.post('/users', requestBody);
@@ -91,8 +90,8 @@ function Registration() {
       localStorage.setItem('id',user.id);
       localStorage.setItem('username',user.username);
       localStorage.setItem('name',user.name);
-      history.push('/inventory')
       // registration successfully  --> navigate to the route /inventory ,
+      history.push('/inventory')
       // If something went wrong send the user back to the registration
     } catch (error) {
       alert(`Something went wrong during the registration: \n${handleError(error)}`);
@@ -132,6 +131,36 @@ function Registration() {
             fullWidth
             required
             onChange={onChangeName}
+          >
+          </TextField>
+          <TextField
+            id="outlined-basic"
+            margin="normal"
+            label="City"
+            variant="outlined"
+            fullWidth
+            required
+            onChange={onChangeCity}
+          >
+          </TextField>
+          <TextField
+            id="outlined-basic"
+            margin="normal"
+            label="Address"
+            variant="outlined"
+            fullWidth
+            required
+            onChange={onChangeAddress}
+          >
+          </TextField>
+          <TextField
+            id="outlined-basic"
+            margin="normal"
+            label="Postale Code"
+            variant="outlined"
+            fullWidth
+            required
+            onChange={onChangePostCode}
           >
           </TextField>
           <TextField

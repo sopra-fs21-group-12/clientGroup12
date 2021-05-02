@@ -22,7 +22,6 @@ function Profile() {
         username: "",
         status: "",
         timestamp: "",
-        birthday: "",
         token: "",
     })
 
@@ -49,7 +48,6 @@ function Profile() {
                 <div>
                     <h3>Username: {userData.username}</h3>
                     <h3>Creation Date: {userData.timestamp}</h3>
-
                     <Edit userdata={userData}>
                     </Edit>
                 </div>
