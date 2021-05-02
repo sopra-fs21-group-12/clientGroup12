@@ -146,7 +146,6 @@ function SwipePage(props) {
                             <Grid item xs={2}>
                                 <Button
                                     appearance="subtle"
-                                    onClick={dislike}
                                 >
                                     Report item
                                 </Button>
