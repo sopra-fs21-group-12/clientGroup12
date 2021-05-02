@@ -36,7 +36,7 @@ function Registration() {
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
-  const [postCode, setPostCode] = useState();
+  const [postcode, setPostCode] = useState();
 
   const onChangeUsername = (input) => {
     const username = input.target.value;
@@ -55,17 +55,17 @@ function Registration() {
 
   const onChangeAddress = (input) => {
     const address = input.target.value;
-    setPassword(password);
+    setAddress(address);
   }
 
   const onChangeCity = (input) => {
     const city = input.target.value;
-    setPassword(password);
+    setCity(city);
   }
 
   const onChangePostCode = (input) => {
-    const postCode = input.target.value;
-    setPassword(password);
+    const postcode = input.target.value;
+    setPostCode(postcode);
   }
 
   const handleRegistration = async () => {
@@ -77,7 +77,7 @@ function Registration() {
         password: password,
         address: address,
         city: city,
-        postCode: postCode,
+        postcode: postcode,
       });
       // Post request to the backend with given data
       const response = await api.post('/users', requestBody);

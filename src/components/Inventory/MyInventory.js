@@ -83,7 +83,7 @@ function MyInventory() {
       component="main"
       className={classes.root}
     >
-      <Grid item xs={5}>
+      <Grid item xs={6}>
         <header> My Inventory </header>
       </Grid>
       <Grid item xs={2}>

@@ -9,18 +9,28 @@ export default function Edit(props) {
     const [modal, setModal] = useState({show: false})
     const [edit, setEdit] = useState({
         username: props.userdata.username,
-        birthday: props.userdata.birthday,
-    })
+        name: props.userdata.name,
+        password: props.userdata.password,
+        address: props.userdata.address,
+        city: props.userdata.city,
+        postcode: props.userdata.postcode,
+    });
 
     const handleChange = (e) => {
         const {id, value} = e.target
         setEdit((prevState) => ({...prevState, [id]: value}));
-    }
+    };
+
     async function handleEdit() {
         try {
             // What we send back to the backend
             const requestBody = JSON.stringify({
                 username: edit.username,
+                name: edit.name,
+                password: edit.password,
+                address: edit.address,
+                city: edit.city,
+                postcode: edit.postcode,
             });
             // We create a Put Request to the backend to /users/{id}
             await api.put('/users/' + id, requestBody);
@@ -68,11 +78,55 @@ export default function Edit(props) {
                         margin="normal"
                         required
                         fullWidth
-                        name="birthday"
-                        defaultValue={edit.birthday}
-                        label="birthday"
-                        id="birthday"
+                        name="name"
+                        defaultValue={edit.name}
+                        label="name"
+                        id="name"
                         onChange={handleChange}
+                    />
+                    <TextField
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="password"
+                      defaultValue={edit.password}
+                      label="password"
+                      id="password"
+                      onChange={handleChange}
+                    />
+                    <TextField
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="address"
+                      defaultValue={edit.address}
+                      label="address"
+                      id="address"
+                      onChange={handleChange}
+                    />
+                    <TextField
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="city"
+                      defaultValue={edit.city}
+                      label="city"
+                      id="city"
+                      onChange={handleChange}
+                    />
+                    <TextField
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="Postale Code"
+                      defaultValue={edit.postcode}
+                      label="Postale Code"
+                      id="postcode"
+                      onChange={handleChange}
                     />
                 </Modal.Body>
                 <Modal.Footer>
