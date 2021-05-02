@@ -79,8 +79,18 @@ function MyInventory() {
       component="main"
       className={classes.root}
     >
-      <Grid item xs={8}>
+      <Grid item xs={5}>
         <header> My Inventory </header>
+      </Grid>
+      <Grid item xs={2}>
+        <Button
+          type="submit"
+          variant="contained"
+          className={classes.submit}
+          onClick={() => history.push('/itemsToChat')}
+        >
+          Chat
+        </Button>
       </Grid>
       <Grid item xs={2}>
         <Button
