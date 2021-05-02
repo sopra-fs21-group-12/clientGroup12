@@ -133,56 +133,60 @@ function SwipePage(props) {
 
 
     return (
-<div>
-        {!userItem ? (
-        <Loader/>
-    ) : (
-        <Grid container justify="center" spacing={4}>
-            <Grid item xs={12}/>
-            <Grid item xs={12}/>
+        <div>
+            {!userItem ? (
+                <Loader/>
+            ) : (
+                <Grid container justify="center" spacing={4}>
+                    <Grid item xs={12}/>
+                    <Grid item xs={12}/>
+                    {currItem ? 
+                        <>
+                            <Grid item xs={4}>
+                            <Panel shaded>
+                                <Paper className={classes.description} elevation={0}>
+                                    <h2>
+                                        {currItem.title}
+                                    </h2>
+                                    <h5>
+                                        {currItem.description}
+                                    </h5>
+                                </Paper>
+                            </Panel>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Grid container spacing={4}>
+                                <Grid item xs={12}>
+                                    <Panel shaded>
+                                        <Paper className={classes.swipe} elevation={0}>
+                                            {loading ? loader :
+                                                index <= sizeItems ?
+                                                    <Grid container alignItems="center" justify="center" spacing={4}>
+                                                        <Grid item xs={12}>
+                                                            <PictureForSwipe key={currItem.id}/>
+                                                        </Grid>
+                                                        <Grid>
+                                                            <Button onClick={dislike}> dislike</Button>
+                                                            <Button onClick={like}> like</Button>
+                                                        </Grid>
 
-            <Grid item xs={4}>
-                <Panel shaded>
-                    <Paper className={classes.description} elevation={0}>
-                        <h2>
-                            {currItem.title}
-                        </h2>
-                        <h5>
-                            {currItem.description}
-                        </h5>
-                    </Paper>
-                </Panel>
-            </Grid>
-            <Grid item xs={6}>
-                <Grid container spacing={4}>
-                    <Grid item xs={12}>
-                        <Panel shaded>
-                            <Paper className={classes.swipe} elevation={0}>
-                                {loading ? loader :
-                                    index <= sizeItems ?
-                                        <Grid container alignItems="center" justify="center" spacing={4}>
-                                            <Grid item xs={12}>
-                                                <PictureForSwipe key={currItem.id}/>
-                                            </Grid>
-                                            <Grid>
-                                                <Button onClick={dislike}> dislike</Button>
-                                                <Button onClick={like}> like</Button>
-                                            </Grid>
-
-                                        </Grid>
-                                        : <Button onClick={() => fetch()}>Load more</Button>
-                                }
-                            </Paper>
-                        </Panel>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <UserItemContainer item={userItem}/>
-                    </Grid>
+                                                    </Grid>
+                                                    : <Button onClick={() => fetch()}>Load more</Button>
+                                            }
+                                        </Paper>
+                                    </Panel>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <UserItemContainer item={userItem}/>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </>
+                    : 
+                    <div>no items for you to swipe</div>}
                 </Grid>
-            </Grid>
-        </Grid>
-    )}
-</div>
+            )}
+        </div>
     );
 
 }
