@@ -8,6 +8,7 @@ import {Button, Grid} from "@material-ui/core";
 import {Panel} from "rsuite";
 import styled from "styled-components";
 import Picture from "../pictures/Picture";
+import BackToInventory from "../RedirectButtons/BackToInventory";
 
 
 const Label = styled.label`
@@ -69,11 +70,11 @@ function MyMatches(props) {
 
     return (
         <div>
+            <BackToInventory/>
             {!matchedItems ||!itemData ? (
                 <Loader/>
             ) : (
                 <Grid container justify="center" spacing={10}>
-                    <Grid item xs={12}/>
                     <Grid item xs={7}>
                         <Panel shaded>
                         <Grid container justify="flex-start"  alignItems="center" spacing={1}>
@@ -88,15 +89,19 @@ function MyMatches(props) {
                         </Panel>
                     </Grid>
                     <Grid item xs={8}>
-                    {matchedItems.map(item => {
-                        return (
-                            <div key={item.id}>
-                                <Grid item>
-                                    <MatchedItemContainer item={item}/>
-                                </Grid>
-                            </div>
-                        );
-                    })}
+                        {!matchedItems.length ? (
+                            <h2>No Matches with this item</h2>
+                        ) : (
+                            matchedItems.map(item => {
+                                    return (
+                                        <div key={item.id}>
+                                            <Grid item>
+                                                <MatchedItemContainer item={item}/>
+                                            </Grid>
+                                        </div>
+                                    );
+                                })
+                        )}
                     </Grid>
                 </Grid>
             )}

@@ -4,7 +4,7 @@ import React from "react";
 
 const useStyles = makeStyles((theme) => ({
   submit: {
-    margin: theme.spacing(10, 3)
+    margin: theme.spacing(2, 3)
   }
 }))
 
