@@ -78,7 +78,7 @@ function MyMatches(props) {
                         <Panel shaded>
                         <Grid container justify="flex-start"  alignItems="center" spacing={1}>
                                 <Grid item xs={2}>
-                                    <Picture key={itemData.id}/>
+                                    <Picture itemId={itemData.id}/>
                                 </Grid>
                                 <Grid item xs={10}>
                                         <Label>Matches with your</Label>

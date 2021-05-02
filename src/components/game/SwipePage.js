@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
         height: "40em"
     },
     swipe: {
-        height: "30em"
+        height: "29em"
     },
     userItem:{
         height: "10em"
@@ -58,7 +58,6 @@ function SwipePage(props) {
             // get matches of item
             const response = await api.get(`/items/${id}`)
             setUserItem(response.data);
-            console.log(response.data)
 
         } catch (error) {
             alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
@@ -102,6 +101,7 @@ function SwipePage(props) {
 
     async function like(){
         try {
+            setLoading(true)
             const requestBody = JSON.stringify({
                 "itemIDSwiper": userItem.id,                      //localStorage.getItem("id"),
                 "itemIDSwiped": currItem.id,
@@ -110,6 +110,7 @@ function SwipePage(props) {
             await api.post('/likes', requestBody);
             setIndex(index+1)
             setCurrItem(items[index])
+            setLoading(false)
         }catch (error){
             alert(`Something went wrong during the like request: \n${handleError(error)}`);
         }
@@ -117,6 +118,7 @@ function SwipePage(props) {
 
     async function dislike(){
         try {
+            setLoading(true)
             const requestBody = JSON.stringify({
                 "itemIDSwiper": userItem.id,                      //localStorage.getItem("id"),
                 "itemIDSwiped": currItem.id,
@@ -125,6 +127,7 @@ function SwipePage(props) {
             await api.post('/likes', requestBody);
             setIndex(index+1)
             setCurrItem(items[index])
+            setLoading(false)
         }catch (error){
             alert(`Something went wrong during the like request: \n${handleError(error)}`);
         }
@@ -134,7 +137,7 @@ function SwipePage(props) {
 
     return (
 <div>
-        {!userItem ? (
+        {!userItem || !currItem ? (
         <Loader/>
     ) : (
         <Grid container justify="center" spacing={4}>
@@ -162,7 +165,7 @@ function SwipePage(props) {
                                     index <= sizeItems ?
                                         <Grid container alignItems="center" justify="center" spacing={4}>
                                             <Grid item xs={12}>
-                                                <PictureForSwipe key={currItem.id}/>
+                                                <PictureForSwipe itemId={currItem.id}/>
                                             </Grid>
                                             <Grid>
                                                 <Button onClick={dislike}> dislike</Button>

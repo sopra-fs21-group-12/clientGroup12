@@ -56,7 +56,7 @@ export default function UserItemContainer(props) {
                 <Panel shaded>
                            <Grid container justify="flex-start" alignItems="center">
                                <Grid item xs={2}>
-                                   <Picture key={props.item.id}/>
+                                   <Picture itemId={props.item.id}/>
                                </Grid>
                                <Grid item xs={7}>
                                    <Label>Swiping with your</Label>
