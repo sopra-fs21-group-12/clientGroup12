@@ -48,6 +48,6 @@ export default function PictureForSwipe(props){
             display: "block",
             borderRadius: "9px"
         }}
-             src={pictureData.url} alt=""/>
+             src={pictureData?.url} alt=""/>
     );
 }
