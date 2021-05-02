@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MyItemsContainer(props) {
+  const itemId = props.item.id;
 
   const history = useHistory();
   const classes = useStyles();
@@ -29,7 +30,7 @@ export default function MyItemsContainer(props) {
             <Grid container justify="flex-start" alignItems="center" spacing={10}>
               <Grid container item xs={5} justify="center" alignItems="center" spacing={1}>
                 <Grid item xs={4}>
-                  <Picture key={props.item.id}/>
+                  <Picture itemId={props.item.id}/>
                 </Grid>
                 <Grid item xs={8}>
                   <h3>{props.item.title}</h3>

@@ -56,7 +56,7 @@ export default function MatchedItemContainer(props) {
                        header={
                            <Grid container justify="flex-start" alignItems="center">
                                <Grid item xs={2}>
-                                   <Picture key={props.item.id}/>
+                                   <Picture itemId={props.item.id}/>
                                </Grid>
                                <Grid item xs={7}>
                                    <Label>Matched with</Label>

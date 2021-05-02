@@ -26,9 +26,8 @@ export default function Picture(props){
             // Replace `/items/${props.id}/pictures/download  "http://sopra-fs21-group-12-server.herokuapp.com/items/15/pictures/download" to check out
             // the functionality
 
-            const response = await api.get( `/items/${props}/pictures/download`)
+            const response = await api.get( `/items/${props.itemId}/pictures/download`)
             setPictureData(response.data[0])
-            console.log(pictureData.url)
 
         } catch (error) {
             alert(`Something went wrong while fetching the pictures: \n${handleError(error)}`);
