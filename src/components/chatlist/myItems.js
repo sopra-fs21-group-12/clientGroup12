@@ -70,7 +70,7 @@ class MyItemsList extends React.Component {
   handleInputChange(key, value) {
     this.setState({ [key]: value });
   }
-  async getMyitems() {
+  async getMyItems() {
     try {
       const response = await api.get(`/users/${this.state.id}/items`);
       const myItems = response.data;
@@ -78,7 +78,7 @@ class MyItemsList extends React.Component {
           items: myItems
         });
     } catch (error) {
-      alert(`Something went wrong during the login: \n${handleError(error)}`);
+      alert(`Something went wrong while loading the items: \n${handleError(error)}`);
     }
   }
 
@@ -98,7 +98,7 @@ class MyItemsList extends React.Component {
             {this.state.items.map(user => {
                 return (
                     <>
-                  <div className="wihte-text" onClick = {() => {
+                  <div className="white-text" onClick = {() => {
                         this.props.history.push(`/chat/${user.id}`)
                       }}>
                       {user.title}
@@ -110,7 +110,7 @@ class MyItemsList extends React.Component {
               <Button
                 width="50%"
                 onClick={() => {
-                  this.getMyitems();
+                  this.getMyItems();
                 }}
               >
                 Get My Items
