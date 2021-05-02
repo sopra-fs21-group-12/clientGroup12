@@ -8,6 +8,7 @@ import MatchedItemContainer from "../matches/MatchedItemContainer";
 import {api, handleError} from "../../helpers/api";
 import Loader from "rsuite/es/Loader";
 import UserItemContainer from "./UserItemContainer";
+import PictureForSwipe from "../pictures/PictureForSwipe";
 
 const useStyles = makeStyles((theme) => ({
     description: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
         height: "40em"
     },
     swipe: {
-        height: "30em"
+        height: "29em"
     },
     userItem:{
         height: "10em"
@@ -37,27 +38,6 @@ function SwipePage(props) {
     const {id} = props.match.params
     const classes = useStyles();
     const [userItem, setUserItem] = useState();
-
-    useEffect(async () => {
-        try {
-            //await new Promise(resolve => setTimeout(resolve, 2000));
-            // get matches of item
-            const response = await api.get(`/items/${id}`)
-            setUserItem(response.data);
-            console.log(response.data)
-
-        } catch (error) {
-            alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
-        }
-
-    }, [])
-
-
-
-
-
-
-
     const [loading, setLoading] = useState(false)
     const [sizeItems, setSizeItems] = useState(null)
     const [index, setIndex] = useState(1)
@@ -69,6 +49,24 @@ function SwipePage(props) {
         title: "",
         tagsItem: "",
     })
+
+    // fetch itemData
+    useEffect(async () => {
+        try {
+            //await new Promise(resolve => setTimeout(resolve, 2000));
+
+            // get matches of item
+            const response = await api.get(`/items/${id}`)
+            setUserItem(response.data);
+
+        } catch (error) {
+            alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
+        }
+
+    }, [])
+
+
+    // fetch proposal
     useEffect(() => {
         try {
             fetch()
@@ -94,10 +92,16 @@ function SwipePage(props) {
         } catch (error) {
             alert(`Something went wrong while fetching the items: \n${handleError(error)}`);
         }
+
     }
+
+    const increment = useCallback(() =>{
+        setIndex(i => i+1)
+    },[])
 
     async function like(){
         try {
+            setLoading(true)
             const requestBody = JSON.stringify({
                 "itemIDSwiper": userItem.id,                      //localStorage.getItem("id"),
                 "itemIDSwiped": currItem.id,
@@ -106,12 +110,15 @@ function SwipePage(props) {
             await api.post('/likes', requestBody);
             setIndex(index+1)
             setCurrItem(items[index])
+            setLoading(false)
         }catch (error){
             alert(`Something went wrong during the like request: \n${handleError(error)}`);
         }
     }
+
     async function dislike(){
         try {
+            setLoading(true)
             const requestBody = JSON.stringify({
                 "itemIDSwiper": userItem.id,                      //localStorage.getItem("id"),
                 "itemIDSwiped": currItem.id,
@@ -120,62 +127,67 @@ function SwipePage(props) {
             await api.post('/likes', requestBody);
             setIndex(index+1)
             setCurrItem(items[index])
+            setLoading(false)
         }catch (error){
             alert(`Something went wrong during the like request: \n${handleError(error)}`);
         }
+
     }
 
-    return (
-        <div>
-                {!userItem ? (
-                <Loader/>
-            ) : (
-                <Grid container justify="center" spacing={4}>
-                    <Grid item xs={12}/>
-                    <Grid item xs={12}/>
 
-                    <Grid item xs={4}>
+    return (
+<div>
+        {!userItem || !currItem ? (
+        <Loader/>
+    ) : (
+        <Grid container justify="center" spacing={4}>
+            <Grid item xs={12}/>
+            <Grid item xs={12}/>
+
+            <Grid item xs={4}>
+                <Panel shaded>
+                    <Paper className={classes.description} elevation={0}>
+                        <h2>
+                            {currItem.title}
+                        </h2>
+                        <h5>
+                            {currItem.description}
+                        </h5>
+                    </Paper>
+                </Panel>
+            </Grid>
+            <Grid item xs={6}>
+                <Grid container spacing={4}>
+                    <Grid item xs={12}>
                         <Panel shaded>
-                            <Paper className={classes.description} elevation={0}>
-                                <h2>
-                                    {currItem.title}
-                                </h2>
-                                <h5>
-                                    {currItem.description}
-                                </h5>
+                            <Paper className={classes.swipe} elevation={0}>
+                                {loading ? loader :
+                                    index <= sizeItems ?
+                                        <Grid container alignItems="center" justify="center" spacing={4}>
+                                            <Grid item xs={12}>
+                                                <PictureForSwipe itemId={currItem.id}/>
+                                            </Grid>
+                                            <Grid>
+                                                <Button onClick={dislike}> dislike</Button>
+                                                <Button onClick={like}> like</Button>
+                                            </Grid>
+
+                                        </Grid>
+                                        : <Button onClick={() => fetch()}>Load more</Button>
+                                }
                             </Paper>
                         </Panel>
                     </Grid>
-                    <Grid item xs={6}>
-                        <Grid container spacing={4}>
-                            <Grid item xs={12}>
-                                <Panel shaded>
-                                    <Paper className={classes.swipe} elevation={0}>
-                                        {loading ? loader :
-                                            index <= sizeItems ?
-                                                <div>
-
-                                                    <h1>{currItem.title}</h1>
-
-                                                    <ButtonToolbar>
-                                                        <Button onClick={dislike}> dislike</Button>
-                                                        <Button onClick={like}> like</Button>
-                                                    </ButtonToolbar>
-
-                                                </div>
-                                                : <Button onClick={() => fetch()}>Load more</Button>
-                                        }
-                                    </Paper>
-                                </Panel>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <UserItemContainer item={userItem}/>
-                            </Grid>
-                        </Grid>
+                    <Grid item xs={12}>
+                        <UserItemContainer item={userItem}/>
                     </Grid>
                 </Grid>
-            )}
-        </div>
+            </Grid>
+        </Grid>
+    )}
+</div>
     );
+
 }
+
 export default withRouter(SwipePage);

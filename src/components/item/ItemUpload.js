@@ -68,7 +68,6 @@ function ItemUpload() {
     useEffect(async () => {
         try {
             const response = await api.get("/tags")
-            console.log(response);
 
             // map response data for the TagPicker component
             const arr = response.data.map(obj => ({

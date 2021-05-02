@@ -107,11 +107,7 @@ class AppRouter extends React.Component {
                 <SwipeRouter base={"/swipe"}/>
           )}
           />
-          <Route
-            path="/" exact
-            render={() => <Redirect to={"/game"} />}
-          />
-
+          <Route path="/" exact render={() => <Redirect to={"/login"} />} />
         </Switch>
       </BrowserRouter>
     );

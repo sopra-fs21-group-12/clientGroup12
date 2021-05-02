@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import {Panel} from "rsuite";
 import {Grid, Button} from "@material-ui/core";
 import styled from 'styled-components';
+import Picture from "../pictures/Picture";
 
 
 const Label = styled.label`
@@ -53,8 +54,11 @@ export default function MatchedItemContainer(props) {
             <Grid item xs={12}>
                 <Panel shaded collapsible
                        header={
-                           <Grid container justify="center" alignItems="center">
-                               <Grid item xs={9}>
+                           <Grid container justify="flex-start" alignItems="center">
+                               <Grid item xs={2}>
+                                   <Picture itemId={props.item.id}/>
+                               </Grid>
+                               <Grid item xs={7}>
                                    <Label>Matched with</Label>
                                    <h3>{props.item.title}</h3>
                                </Grid>

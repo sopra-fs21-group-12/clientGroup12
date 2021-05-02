@@ -4,6 +4,7 @@ import {Panel} from "rsuite";
 import {Grid, Button} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import styled from 'styled-components';
+import Picture from "../pictures/Picture";
 
 
 const Label = styled.label`
@@ -53,8 +54,11 @@ export default function UserItemContainer(props) {
         <Grid container justify="center" spacing={6}>
             <Grid item xs={12}>
                 <Panel shaded>
-                           <Grid container justify="center" alignItems="center">
-                               <Grid item xs={9}>
+                           <Grid container justify="flex-start" alignItems="center">
+                               <Grid item xs={2}>
+                                   <Picture itemId={props.item.id}/>
+                               </Grid>
+                               <Grid item xs={7}>
                                    <Label>Swiping with your</Label>
                                    <h3>{props.item.title}</h3>
                                </Grid>
