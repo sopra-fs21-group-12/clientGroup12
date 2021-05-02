@@ -26,7 +26,7 @@ export default function PictureForSwipe(props){
             // Replace `/items/${props.id}/pictures/download  "http://sopra-fs21-group-12-server.herokuapp.com/items/15/pictures/download" to check out
             // the functionality
 
-            const response = await api.get( `/items/${props.id}/pictures/download`)
+            const response = await api.get( `/items/${props}/pictures/download`)
             setPictureData(response.data[0])
             console.log(pictureData.url)
 
