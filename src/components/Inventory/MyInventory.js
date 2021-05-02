@@ -47,24 +47,28 @@ const useStyles = makeStyles((theme) => ({
 function MyInventory() {
   const history = useHistory();
   const id = localStorage.getItem('id');
-  const [items, setItem] = useState([]);
+  const [items, setItems] = useState([]);
 
   async function logOut() {
-    const requestBody = JSON.stringify({
-      username: localStorage.getItem('username'),
-      name: localStorage.getItem('name'),
-      id: localStorage.getItem('id'),
-    });
-    await api.put('/logout', requestBody);
-    localStorage.clear();
-    history.push('/login');
+    try {
+      const requestBody = JSON.stringify({
+        username: localStorage.getItem('username'),
+        name: localStorage.getItem('name'),
+        id: localStorage.getItem('id'),
+      });
+      await api.put('/logout', requestBody);
+      localStorage.clear();
+      history.push('/login');
+    }catch (error) {
+      alert(`Something went wrong during the logout \n${handleError(error)}`)
+    }
   }
 
   useEffect(() => {
     const fetchData = async () => {
     try {
       const response = await api.get('/users/' + id + '/items');
-      setItem(response.data);
+      setItems(response.data);
     } catch (error) {
       alert(`Something went wrong, make sure you have an item stored or try again later: \n${handleError(error)}`)
     }}
@@ -79,8 +83,18 @@ function MyInventory() {
       component="main"
       className={classes.root}
     >
-      <Grid item xs={8}>
+      <Grid item xs={5}>
         <header> My Inventory </header>
+      </Grid>
+      <Grid item xs={2}>
+        <Button
+          type="submit"
+          variant="contained"
+          className={classes.submit}
+          onClick={() => history.push('/itemsToChat')}
+        >
+          Chat
+        </Button>
       </Grid>
       <Grid item xs={2}>
         <Button

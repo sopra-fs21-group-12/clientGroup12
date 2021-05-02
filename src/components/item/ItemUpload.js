@@ -77,7 +77,7 @@ function ItemUpload() {
             setAvailableTags(arr)
 
         } catch (error) {
-            alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
+            alert(`Something went wrong while fetching the tags: \n${handleError(error)}`);
         }
 
     }, [])
@@ -103,7 +103,7 @@ function ItemUpload() {
             open();
 
         } catch (error) {
-            alert(`Something went wrong during the login: \n${handleError(error)}`);
+            alert(`Something went wrong during the Item creation: \n${handleError(error)}`);
         }
     }
 
@@ -149,7 +149,7 @@ function ItemUpload() {
                   onChange={handleChange}
                 />
 
-                  <TagPickerRS value={selectedTags} onChange={handleTags} tags={tags}/>
+                <TagPickerRS value={selectedTags} onChange={handleTags} tags={tags}/>
 
                 <Grid container justify="flex-start" alignItems="stretch">
                   <Grid item xs={12}>

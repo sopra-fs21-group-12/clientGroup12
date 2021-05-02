@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import axios from 'axios';
 import { Button, message } from "antd";
 import {
   findChatMessages,
@@ -9,13 +8,14 @@ import {
 } from "./ApiUtil";
 import ScrollToBottom from "react-scroll-to-bottom";
 import "./Chat.css";
+import { getDomain } from '../../helpers/getDomain';
 
 
 var stompClient = null;
 const Chat = ({match:{params:{id}}}) => {
   const [text, setText] = useState("");
   const [idNumber, setIdNumber] = useState(id);
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState();
   const [activeContact, setActiveContact] = useState(undefined);
   const [messages, setMessages] = useState([]);
   const [curremtItem, setCurrentItem] = useState({});
@@ -39,7 +39,7 @@ const Chat = ({match:{params:{id}}}) => {
   const connect = () => {
     const Stomp = require("stompjs");
     var SockJS = require("sockjs-client");
-    SockJS = new SockJS("http://localhost:8080/ws");
+    SockJS = new SockJS(getDomain() + "/ws");
     stompClient = Stomp.over(SockJS);
     stompClient.connect({}, onConnected, onError);
   };
@@ -99,10 +99,7 @@ const Chat = ({match:{params:{id}}}) => {
       setMessages(newMessages);
     }
   };
-  const api = axios.create({
-    baseURL: 'http://localhost:8080',
-    headers: { 'Content-Type': 'application/json' }
-  });
+  
   const loadChats = async () => {
     const contactItems = [];
     const matches = await findItemMatches(idNumber);
@@ -121,7 +118,7 @@ const Chat = ({match:{params:{id}}}) => {
       item.matchId = matches[index].id;
     }
     setContacts(contactItems);
-    if (activeContact === undefined && contactItems.length > 0) {
+    if (activeContact === undefined && contactItems?.length > 0) {
       setActiveContact(contactItems[0]);
     }
 
@@ -132,15 +129,16 @@ const Chat = ({match:{params:{id}}}) => {
       <div id="sidepanel">
         <div id="profile">
           <div class="wrap">
-
-            <p>{curremtItem.title}</p>
-            <p>{curremtItem.description}</p>
+            <div>your current item</div>
+            <div>Title: {curremtItem.title}</div>
+            <div>Description: {curremtItem.description}</div>
           </div>
         </div>
         <div id="search" />
         <div id="contacts">
           <ul>
-            {contacts.map((contact) => (
+          {!contacts && <div>you have no matches for this item</div>}
+            {contacts && contacts.map((contact) => (
               <div> 
                 <li
                 onClick={() => setActiveContact(contact)}
@@ -151,9 +149,9 @@ const Chat = ({match:{params:{id}}}) => {
                 }
               >
                 <div class="wrap">
-                  <img id={contact.id} src={contact.profilePicture} alt="" />
                   <div class="meta">
                     <p class="name">{contact.name}</p>
+                    <div>unmatch</div>
                     {contact.newMessages !== undefined &&
                       contact.newMessages > 0 && (
                         <p class="preview">
@@ -194,7 +192,7 @@ const Chat = ({match:{params:{id}}}) => {
               value={text}
               onChange={(event) => setText(event.target.value)}
               onKeyPress={(event) => {
-                if (event.key === "Enter") {
+                if (contacts && event.key === "Enter") {
                   sendMessage(text);
                   setText("");
                 }
@@ -202,8 +200,10 @@ const Chat = ({match:{params:{id}}}) => {
             />
             <Button
               onClick={() => {
-                sendMessage(text);
-                setText("");
+                if(contacts) {
+                  sendMessage(text);
+                  setText("");
+                }
               }}
             >Send</Button>
           </div>

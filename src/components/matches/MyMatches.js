@@ -40,7 +40,7 @@ function MyMatches(props) {
             setItemData(response.data)
 
         } catch (error) {
-            alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
+            alert(`Something went wrong while fetching the item: \n${handleError(error)}`);
         }
 
     }, [])
@@ -55,14 +55,13 @@ function MyMatches(props) {
             // extract id of matched items
             let arr = response1.data.map(id => id.itemIdTwo);
 
-
             for (const i in arr) {
                 const response2 = await api.get(`/items/${arr[i]}/`)
                 setMatchedItems(matchedItems => [...matchedItems, response2.data])
             }
 
         } catch (error) {
-            alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
+            alert(`Something went wrong while fetching the matches: \n${handleError(error)}`);
         }
 
     }, [])

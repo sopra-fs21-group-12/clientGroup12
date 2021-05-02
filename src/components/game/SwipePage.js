@@ -8,8 +8,6 @@ import MatchedItemContainer from "../matches/MatchedItemContainer";
 import {api, handleError} from "../../helpers/api";
 import Loader from "rsuite/es/Loader";
 import UserItemContainer from "./UserItemContainer";
-import Picture from "../pictures/Picture";
-import PictureForSwipe from "../pictures/PictureForSwipe";
 
 const useStyles = makeStyles((theme) => ({
     description: {
@@ -20,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         height: "40em"
     },
     swipe: {
-        height: "28em"
+        height: "30em"
     },
     userItem:{
         height: "10em"
