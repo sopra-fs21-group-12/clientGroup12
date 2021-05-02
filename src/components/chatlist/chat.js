@@ -9,6 +9,7 @@ import {
 import ScrollToBottom from "react-scroll-to-bottom";
 import "./Chat.css";
 import { getDomain } from '../../helpers/getDomain';
+import BackToInventory from "../RedirectButtons/BackToInventory";
 
 
 var stompClient = null;
@@ -80,7 +81,7 @@ const Chat = ({match:{params:{id}}}) => {
     loadChats();
   }
 
-  
+
   const sendMessage = (msg) => {
     if (msg.trim() !== "") {
       const message = {
@@ -99,7 +100,7 @@ const Chat = ({match:{params:{id}}}) => {
       setMessages(newMessages);
     }
   };
-  
+
   const loadChats = async () => {
     const contactItems = [];
     const matches = await findItemMatches(idNumber);
@@ -139,7 +140,7 @@ const Chat = ({match:{params:{id}}}) => {
           <ul>
           {!contacts && <div>you have no matches for this item</div>}
             {contacts && contacts.map((contact) => (
-              <div> 
+              <div>
                 <li
                   onClick={() => setActiveContact(contact)}
                   class={
@@ -204,8 +205,9 @@ const Chat = ({match:{params:{id}}}) => {
           </div>
         </div>
       </div>
+      <BackToInventory/>
     </div>
-    
+
   );
 };
 
