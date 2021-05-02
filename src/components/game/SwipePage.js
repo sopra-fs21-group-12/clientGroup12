@@ -138,7 +138,8 @@ function SwipePage(props) {
     return (
 <div>
         {!userItem || !currItem ? (
-        <Loader/>
+            !currItem? <div>no item to swipe on</div> :
+                <Loader/>
     ) : (
         <Grid container justify="center" spacing={4}>
             <Grid item xs={12}/>
