@@ -66,7 +66,7 @@ export default function MatchedItemContainer(props) {
                                    <Button
                                        variant="contained"
                                        color="primary"
-                                       onClick={() => history.push('/chat/' + props.item.id)}
+                                       onClick={() => history.push('/chat/' + props.chatId)}
                                    >
                                        Chat
                                    </Button>
