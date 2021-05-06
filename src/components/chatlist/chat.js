@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
+import Game from "./game";
 import { Button, message } from "antd";
 import {
   findChatMessages,
@@ -10,21 +11,30 @@ import ScrollToBottom from "react-scroll-to-bottom";
 import "./Chat.css";
 import { getDomain } from '../../helpers/getDomain';
 import BackToInventory from "../RedirectButtons/BackToInventory";
-
+import { Modal, Panel, Uploader} from 'rsuite'
 
 var stompClient = null;
 const Chat = ({match:{params:{id}}}) => {
   const [text, setText] = useState("");
+  const [oponentChoice, setOpChoice] = useState(null);
+  const [myChoice, setMyChoice] = useState(null);
   const [idNumber, setIdNumber] = useState(id);
   const [contacts, setContacts] = useState();
   const [activeContact, setActiveContact] = useState(undefined);
   const [messages, setMessages] = useState([]);
   const [curremtItem, setCurrentItem] = useState({});
   const stateRef = useRef();
+
   stateRef.current = activeContact;
+  const opChoiceRef = useRef();
+  opChoiceRef.current = oponentChoice;
+  const myChoiceRef = useRef();
+  myChoiceRef.current = myChoiceRef;
   const chatRef = useRef();
   chatRef.current = messages;
-
+  const [modal, setModal] = useState({show: false});
+  const [gameModal, setGameModal] = useState({show: false});
+  
   useEffect(() =>{
     loadContacts()
   }, []);
@@ -125,7 +135,9 @@ const Chat = ({match:{params:{id}}}) => {
 
   };
 
-  return (
+    return (
+    <>
+    <Game name="addf" stomp={stompClient} id={idNumber} activeContact={activeContact}></Game>
     <div id="frame">
       <div id="sidepanel">
         <div id="profile">
@@ -207,6 +219,7 @@ const Chat = ({match:{params:{id}}}) => {
       </div>
       <BackToInventory/>
     </div>
+    </>
 
   );
 };
