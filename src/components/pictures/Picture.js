@@ -30,7 +30,7 @@ export default function Picture(props){
             setPictureData(response.data[0])
 
         } catch (error) {
-            alert(`Something went wrong while fetching the pictures: \n${handleError(error)}`);
+            console.error(`Something went wrong while fetching the pictures: \n${handleError(error)}`);
         }
 
     }, [])

@@ -11,34 +11,52 @@ const Game = (props) => {
     const opChoiceRef = useRef();
     opChoiceRef.current = oponentChoice;
     const myChoiceRef = useRef();
-    myChoiceRef.current = myChoiceRef;
+    myChoiceRef.current = myChoice;
     const [modal, setModal] = useState({show: false});
     const [gameModal, setGameModal] = useState({show: false});
+    const [myStomp, setStromp] = useState(props.stomp)
     
+    const stateRef = useRef();
+
+    stateRef.current = activeContact;
+
     useEffect(() => {
-      setActiveContact(props.activeContact);
       setIdNumber(props.id)
-      console.log(activeContact)
-      if(props.stomp && !connected){
-        props.stomp.subscribe(
-          "/user/" + idNumber + "/queue/game",
-          onGameStuff
-        )
-        setConnected(true);
-      }
+      setActiveContact(props.activeContact);
       }, [props.activeContact]);
+
+      useEffect(() => {
+        //setActiveContact(props.activeContact);
+        setIdNumber(props.id)
+        console.log(props.stomp?.connected)
+        if(props.stomp && props.stomp?.connected && !connected){
+          props.stomp.subscribe(
+            "/user/" + idNumber + "/queue/game",
+            onGameStuff
+          )
+          setConnected(true);
+        }
+        }, [myStomp?.connected]);
     
-    // does not work
+    
     useEffect(()=>{
-     return () => setConnected(false)
-    }, []);
+      setActiveContact(props.activeContact);
+      console.log(activeContact);
+      setStromp(props.stomp);
+    }, [props.stomp]);
 
     const onGameStuff= useCallback((game) => {
         console.log("hallo");
         const notification = JSON.parse(game.body);
-      
+
         if(notification.request){
-          setModal({show: true});
+          console.log(stateRef.current.id)
+          console.log(notification.senderId);
+          if(notification.senderId != stateRef.current.id){
+            alert("game request from " + notification.senderId)
+          } else {
+            setModal({show: true});
+          }
         }
         
         if(notification.accept){
@@ -46,23 +64,29 @@ const Game = (props) => {
         }
     
         if(notification.type) {
-          console.log(notification.type);
           setOpChoice(notification.type);
           console.log(opChoiceRef.current);
+          console.log(myChoiceRef.current);
           if(myChoiceRef.current) {
             gameLogic();
           }
         }
       });
     
-      const gameLogic = () => {
+      const gameLogic = () => { 
+        console.log(myChoiceRef.current);
+        console.log(opChoiceRef.current);
         console.log("decide who won");
+        if(myChoiceRef.current === opChoiceRef.current){
+          props.sendMessage("nobody won");
+        }
       };
     
   const sendGame = () => {
     const message = {
       senderId: idNumber,
       recipientId: activeContact.id,
+      senderId: props.curremtItem.id,        
       request: true,
     };
     console.log(message);
@@ -81,17 +105,18 @@ const Game = (props) => {
   }
 
   const sendType= (type) => {
-    if(myChoice){
-      console.log("who did win?")
-    } 
+    console.log(type);
+    setMyChoice(type);
+    console.log(myChoice);
     const message = {
       senderId: idNumber,
       recipientId: activeContact.id,
       type: type,
     };
     props.stomp.send("/app/game", {}, JSON.stringify(message));
-    setMyChoice(type);
     if(opChoiceRef.current) {
+      console.log("from sendType");
+      
       gameLogic();
     }
   }
@@ -155,7 +180,13 @@ const Game = (props) => {
       <Modal.Footer>
       </Modal.Footer>
     </Modal>
-    <div onClick={sendGame}>game</div>            
+    <Button
+          variant="outlined"
+          color="default"
+          onClick={sendGame}
+        > 
+          Game
+        </Button>
     </>
 
   );

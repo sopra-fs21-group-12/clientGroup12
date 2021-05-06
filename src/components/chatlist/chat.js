@@ -1,23 +1,42 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import Game from "./game";
-import { Button, message } from "antd";
 import {
   findChatMessages,
   findChatMessage,
   findItemMatches,
   getItem,
 } from "./ApiUtil";
-import ScrollToBottom from "react-scroll-to-bottom";
 import "./Chat.css";
 import { getDomain } from '../../helpers/getDomain';
 import BackToInventory from "../RedirectButtons/BackToInventory";
-import { Modal, Panel, Uploader} from 'rsuite'
+import Picture from "../pictures/Picture";
 
-var stompClient = null;
-const Chat = ({match:{params:{id}}}) => {
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import {Panel} from "rsuite";
+import {
+  Grid,
+  makeStyles,
+  TextField,
+  Button,
+} from "@material-ui/core";
+
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+    },
+    rootList: {
+      overflow: 'auto',
+      height: 300,
+      maxHeight: 300,
+    }
+  }));
+
+  var stompClient = null;
+  const Chat = ({match:{params:{id}}}) => {
+  const classes = useStyles();
   const [text, setText] = useState("");
-  const [oponentChoice, setOpChoice] = useState(null);
-  const [myChoice, setMyChoice] = useState(null);
   const [idNumber, setIdNumber] = useState(id);
   const [contacts, setContacts] = useState();
   const [activeContact, setActiveContact] = useState(undefined);
@@ -26,17 +45,13 @@ const Chat = ({match:{params:{id}}}) => {
   const stateRef = useRef();
 
   stateRef.current = activeContact;
-  const opChoiceRef = useRef();
-  opChoiceRef.current = oponentChoice;
-  const myChoiceRef = useRef();
-  myChoiceRef.current = myChoiceRef;
   const chatRef = useRef();
   chatRef.current = messages;
-  const [modal, setModal] = useState({show: false});
-  const [gameModal, setGameModal] = useState({show: false});
-  
+  const scrollRef = useRef(null);
+
   useEffect(() =>{
     loadContacts()
+    return () => {stompClient=null}
   }, []);
 
   useEffect(() => {
@@ -47,12 +62,19 @@ const Chat = ({match:{params:{id}}}) => {
     );
   }, [activeContact]);
 
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behaviour: "smooth" });
+    }
+  }, [messages]);
+
   const connect = () => {
     const Stomp = require("stompjs");
     var SockJS = require("sockjs-client");
     SockJS = new SockJS(getDomain() + "/ws");
     stompClient = Stomp.over(SockJS);
     stompClient.connect({}, onConnected, onError);
+    console.log(stompClient);
   };
 
 
@@ -63,6 +85,17 @@ const Chat = ({match:{params:{id}}}) => {
     );
   };
 
+  /*function waitForOpenSocket() {
+    return new Promise((resolve, _reject) => {
+      while (stompClient?.connected != true) { 
+        console.log(stompClient?.connected);
+        setInterval(function() {
+          console.log(stompClient)
+       }, 3000); 
+      }
+      return resolve()
+    })
+  }*/
   const onError = (err) => {
     console.log(err);
   };
@@ -86,6 +119,7 @@ const Chat = ({match:{params:{id}}}) => {
     //setCurrentItem(getItem(idNumber))
     getItem(id).then((item)=>{
       setCurrentItem(item);
+      console.log(curremtItem);
     });
     connect();
     loadChats();
@@ -93,6 +127,7 @@ const Chat = ({match:{params:{id}}}) => {
 
 
   const sendMessage = (msg) => {
+    console.log(msg);
     if (msg.trim() !== "") {
       const message = {
         senderId: idNumber,
@@ -134,70 +169,83 @@ const Chat = ({match:{params:{id}}}) => {
     }
 
   };
+  
 
     return (
     <>
-    <Game name="addf" stomp={stompClient} id={idNumber} activeContact={activeContact}></Game>
-    <div id="frame">
-      <div id="sidepanel">
-        <div id="profile">
-          <div class="wrap">
+    <Grid container justify="center" spacing={4}>
+      <Grid item xs={12}/>
+      <Grid item xs={12}/>
+      <Grid item xs={4}>
+          <Panel shaded>
+
+            <List className={classes.rootList}
+              aria-labelledby="nested-list-subheader"
+            >
+              {contacts && contacts.map((contact) => {
+              return (
+                <div key={contact.id}>
+                    <ListItem 
+                      button 
+                      selected={contact.id === stateRef.current?.id}
+                      onClick={(event) =>{
+                        setActiveContact(contact)
+                      }}
+                    >
+                      <ListItemText primary={contact.name} />
+                      <Button
+                        variant="contained"
+                        color="default"
+                      >
+                        Unmatch
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="default"
+                      >
+                        Delete
+                      </Button>
+                    </ListItem>
+                </div>
+              );
+              })}
+            </List>
+          </Panel>
+        </Grid>
+        <Grid item xs={6}>
+          <Panel shaded>
+            <List className={classes.rootList}
+              component="nav"
+            >
+              {messages.map((msg, index) => {
+              return (
+                <div key={index}>
+                  <ListItem ref={scrollRef} >
+                    <ListItemText style={{display:'flex', justifyContent: msg.senderId == idNumber ? 'flex-end' : 'flex-start'}} primary={msg.content}/>
+                  </ListItem>
+                </div>
+              );
+              })}
+            </List>
+          </Panel>
+        </Grid>
+        <Grid item xs={4}>
+          <Panel shaded>
             <div>your current item</div>
             <div>Title: {curremtItem.title}</div>
             <div>Description: {curremtItem.description}</div>
-          </div>
-        </div>
-        <div id="search" />
-        <div id="contacts">
-          <ul>
-          {!contacts && <div>you have no matches for this item</div>}
-            {contacts && contacts.map((contact) => (
-              <div>
-                <li
-                  onClick={() => setActiveContact(contact)}
-                  class={
-                  activeContact && contact.id === activeContact.id
-                    ? "contact active"
-                    : "contact"
-                  }
-                >
-                  <div class="wrap">
-                    <div class="meta">
-                      <p class="name">{contact.name}</p>
-                    </div>
-                  </div>
-                </li>
-                  <div onClick={() => alert("unmatch this item")}>unmatch</div>
-                  <div onClick={() => alert("report this item")}>report</div>
-              </div>
-            ))}
-          </ul>
-        </div>
-      </div>
-      <div class="content">
-        <div class="contact-profile">
-          <img src={activeContact && activeContact.profilePicture} alt="" />
-          <p>{activeContact && activeContact.name}</p>
-        </div>
-        <ScrollToBottom className="messages">
-          <ul>
-            {messages.map((msg) => (
-              <li class={msg.senderId == idNumber ? "sent" : "replies"}>
-                {msg.senderId !== idNumber && (
-                  <img src={activeContact.profilePicture} alt="" />
-                )}
-                <p>{msg.content}</p>
-              </li>
-            ))}
-          </ul>
-        </ScrollToBottom>
-        <div class="message-input">
-          <div class="wrap">
-            <input
-              name="user_input"
-              size="large"
-              placeholder="Write your message..."
+            <Picture itemId={curremtItem.id}/>
+          </Panel>
+        </Grid>
+        <Grid item xs={6}>
+          <Panel shaded>
+            <TextField 
+              margin="normal"
+              required
+              fullWidth
+              placeholder="send text"
               value={text}
+              autoFocus
               onChange={(event) => setText(event.target.value)}
               onKeyPress={(event) => {
                 if (contacts && event.key === "Enter") {
@@ -207,18 +255,21 @@ const Chat = ({match:{params:{id}}}) => {
               }}
             />
             <Button
+              variant="contained"
               onClick={() => {
                 if(contacts) {
                   sendMessage(text);
                   setText("");
                 }
               }}
-            >Send</Button>
-          </div>
-        </div>
-      </div>
-      <BackToInventory/>
-    </div>
+            >
+              Send
+            </Button>
+            <Game stomp={stompClient} id={idNumber} activeContact={stateRef.current} curremtItem={curremtItem} sendMessage={sendMessage}></Game>
+          </Panel>
+        </Grid>
+    </Grid>
+    <BackToInventory/>
     </>
 
   );
