@@ -110,8 +110,10 @@ function SwipePage(props) {
             })
             await api.post('/likes', requestBody);
             setIndex(index+1)
+            console.log("index:" +index)
             setCurrItem(items[index])
             setLoading(false)
+            console.log("itemsleft:" + items.length)
             if(index == items.length) {
                 fetch();
             }
