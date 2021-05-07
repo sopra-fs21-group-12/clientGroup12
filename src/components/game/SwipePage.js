@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import { withRouter } from 'react-router-dom';
 
-import {Grid, Paper, Typography,} from '@material-ui/core';
+import {Chip, Grid, Paper, Typography,} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {Button, ButtonToolbar, Panel} from 'rsuite';
 import MatchedItemContainer from "../matches/MatchedItemContainer";
@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
     },
     userItem:{
         height: "10em"
+    },
+    tag: {
+        margin: theme.spacing(0.4),
     },
 }));
 
@@ -48,7 +51,7 @@ function SwipePage(props) {
         userId: "",
         description: "",
         title: "",
-        tagsItem: "",
+        tagsItem: [],
     })
 
     // fetch itemData
@@ -160,6 +163,14 @@ function SwipePage(props) {
                                     {currItem.description}
                                 </h5>
                             </Grid>
+                            <Grid item xs={12}/>
+                                {currItem.tagsItem.map(tag => {
+                                    return(
+                                        <div key={tag}>
+                                            <Chip className={classes.tag} label={tag} variant="outlined"/>
+                                        </div>
+                                    )})}
+
                         </Grid>
                     </Paper>
                 </Panel>
