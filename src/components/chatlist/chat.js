@@ -84,18 +84,6 @@ import {
       onMessageReceived
     );
   };
-
-  /*function waitForOpenSocket() {
-    return new Promise((resolve, _reject) => {
-      while (stompClient?.connected != true) { 
-        console.log(stompClient?.connected);
-        setInterval(function() {
-          console.log(stompClient)
-       }, 3000); 
-      }
-      return resolve()
-    })
-  }*/
   const onError = (err) => {
     console.log(err);
   };
@@ -116,7 +104,6 @@ import {
   const loadContacts =  async() => {
     setMessages([]);
     stompClient && stompClient.disconnect();
-    //setCurrentItem(getItem(idNumber))
     getItem(id).then((item)=>{
       setCurrentItem(item);
       console.log(curremtItem);

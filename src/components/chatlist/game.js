@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { Modal, Panel, Uploader} from 'rsuite'
 import { Grid, Typography, TextField, Button } from '@material-ui/core'
+import { getDomain } from '../../helpers/getDomain';
+var stompClient2 = null;
 const Game = (props) => {
     const [oponentChoice, setOpChoice] = useState(null);
     const [myChoice, setMyChoice] = useState(null);
@@ -25,25 +27,34 @@ const Game = (props) => {
       setActiveContact(props.activeContact);
       }, [props.activeContact]);
 
+      useEffect(() =>{
+        connect();
+        return () => {stompClient2=null}
+      }, []);
+
       useEffect(() => {
         //setActiveContact(props.activeContact);
         setIdNumber(props.id)
-        console.log(props.stomp?.connected)
+        /*console.log(props.stomp?.connected)
         if(props.stomp && props.stomp?.connected && !connected){
           props.stomp.subscribe(
             "/user/" + idNumber + "/queue/game",
             onGameStuff
           )
           setConnected(true);
-        }
-        }, [myStomp?.connected]);
+        }*/
+        }, [myStomp?.connected, props.stomp, activeContact, myStomp]);
     
     
     useEffect(()=>{
       setActiveContact(props.activeContact);
       console.log(activeContact);
       setStromp(props.stomp);
-    }, [props.stomp]);
+    }, [props.stomp, myStomp?.connected]);
+
+    useEffect(()=>{
+      return () => setStromp(null);
+    }, []);
 
     const onGameStuff= useCallback((game) => {
         console.log("hallo");
@@ -81,7 +92,28 @@ const Game = (props) => {
           props.sendMessage("nobody won");
         }
       };
-    
+  
+    const connect = async () => {
+      const Stomp = require("stompjs");
+      var SockJS = require("sockjs-client");
+      SockJS = new SockJS(getDomain() + "/ws");
+      stompClient2 = Stomp.over(SockJS);
+      await stompClient2.connect({}, onConnected2, onError);
+      console.log(stompClient2);
+    };
+  
+  
+    const onConnected2 = () => {
+      console.log(stompClient2);
+      stompClient2.subscribe(
+        "/user/" + idNumber + "/queue/game",
+        onGameStuff
+      );
+    };    
+
+    const onError = (err) => {
+      console.log(err);
+    };
   const sendGame = () => {
     const message = {
       senderId: idNumber,
@@ -183,7 +215,6 @@ const Game = (props) => {
     <Button
           variant="outlined"
           color="default"
-          onClick={sendGame}
         > 
           Game
         </Button>
