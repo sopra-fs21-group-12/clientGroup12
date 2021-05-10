@@ -101,6 +101,7 @@ export default function PictureInventory(props) {
 
     // Similar to whenComponent Mounts will get us all the different pictures, per ID
     useEffect(() => {
+        console.log("Test")
         axios
           .get(`http://sopra-fs21-group-12-server.herokuapp.com/items/16/pictures/download`)
           .then(response => setpictures(response.data.map((picture)=>picture.url))&(setpicturesNames(response.data.map((picture)=>picture.name))));
@@ -117,7 +118,6 @@ export default function PictureInventory(props) {
 
     // Function onClick will Delete the Item:
     function handleDelete(e) {
-        console.log(e.target)
         localStorage.setItem('PictureId', e.target.id);
         console.log(localStorage.getItem('PictureId'))
         if(localStorage.getItem('PictureId')!=null){       
@@ -146,7 +146,8 @@ export default function PictureInventory(props) {
     }
 
     return (
-
+        <div>
+            Test
         <Grid container justify="center" spacing={1}>
              <Grid item xs={12}/>
             <Grid item xs={12}/>
@@ -278,6 +279,7 @@ export default function PictureInventory(props) {
             </Panel>
             </Grid>
             </Grid>
+            </div>
             
         
             )
