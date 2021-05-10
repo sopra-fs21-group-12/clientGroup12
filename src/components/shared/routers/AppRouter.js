@@ -16,7 +16,8 @@ import Profile from "../../profilepage/Profile";
 import MatchRouter from "./MatchRouter";
 import SwipePage from "../../game/SwipePage";
 import SwipeRouter from "./SwipeRouter";
-import PictureSliderData from "./../../pictures/PictureSliderData"
+import PictureSliderData from "./../../pictures/PictureSliderData";
+import PictureInventory from "./../../pictures/PictureInventory";
 
 /**
  * Main router of your application.
@@ -81,7 +82,7 @@ class AppRouter extends React.Component {
                         path="/test"
                         exact
                         render={() => (
-                            <PictureSliderData/>
+                            <PictureInventory/>
                         )}
                     />
                     <Route
