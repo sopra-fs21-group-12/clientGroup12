@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import React, { useEffect, useState, useCallback, useRef} from "react";
+import { useHistory } from "react-router-dom";
 import Game from "./game";
 import {
   findChatMessages,
@@ -21,6 +22,27 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
+import styled from 'styled-components';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import SendIcon from '@material-ui/icons/Send';
+
+const Label = styled.label`
+  position: static;
+  left: 14.95%;
+  right: 75.81%;
+  top: 27.34%;
+  bottom: 60.16%;
+  
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+
+  /* identical to box height, or 133% */
+  text-align: center;
+
+  color: #000000;
+`;
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,7 +52,24 @@ import {
       overflow: 'auto',
       height: 300,
       maxHeight: 300,
-    }
+    },
+    unmatch: {
+      margin: theme.spacing(1),
+      background: "#EB5757",
+    },
+    report: {
+      background: "#EB5757",
+    },
+    swipingButton: {
+      marginTop: theme.spacing(5),
+      background: "#FFBB12",
+    },
+    title:{
+      marginBottom: theme.spacing(2),
+    },
+    matchesButton: {
+      background: "#6FCF97",
+    },
   }));
 
   var stompClient = null;
@@ -41,8 +80,9 @@ import {
   const [contacts, setContacts] = useState();
   const [activeContact, setActiveContact] = useState(undefined);
   const [messages, setMessages] = useState([]);
-  const [curremtItem, setCurrentItem] = useState({});
+  const [currentItem, setCurrentItem] = useState({});
   const stateRef = useRef();
+  const history = useHistory();
 
   stateRef.current = activeContact;
   const chatRef = useRef();
@@ -106,7 +146,7 @@ import {
     stompClient && stompClient.disconnect();
     getItem(id).then((item)=>{
       setCurrentItem(item);
-      console.log(curremtItem);
+      console.log(currentItem);
     });
     connect();
     loadChats();
@@ -119,7 +159,7 @@ import {
       const message = {
         senderId: idNumber,
         recipientId: activeContact.id,
-        senderName: curremtItem.title,
+        senderName: currentItem.title,
         recipientName: activeContact.name,
         matchId: activeContact.matchId,
         content: msg,
@@ -163,70 +203,112 @@ import {
     <Grid container justify="center" spacing={4}>
       <Grid item xs={12}/>
       <Grid item xs={12}/>
+
       <Grid item xs={4}>
           <Panel shaded>
+            {activeContact ? (
+                <div>
+                  <h5>Matched Items</h5>
+                  <List className={classes.rootList}
+                        aria-labelledby="nested-list-subheader"
+                  >
+                    {contacts && contacts.map((contact) => {
+                      return (
+                          <div key={contact.id}>
+                            <ListItem
+                                button
+                                selected={contact.id === stateRef.current?.id}
+                                onClick={(event) =>{
+                                  setActiveContact(contact)
+                                }}
+                            >
+                              <ListItemText primary={contact.name} />
+                              <Button
+                                  className={classes.unmatch}
+                                  variant="contained"
+                                  size="small"
+                                  color="secondary"
+                              >
+                                Unmatch
+                              </Button>
+                              <Button
+                                  color="default"
+                                  size="small"
+                                  color="secondary"
+                              >
+                                Report
+                              </Button>
+                            </ListItem>
+                          </div>
+                      );
+                    })}
+                  </List>
+                </div>
+            ):(
+                <Grid className={classes.rootList} container justify="center" alignItems="center">
+                  <Grid item xs={6}>
+                    <h3 className={classes.title}>No Matches for this item</h3>
+                  </Grid>
+                </Grid>
+            )}
+          </Panel>
+      </Grid>
 
-            <List className={classes.rootList}
-              aria-labelledby="nested-list-subheader"
-            >
-              {contacts && contacts.map((contact) => {
-              return (
-                <div key={contact.id}>
-                    <ListItem 
-                      button 
-                      selected={contact.id === stateRef.current?.id}
-                      onClick={(event) =>{
-                        setActiveContact(contact)
-                      }}
-                    >
-                      <ListItemText primary={contact.name} />
-                      <Button
-                        variant="contained"
-                        color="default"
-                      >
-                        Unmatch
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="default"
-                      >
-                        Delete
-                      </Button>
-                    </ListItem>
-                </div>
-              );
-              })}
-            </List>
-          </Panel>
-        </Grid>
-        <Grid item xs={6}>
+      <Grid item xs={6}>
           <Panel shaded>
-            <List className={classes.rootList}
-              component="nav"
-            >
-              {messages.map((msg, index) => {
-              return (
-                <div key={index}>
-                  <ListItem ref={scrollRef} >
-                    <ListItemText style={{display:'flex', justifyContent: msg.senderId == idNumber ? 'flex-end' : 'flex-start'}} primary={msg.content}/>
-                  </ListItem>
+            {activeContact ? (
+                <div>
+                  <h5>Chat with {activeContact.name}</h5>
+                  <List className={classes.rootList}
+                        component="nav"
+                  >
+                    {messages.map((msg, index) => {
+                      return (
+                          <div key={index}>
+                            <ListItem ref={scrollRef} >
+                              <ListItemText style={{display:'flex', justifyContent: msg.senderId == idNumber ? 'flex-end' : 'flex-start'}} primary={msg.content}/>
+                            </ListItem>
+                          </div>
+                      );
+                    })}
+                  </List>
                 </div>
-              );
-              })}
-            </List>
+            ):(
+                <Grid className={classes.rootList} container justify="center" alignItems="center" spacing={3}>
+                  <Grid item xs={6}>
+                      <h3>Start swiping and create matches first</h3>
+                  </Grid>
+                    <Grid item xs={3}>
+                      <Button
+                          variant="contained"
+                          className={classes.swipingButton}
+                          onClick={() => history.push('/swipe/' + idNumber)}
+                      >
+                        Start Swiping
+                      </Button>
+                    </Grid>
+                </Grid>
+            )}
           </Panel>
         </Grid>
+
+      <Grid item xs={4}>
+        <Panel shaded>
+          <Grid container justify="flex-start" alignItems="center">
+            <Grid item xs={4}>
+              <Picture itemId={currentItem.id}/>
+            </Grid>
+            <Grid item xs={6}>
+              <Label>Chatting with your</Label>
+              <h3>{currentItem.title}</h3>
+            </Grid>
+          </Grid>
+        </Panel>
+      </Grid>
+
         <Grid item xs={4}>
           <Panel shaded>
-            <div>your current item</div>
-            <div>Title: {curremtItem.title}</div>
-            <div>Description: {curremtItem.description}</div>
-            <Picture itemId={curremtItem.id}/>
-          </Panel>
-        </Grid>
-        <Grid item xs={6}>
-          <Panel shaded>
-            <TextField 
+            <TextField
               margin="normal"
               required
               fullWidth
@@ -242,7 +324,9 @@ import {
               }}
             />
             <Button
+                className={classes.matchesButton}
               variant="contained"
+              disabled={!activeContact}
               onClick={() => {
                 if(contacts) {
                   sendMessage(text);
@@ -252,9 +336,25 @@ import {
             >
               Send
             </Button>
-            <Game stomp={stompClient} id={idNumber} activeContact={stateRef.current} curremtItem={curremtItem} sendMessage={sendMessage}></Game>
           </Panel>
         </Grid>
+      <Grid item xs={2}>
+        <Game
+            stomp={stompClient}
+            id={idNumber}
+            activeContact={stateRef.current}
+            curremtItem={currentItem}
+            sendMessage={sendMessage}>
+        </Game>
+        <Button
+            size="large"
+            variant="contained"
+            className={classes.swipingButton}
+            endIcon={<ThumbUpIcon>ok</ThumbUpIcon>}
+        >
+          Confirm Swap
+        </Button>
+      </Grid>
     </Grid>
     <BackToInventory/>
     </>
