@@ -10,6 +10,7 @@ import "./Chat.css";
 import { getDomain } from '../../helpers/getDomain';
 import BackToInventory from "../RedirectButtons/BackToInventory";
 import Picture from "../pictures/Picture";
+import {api, handleError} from "../../helpers/api";
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -101,8 +102,28 @@ import {
     }
   }, []);
 
+  const report = async (id, matchid) =>{
+    try {
+      const response = await api.post(`/items/${id}/report`);
+      unmatch(matchid)
+
+    } catch (error) {
+        alert(`Something went wrong during the Item creation: \n${handleError(error)}`);
+    }
+  }
+
+  const unmatch = async(id) =>{
+    try {
+      const response = await api.put(`/${id}/unmatch`);
+      loadContacts();
+    } catch (error) {
+        alert(`Something went wrong during the Item creation: \n${handleError(error)}`);
+    }
+  }
+
   const loadContacts =  async() => {
     setMessages([]);
+    setContacts([]);
     stompClient && stompClient.disconnect();
     getItem(id).then((item)=>{
       setCurrentItem(item);
@@ -147,8 +168,8 @@ import {
       const item = await getItem(otherItemId);
       item.name = item.title;
       item.newMessages = 0;
-      contactItems.push(item);
       item.matchId = matches[index].id;
+      contactItems.push(item);
     }
     setContacts(contactItems);
     if (activeContact === undefined && contactItems?.length > 0) {
@@ -183,14 +204,16 @@ import {
                       <Button
                         variant="contained"
                         color="default"
+                        onClick={()=> unmatch(contact.matchId)}
                       >
                         Unmatch
                       </Button>
                       <Button
                         variant="contained"
                         color="default"
+                        onClick={() => report(contact.id, contact.matchId)}
                       >
-                        Delete
+                        Report
                       </Button>
                     </ListItem>
                 </div>
