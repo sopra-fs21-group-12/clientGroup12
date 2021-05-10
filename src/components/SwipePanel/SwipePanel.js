@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useEffect, useCallback} from 'react'
+import React, {useState, useMemo, useEffect, useCallback, useRef} from 'react'
 // import TinderCard from '../react-tinder-card/index'
 import TinderCard from 'react-tinder-card'
 import "./swipe.css";
@@ -35,8 +35,10 @@ let charactersState = db // This fixes issues with updating characters state for
 function SwipePanel () {
     const [lastDirection, setLastDirection] = useState()
 
-    const [index, setIndex] = useState(1)
-    const [items, setItems] = useState([])
+    const [index, setIndex] = useState(1);
+    const [items, setItems] = useState([]);
+    const indexRef = useRef();
+    indexRef.current = index;
 
     // fetch proposal
     useEffect(() => {
@@ -88,8 +90,8 @@ function SwipePanel () {
             await api.post('/likes', requestBody);
              */
             console.log('removing: ' + itemTitle + " with direction: " + like)
-            setIndex(index + 1)
-            console.log("newindex" + index)
+            setIndex(indexRef.current + 1)
+            console.log("newindex " + indexRef.current)
             console.log("itemsleft:" + (items.length - index))
             if(index === 6) {
                 console.log("test like")
@@ -99,6 +101,10 @@ function SwipePanel () {
         }catch (error){
             alert(`Something went wrong during the like request: \n${handleError(error)}`);
         }
+    }
+
+    const test = () =>{
+        console.log(index);
     }
 
     return (
@@ -118,6 +124,7 @@ function SwipePanel () {
                     </div>
                 </div>
             )}
+            <button onClick={()=>{test()}}>index</button>
         </div>
     )
 }
