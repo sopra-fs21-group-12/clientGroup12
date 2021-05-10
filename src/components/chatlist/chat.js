@@ -118,10 +118,10 @@ import {
     if (msg.trim() !== "") {
       const message = {
         senderId: idNumber,
-        recipientId: activeContact.id,
+        recipientId: stateRef.current.id,
         senderName: curremtItem.title,
-        recipientName: activeContact.name,
-        matchId: activeContact.matchId,
+        recipientName: stateRef.current.name,
+        matchId: stateRef.current.matchId,
         content: msg,
         timestamp: new Date(),
       };
