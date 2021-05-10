@@ -199,7 +199,6 @@ const Label = styled.label`
   
 
     return (
-    <>
     <Grid container justify="center" spacing={4}>
       <Grid item xs={12}/>
       <Grid item xs={12}/>
@@ -306,59 +305,69 @@ const Label = styled.label`
         </Panel>
       </Grid>
 
-        <Grid item xs={4}>
-          <Panel shaded>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              placeholder="send text"
-              value={text}
-              autoFocus
-              onChange={(event) => setText(event.target.value)}
-              onKeyPress={(event) => {
-                if (contacts && event.key === "Enter") {
-                  sendMessage(text);
-                  setText("");
-                }
-              }}
-            />
-            <Button
-                className={classes.matchesButton}
-              variant="contained"
-              disabled={!activeContact}
-              onClick={() => {
-                if(contacts) {
-                  sendMessage(text);
-                  setText("");
-                }
-              }}
-            >
-              Send
-            </Button>
-          </Panel>
-        </Grid>
-      <Grid item xs={2}>
-        <Game
-            stomp={stompClient}
-            id={idNumber}
-            activeContact={stateRef.current}
-            curremtItem={currentItem}
-            sendMessage={sendMessage}>
-        </Game>
-        <Button
-            size="large"
-            variant="contained"
-            className={classes.swipingButton}
-            endIcon={<ThumbUpIcon>ok</ThumbUpIcon>}
-        >
-          Confirm Swap
-        </Button>
-      </Grid>
+      <Grid item xs={6}>
+      {activeContact ? (
+          <Grid container justify="flex-start" alignItems="center" spacing={4}>
+            <Grid item xs={8}>
+              <Panel shaded>
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    placeholder="send text"
+                    value={text}
+                    autoFocus
+                    onChange={(event) => setText(event.target.value)}
+                    onKeyPress={(event) => {
+                      if (contacts && event.key === "Enter") {
+                        sendMessage(text);
+                        setText("");
+                      }
+                    }}
+                />
+                <Button
+                    className={classes.matchesButton}
+                    variant="contained"
+                    disabled={!activeContact}
+                    onClick={() => {
+                      if(contacts) {
+                        sendMessage(text);
+                        setText("");
+                      }
+                    }}
+                >
+                  Send
+                </Button>
+              </Panel>
+            </Grid>
+            <Grid item xs={4}>
+              <Game
+                  stomp={stompClient}
+                  id={idNumber}
+                  activeContact={stateRef.current}
+                  curremtItem={currentItem}
+                  sendMessage={sendMessage}>
+              </Game>
+              <Button
+                  size="large"
+                  variant="contained"
+                  className={classes.swipingButton}
+                  endIcon={<ThumbUpIcon>ok</ThumbUpIcon>}
+              >
+                Confirm Swap
+              </Button>
+            </Grid>
+          </Grid>
+      ):(
+          <div/>
+      )}
     </Grid>
-    <BackToInventory/>
-    </>
 
+      <Grid item xs={12}>
+        <BackToInventory/>
+      </Grid>
+
+    </Grid>
   );
 };
 
