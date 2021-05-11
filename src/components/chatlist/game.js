@@ -29,7 +29,11 @@ const Game = (props) => {
 
       useEffect(() =>{
         connect();
-        return () => {stompClient2=null}
+        return () => {
+          stompClient2=null;
+          setMyChoice(null);
+          setOpChoice(null);
+        }
       }, []);
 
       useEffect(() => {
@@ -48,7 +52,6 @@ const Game = (props) => {
     
     useEffect(()=>{
       setActiveContact(props.activeContact);
-      console.log(activeContact);
       setStromp(props.stomp);
     }, [props.stomp, myStomp?.connected]);
 
@@ -57,12 +60,9 @@ const Game = (props) => {
     }, []);
 
     const onGameStuff= useCallback((game) => {
-        console.log("hallo");
         const notification = JSON.parse(game.body);
 
         if(notification.request){
-          console.log(stateRef.current.id)
-          console.log(notification.senderId);
           if(notification.senderId != stateRef.current.id){
             alert("game request from " + notification.senderId)
           } else {
@@ -76,21 +76,38 @@ const Game = (props) => {
     
         if(notification.type) {
           setOpChoice(notification.type);
-          console.log(opChoiceRef.current);
-          console.log(myChoiceRef.current);
           if(myChoiceRef.current) {
             gameLogic();
           }
         }
       });
     
-      const gameLogic = () => { 
-        console.log(myChoiceRef.current);
-        console.log(opChoiceRef.current);
+      const gameLogic = async() => { 
+        console.log("my choice " + myChoiceRef.current);
+        console.log("your choice " + opChoiceRef.current);
         console.log("decide who won");
+        let decession = false;
+        const message = "";
         if(myChoiceRef.current === opChoiceRef.current){
-          props.sendMessage("nobody won");
+          message = message + "no winner"
+          decession = true;
         }
+        const mylocalChoice = await myChoiceRef.current
+        console.log(myChoice);
+        if((myChoiceRef.current === "Paper" && opChoiceRef.current === "Rock")
+        || (myChoiceRef.current === "Scissor" && opChoiceRef.current === "Paper")
+        || (myChoiceRef.current === "Rock" && opChoiceRef.current === "Scissor")){
+          message = message + "i won, you sucker";
+          decession = true;
+        }
+        if(!decession){
+          message = message + "you won, you fucking cheater";
+        }
+
+        props.sendMessage(myChoiceRef.current + " vs " + opChoiceRef.current + " " + message);
+        setMyChoice(null);
+        setOpChoice(null);
+        setGameModal({show: false});
       };
   
     const connect = async () => {
@@ -99,12 +116,10 @@ const Game = (props) => {
       SockJS = new SockJS(getDomain() + "/ws");
       stompClient2 = Stomp.over(SockJS);
       await stompClient2.connect({}, onConnected2, onError);
-      console.log(stompClient2);
     };
   
   
     const onConnected2 = () => {
-      console.log(stompClient2);
       stompClient2.subscribe(
         "/user/" + idNumber + "/queue/game",
         onGameStuff
@@ -121,7 +136,6 @@ const Game = (props) => {
       senderId: props.curremtItem.id,        
       request: true,
     };
-    console.log(message);
     props.stomp.send("/app/game", {}, JSON.stringify(message));
   };
 
@@ -136,19 +150,16 @@ const Game = (props) => {
     setGameModal({show: true});
   }
 
-  const sendType= (type) => {
-    console.log(type);
-    setMyChoice(type);
-    console.log(myChoice);
+  const sendType= async(type) => {
+    await setMyChoice(type);
+    console.log(myChoiceRef.current)
     const message = {
       senderId: idNumber,
       recipientId: activeContact.id,
       type: type,
     };
     props.stomp.send("/app/game", {}, JSON.stringify(message));
-    if(opChoiceRef.current) {
-      console.log("from sendType");
-      
+    if(opChoiceRef.current) {   
       gameLogic();
     }
   }
@@ -215,6 +226,7 @@ const Game = (props) => {
     <Button
           variant="outlined"
           color="default"
+          onClick={sendGame}
         > 
           Game
         </Button>
