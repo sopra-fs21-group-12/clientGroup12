@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import { withRouter } from 'react-router-dom';
 
 import {Grid, Paper, Typography,} from '@material-ui/core';
@@ -10,6 +10,7 @@ import Loader from "rsuite/es/Loader";
 import UserItemContainer from "./UserItemContainer";
 import PictureForSwipe from "../pictures/PictureForSwipe";
 import BackToInventory from "../RedirectButtons/BackToInventory";
+import TinderCard from "react-tinder-card";
 
 const useStyles = makeStyles((theme) => ({
     description: {
@@ -39,17 +40,16 @@ function SwipePage(props) {
     const {id} = props.match.params
     const classes = useStyles();
     const [userItem, setUserItem] = useState();
-    const [loading, setLoading] = useState(false)
-    const [sizeItems, setSizeItems] = useState(null)
-    const [index, setIndex] = useState(1)
-    const [items, setItems] = useState({})
-    const [currItem, setCurrItem] = useState({
-        id: "",
-        userId: "",
-        description: "",
-        title: "",
-        tagsItem: "",
-    })
+
+    const [index, setIndex] = useState(5)
+    const indexRef = useRef();
+    indexRef.current = index;
+
+    const [items, setItems] = useState([])
+    const itemsRef = useRef();
+    itemsRef.current = items;
+
+    const [currItem, setCurrItem] = useState()
 
     // fetch itemData
     useEffect(async () => {
@@ -80,15 +80,13 @@ function SwipePage(props) {
 
     async function fetch() {
         try {
-            setLoading(true)
-            setIndex(1)
-            //await new Promise(resolve => setTimeout(resolve, 2000));
-            //@GetMapping("/items/{itemId}/proposal")
+            console.log("fetching data")
             const response = await api.get(`/items/${id}/proposal`)
             setItems(response.data)
-            setCurrItem(response.data[0])
-            setSizeItems(response.data.length)
-            setLoading(false)
+            console.log(itemsRef.current[itemsRef.current.length-1])
+            console.log(itemsRef.current.length-1)
+            setCurrItem(itemsRef.current[itemsRef.current.length-1])
+            setIndex([itemsRef.current.length-1])
 
         } catch (error) {
             alert(`Something went wrong while fetching the items: \n${handleError(error)}`);
@@ -96,25 +94,25 @@ function SwipePage(props) {
 
     }
 
-    const increment = useCallback(() =>{
-        setIndex(i => i+1)
-    },[])
 
-    async function like(like){
+    async function like(like, itemTitle){
         try {
+            /*
             setLoading(true)
             const requestBody = JSON.stringify({
-                "itemIDSwiper": userItem.id,                      
+                "itemIDSwiper": userItem.id,
                 "itemIDSwiped": currItem.id,
                 "liked": like
             })
             await api.post('/likes', requestBody);
-            setIndex(index+1)
-            console.log("index:" +index)
-            setCurrItem(items[index])
-            setLoading(false)
-            console.log("itemsleft:" + items.length)
-            if(index == items.length) {
+             */
+            console.log('removing: ' + itemTitle + " with direction: " + like)
+            setIndex(indexRef.current - 1)
+            console.log("newindex " + indexRef.current)
+            setCurrItem(items[indexRef.current])
+            console.log("itemsleft:" + (itemsRef.current.length - 1 + " vs " + indexRef.current))
+            if(indexRef.current === -1) {
+                console.log("will fetch data")
                 fetch();
             }
         }catch (error){
@@ -125,15 +123,6 @@ function SwipePage(props) {
     return (
 <div>
         {!userItem || !currItem ? (
-            !currItem? (
-                <Grid container justify="center" alignItems="center" spacing={5}>
-                    <Grid item xs={12}/>
-                    <Grid item xs={3}>
-                        <h1>No items to swipe on left</h1>
-                    </Grid>
-                    <BackToInventory/>
-                </Grid>
-                ) :
                 <Loader/>
     ) : (
         <Grid container justify="center" spacing={4}>
@@ -166,23 +155,36 @@ function SwipePage(props) {
                     </Paper>
                 </Panel>
             </Grid>
+
             <Grid item xs={6}>
-                <Grid container spacing={4}>
+                <Grid container spacing={4} justify="space-between">
                     <Grid item xs={12}>
                         <Panel shaded>
                             <Paper className={classes.swipe} elevation={0}>
-                                {loading ? loader :
-                                        <Grid container alignItems="center" justify="center" spacing={4}>
-                                            <Grid item xs={12}>
-                                                <PictureForSwipe itemId={currItem.id}/>
-                                            </Grid>
-                                            <Grid>
-                                                <Button onClick={() => like(false)}> dislike</Button>
-                                                <Button onClick={() => like(true)}> like</Button>
-                                            </Grid>
 
-                                        </Grid>
-                                }
+                                <Grid container spacing={4} justify="center" alignItems="center">
+                                    <Grid item xs={6}>
+                                        <div className='cardContainer'>
+                                            {items.map((item, index) =>
+                                                <TinderCard className='swipe' key={item.id} onSwipe={(dir) => like(dir, item.title)}>
+                                                    <div className='card'>
+                                                        <PictureForSwipe itemId={item.id}/>
+                                                    </div>
+                                                </TinderCard>
+                                            )}
+                                        </div>
+                                    </Grid>
+                                </Grid>
+
+                                <Grid container spacing={4} justify="flex-end" alignItems="center">
+                                    <Grid item xs={6}>
+                                        left
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        right
+                                    </Grid>
+                                </Grid>
+
                             </Paper>
                         </Panel>
                     </Grid>
