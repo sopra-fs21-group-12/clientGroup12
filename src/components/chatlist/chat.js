@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import Game from "./game";
+import UnmatchModal from "../modals/unmatchModal"
+import ReportModal from "../modals/reportModal"
 import {
   findChatMessages,
   findChatMessage,
   findItemMatches,
   getItem,
 } from "./ApiUtil";
-import "./Chat.css";
 import { getDomain } from '../../helpers/getDomain';
 import BackToInventory from "../RedirectButtons/BackToInventory";
 import Picture from "../pictures/Picture";
@@ -43,6 +44,8 @@ import {
   const [activeContact, setActiveContact] = useState(undefined);
   const [messages, setMessages] = useState([]);
   const [curremtItem, setCurrentItem] = useState({});
+  const [unmatchModal, setUnmatchModal] = useState({show: false, id: undefined});
+  const [reportModal, setReportModal] = useState({show: false, id: undefined, itemId:undefined});
   const stateRef = useRef();
 
   stateRef.current = activeContact;
@@ -114,8 +117,10 @@ import {
 
   const unmatch = async(id) =>{
     try {
-      const response = await api.put(`/${id}/unmatch`);
-      loadContacts();
+      console.log(stateRef.current.matchId);
+      console.log(id);
+      //const response = await api.put(`/${id}/unmatch`);
+      //loadContacts();
     } catch (error) {
         alert(`Something went wrong during the Item creation: \n${handleError(error)}`);
     }
@@ -181,6 +186,8 @@ import {
 
     return (
     <>
+    <UnmatchModal unmatch={unmatchModal} loadContacts={loadContacts} />
+    <ReportModal unmatch={reportModal} loadContacts={loadContacts} />
     <Grid container justify="center" spacing={4}>
       <Grid item xs={12}/>
       <Grid item xs={12}/>
@@ -204,14 +211,14 @@ import {
                       <Button
                         variant="contained"
                         color="default"
-                        onClick={()=> unmatch(contact.matchId)}
+                        onClick={()=> setUnmatchModal({show: true, id: contact.matchId})}
                       >
                         Unmatch
                       </Button>
                       <Button
                         variant="contained"
                         color="default"
-                        onClick={() => report(contact.id, contact.matchId)}
+                        onClick={()=> setReportModal({show: true, id: contact.matchId, itemId: contact.id})}
                       >
                         Report
                       </Button>
