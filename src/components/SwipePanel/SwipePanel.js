@@ -1,44 +1,66 @@
-import React, {useState, useMemo, useEffect, useCallback, useRef} from 'react'
-// import TinderCard from '../react-tinder-card/index'
-import TinderCard from 'react-tinder-card'
-import "./swipe.css";
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import { withRouter } from 'react-router-dom';
+
+import {Grid, Paper, Typography,} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import {Button, ButtonToolbar, Panel} from 'rsuite';
+import MatchedItemContainer from "../matches/MatchedItemContainer";
 import {api, handleError} from "../../helpers/api";
 import Loader from "rsuite/es/Loader";
 import PictureForSwipe from "../pictures/PictureForSwipe";
+import BackToInventory from "../RedirectButtons/BackToInventory";
+import TinderCard from "react-tinder-card";
+import UserItemContainer from "../game/UserItemContainer";
+import "./swipe.css";
 
-const db = [
-    {
-        name: 'Richard Hendricks',
-        url: './img/richard.jpg'
+const useStyles = makeStyles((theme) => ({
+    description: {
+        display: 'flex',
+        flexDirection: 'column',
+        paddingTop: 0,
+        padding: 20,
+        height: "40em"
     },
-    {
-        name: 'Erlich Bachman',
-        url: './img/erlich.jpg'
+    swipe: {
+        height: "29em"
     },
-    {
-        name: 'Monica Hall',
-        url: './img/monica.jpg'
+    userItem:{
+        height: "10em"
     },
-    {
-        name: 'Jared Dunn',
-        url: './img/jared.jpg'
-    },
-    {
-        name: 'Dinesh Chugtai',
-        url: './img/dinesh.jpg'
-    }
-]
+}));
 
-const alreadyRemoved = []
-let charactersState = db // This fixes issues with updating characters state forcing it to use the current state and not the state that was active when the card was created.
 
-function SwipePanel () {
-    const [lastDirection, setLastDirection] = useState()
+function SwipePanel() {
+    const id = 578
+    //const {id} = props.match.params
+    const classes = useStyles();
+    const [userItem, setUserItem] = useState();
 
-    const [index, setIndex] = useState(1);
-    const [items, setItems] = useState([]);
+    const [index, setIndex] = useState(5)
     const indexRef = useRef();
     indexRef.current = index;
+
+    const [items, setItems] = useState([])
+    const itemsRef = useRef();
+    itemsRef.current = items;
+
+    const [currItem, setCurrItem] = useState()
+
+    // fetch itemData
+    useEffect(async () => {
+        try {
+            //await new Promise(resolve => setTimeout(resolve, 2000));
+
+            // get matches of item
+            const response = await api.get(`/items/${id}`)
+            setUserItem(response.data);
+
+        } catch (error) {
+            alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
+        }
+
+    }, [])
+
 
     // fetch proposal
     useEffect(() => {
@@ -53,29 +75,19 @@ function SwipePanel () {
 
     async function fetch() {
         try {
-            //@GetMapping("/items/{itemId}/proposal")
-            const response = await api.get(`/items/266/proposal`)
+            console.log("fetching data")
+            const response = await api.get(`/items/${id}/proposal`)
             setItems(response.data)
-            console.log("test")
+            console.log(itemsRef.current[itemsRef.current.length-1])
+            console.log(itemsRef.current.length-1)
+            setCurrItem(itemsRef.current[itemsRef.current.length-1])
+            setIndex([itemsRef.current.length-1])
 
         } catch (error) {
             alert(`Something went wrong while fetching the items: \n${handleError(error)}`);
         }
 
     }
-
-    /*
-    const swiped = (direction, idToDelete) => {
-        console.log('removing: ' + idToDelete)
-        setLastDirection(direction)
-        alreadyRemoved.push(idToDelete)
-    }
-
-    const outOfFrame = (id) => {
-        console.log(id + ' left the screen!')
-        charactersState = charactersState.filter(character => character.id !== id)
-        setCharacters(charactersState)
-    }*/
 
 
     async function like(like, itemTitle){
@@ -90,26 +102,22 @@ function SwipePanel () {
             await api.post('/likes', requestBody);
              */
             console.log('removing: ' + itemTitle + " with direction: " + like)
-            setIndex(indexRef.current + 1)
+            setIndex(indexRef.current - 1)
             console.log("newindex " + indexRef.current)
-            console.log("itemsleft:" + (items.length - index))
-            if(index === 6) {
-                console.log("test like")
+            setCurrItem(items[indexRef.current])
+            console.log("itemsleft:" + (itemsRef.current.length - 1 + " vs " + indexRef.current))
+            if(indexRef.current === -1) {
+                console.log("will fetch data")
                 fetch();
             }
-
         }catch (error){
             alert(`Something went wrong during the like request: \n${handleError(error)}`);
         }
     }
 
-    const test = () =>{
-        console.log(index);
-    }
-
     return (
         <div>
-            {!items ? (
+            {!userItem || !currItem ? (
                 <Loader/>
             ) : (
                 <div>
@@ -122,11 +130,12 @@ function SwipePanel () {
                             </TinderCard>
                         )}
                     </div>
+                    <UserItemContainer item={userItem}/>
                 </div>
             )}
-            <button onClick={()=>{test()}}>index</button>
         </div>
-    )
+    );
+
 }
 
-export default SwipePanel
+export default SwipePanel;
