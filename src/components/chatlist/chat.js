@@ -20,11 +20,10 @@ import {
   Grid,
   makeStyles,
   TextField,
-  Button,
+  Button, Divider,
 } from "@material-ui/core";
 import styled from 'styled-components';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import SendIcon from '@material-ui/icons/Send';
 
 const Label = styled.label`
   position: static;
@@ -258,6 +257,7 @@ const Label = styled.label`
             {activeContact ? (
                 <div>
                   <h5>Chat with {activeContact.name}</h5>
+                  <Divider />
                   <List className={classes.rootList}
                         component="nav"
                   >
