@@ -295,7 +295,7 @@ const Label = styled.label`
         <Panel shaded>
           <Grid container justify="flex-start" alignItems="center">
             <Grid item xs={4}>
-              <Picture itemId={currentItem.id}/>
+              {currentItem.id && <Picture itemId={currentItem.id}/>}
             </Grid>
             <Grid item xs={6}>
               <Label>Chatting with your</Label>
