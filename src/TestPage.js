@@ -8,8 +8,9 @@ import 'react-slidy/lib/styles.css';
 import { Avatar, Button, CssBaseline, TextField, Link, Grid, Box, Typography, Container, Paper, Card, CardContent } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ItemEdit from "./components/item/ItemEdit";
+import RegistrationMap from "./components/map/RegistrationMap";
+import {SearchControl} from "leaflet-geosearch";
 /*
-
 
 
 // Will return all Items from our backend -> Functional component
@@ -107,9 +108,11 @@ const ItemImages = ({id}) => {
 
 function TestPage(){
   return (
-      <ItemEdit id={5}/>
+    <RegistrationMap>
+
+    </RegistrationMap>
   )
-};
+}
 
 
 export default withRouter(TestPage);

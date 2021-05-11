@@ -1,33 +1,68 @@
-import React, {useState} from 'react';
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-import {Icon} from 'leaflet';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import "../../leaflet.css";
+import {GeoSearchControl, OpenStreetMapProvider} from "leaflet-geosearch";
 
+const center = [47.3700, 8.5500]
+const zoom = 13
 
-const RegistrationMap = () => {
-  const [lat, setLat] = useState(0);
-  const[lng, setLng] = useState(0);
-  async function getISS() {
-    const response = await fetch("https://api.wheretheiss.at/v1/satellites/25544");
-    const data = await response.json();
-    setLat(data.latitude);
-    setLng(data.longitude);
-  }
-  return(
-    <div>
+const searchControl = () => {
+  new GeoSearchControl({
+    provider: new OpenStreetMapProvider(),
+  });
+};
+
+function DisplayPosition({ map }) {
+  const [position, setPosition] = useState(map.getCenter())
+
+  const onClick = useCallback(() => {
+    map.setView(center, zoom)
+  }, [map])
+
+  const onMove = useCallback(() => {
+    setPosition(map.getCenter())
+  }, [map])
+
+  useEffect(() => {
+    map.on('move', onMove)
+    return () => {
+      map.off('move', onMove)
+    }
+  }, [map, onMove])
+
+  return (
+    <p>
+      latitude: {position.lat.toFixed(4)}, longitude: {position.lng.toFixed(4)}{' '}
+      <button onClick={onClick}>reset</button>
+    </p>
+  )
+}
+
+function RegistrationMap() {
+  const [map, setMap] = useState(null)
+  const displayMap = useMemo(
+    () => (
       <MapContainer
-        style={{height:'40px', width:'50px'}}
-        center={[lat, lng]}
-        zoom={12}
+        center={center}
+        zoom={zoom}
+        scrollWheelZoom={true}
+        whenCreated={setMap}>
+        <TileLayer
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         >
-        <TileLayer url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'>
         </TileLayer>
-        <Marker position={[lat, lng]} Icon={Icon}>
-          <Popup>
-            This is an imported marker from leaflet-lib.
-          </Popup>
-        </Marker>
       </MapContainer>
+    ),
+      [],
+  )
+
+  return (
+    <div>
+      {map ? <DisplayPosition map={map} /> : null}
+      {displayMap}
     </div>
   )
-};
+}
+
 export default RegistrationMap;

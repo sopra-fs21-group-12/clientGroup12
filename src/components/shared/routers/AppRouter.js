@@ -18,6 +18,7 @@ import SwipePage from "../../game/SwipePage";
 import SwipeRouter from "./SwipeRouter";
 import PictureSliderData from "./../../pictures/PictureSliderData";
 import PictureInventory from "./../../pictures/PictureInventory";
+import Home from "../../HomeScreen/Home";
 
 /**
  * Main router of your application.
@@ -35,6 +36,14 @@ class AppRouter extends React.Component {
             <BrowserRouter>
                 {/* Gives the reference of the navigation*/}
                 <Switch>
+                  <Route
+                    path="/home"
+                    exact
+                    render={() => (
+                      <Home/>
+                    )}
+                  >
+                  </Route>
 
                     <Route
                         path="/login"
@@ -85,6 +94,13 @@ class AppRouter extends React.Component {
                             <PictureInventory/>
                         )}
                     />
+                  <Route
+                    path="/test2"
+                    exact
+                    render={() => (
+                      <TestPage/>
+                    )}
+                  />
                     <Route
                         path="/inventory"
                         render={() => (
