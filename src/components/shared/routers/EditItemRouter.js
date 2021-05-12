@@ -9,13 +9,7 @@ const Container = styled.div`
 `;
 
 class EditItemRouter extends React.Component {
-    constructor(props){
-        super(props)
-        console.log("Test")
-    }
-    componentDidMount(){
-        console.log(this.props)
-    }
+
     render() {
         return (
             <Container>

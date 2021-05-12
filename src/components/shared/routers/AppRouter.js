@@ -96,7 +96,6 @@ class AppRouter extends React.Component {
                     />
                       <Route
                         path="/edit"
-                        exact
                         render={() => (
                                 <EditItemRouter base={"/edit"}/>
                         )}

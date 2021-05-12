@@ -1,9 +1,11 @@
 import {useEffect,useState, React} from "react";
-import {withRouter} from "react-router";
+import {useParams, withRouter} from "react-router";
 import { api, handleError } from '../../helpers/api';
 import { useHistory } from "react-router-dom";
 import {TextField, Button, makeStyles} from "@material-ui/core";
 import Loader from "rsuite/es/Loader";
+import InputLabel from '@material-ui/core/InputLabel';
+
 
 
 import axios from "axios";
@@ -18,6 +20,7 @@ import Typography from '@material-ui/core/Typography';
 import { Grid } from '@material-ui/core'
 import { Button  as RsuiteButton } from "rsuite";
 import { Modal, Panel, Uploader} from 'rsuite'
+import { Label } from "gestalt";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -53,33 +56,35 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: '200px'
 };
 
-let itemid;
 // Overview Page to upload new pictures and see + Delete other pictures
-export default function PictureInventory(props) {
+export default function PictureInventory() {
+    const {id} = useParams(); 
     const classes = useStyles();
     // Keeps the URL of all pictures
     const history = useHistory();
     const [picturesstate, setpictures] = useState([]);
     const [pictureNames,setpicturesNames] = useState([]);
     const [deletionId,setDeletionId] = useState(0);
-    const [itemData, setItemData] = useState();
+    const [itemData, setItemData] = useState([]);
     const [modal, setModal] = useState({show: false});
     const [modal2, setModal2] = useState({show: false});
-    const [state, setState] = useState({
-        title: "",
-        description: ""
-    }
-);
+    const [stateTitle, setStateTitle] = useState();
+    const [stateDescription, setStateDescription] = useState();
+    
+
 
 // Sends the information to the Backend, when data has been saved
     async function handleSave() {
         try {
-            // What we send back to the backend
+            console.log(stateTitle.title);
+            console.log(stateDescription.description)
+            // What we send back to the backend          
             const requestBody = JSON.stringify({
-                title: state.title,
-                description: state.description,
+                title: stateTitle,
+                description: stateDescription,
             });
-            await api.put(`/items/${props.id}`, requestBody);
+            await api.put(`/items/${id}`, requestBody);
+            window.location.reload(false);
         } catch (error) {
             alert(`Something went wrong during the login: \n${handleError(error)}`);
         }
@@ -97,23 +102,36 @@ export default function PictureInventory(props) {
         }
     }
 
+    // Get the information from the backend (Description and Item Title)
+    // fetch item data
+    useEffect(async () => {
+        try {
+
+            const response = await api.get(`/items/${id}`)
+            setItemData(response.data)
+            setStateTitle(response.data.title)
+            setStateDescription(response.data.description);
+        } catch (error) {
+            alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
+        }
+
+    }, [])
 
 
     // Similar to whenComponent Mounts will get us all the different pictures, per ID
     useEffect(() => {
-        console.log("Test")
         axios
-          .get(`http://sopra-fs21-group-12-server.herokuapp.com/items/16/pictures/download`)
+          .get(`http://sopra-fs21-group-12-server.herokuapp.com/items/${id}/pictures/download`)
           .then(response => setpictures(response.data.map((picture)=>picture.url))&(setpicturesNames(response.data.map((picture)=>picture.name))));
       }, []);
 
 
-      const handleChange = (e) => {
-        const{id, value} = e.target
-        setState(prevState => ({
-            ...prevState,
-            [id] : value
-        }))
+      const handleChangeTitle = (e) => {
+        setStateTitle(e.target.value)
+    }
+
+    const handleChangeDescription = (e) => {
+        setStateDescription(e.target.value)
     }
 
     // Function onClick will Delete the Item:
@@ -128,12 +146,12 @@ export default function PictureInventory(props) {
         setModal({show: false});
 
         handleDeleteofPicture();
-        history.push('/test')
+        history.push(`/edit/${id}`)
     }
      
     function close(e){
         setModal({show: false});
-        history.push('/test')
+        history.push(`/edit/${id}`)
     }
 
     function open() {
@@ -142,58 +160,53 @@ export default function PictureInventory(props) {
     function close2(e){
         setModal2({show: false});
         window.location.reload(false);
-        history.push('/test')
+        history.push(`/edit/${id}`)
     }
 
     return (
-        <div>
-            Test
         <Grid container justify="center" spacing={1}>
              <Grid item xs={12}/>
             <Grid item xs={12}/>
             <Grid item xs={6}>
             <Panel shaded>
-             <Typography variant="h5">Item Edit Page</Typography> <br/>
-             <Typography variant="h6">Item Title and Description</Typography>
-             <br/>
-             <RsuiteButton
-                    type="open"
-                    variant="contained"
-                    color="primary"
-                    onClick={open}>
-                     Upload More Pictures
-                    </RsuiteButton>
+             <Typography variant="h5">Item Edit Page</Typography> 
+             <Typography variant="h6">Change your Items title, description or upload new pictures</Typography>
+             
                     <br/>
+                    <InputLabel><h6>Item Title:</h6></InputLabel>
+                    <TextField
+                                defaultValue={itemData.title}
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                multiline
+                                rowsMax={1}
+                                name="title"
+                                id="title"
+                                onChange={handleChangeTitle}
+                            />
+                            <br/>
+                            <br/>
+                            <InputLabel><h6>Item Description:</h6></InputLabel>
 
-             <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="title"
-                  label="Item Title"
-                  name="title"
-                  // Needs to be edited (defaultValue={itemData.title})
-                  autoFocus
-                  onChange={handleChange}
-                />
+<TextField                      
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                name="description"
+                                id="description"
+                                defaultValue={itemData.description}
+                                rows={4}
+                                multiline
+                                onChange={handleChangeDescription}
+                            />
 
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="description"
-                  // Needs to be added (defaultValue={itemData.description})
-                  label="Item Description"
-                  id="description"
-                  rows={5}
-                  multiline
-                  onChange={handleChange}
-                />
 
+                        <br/>
+                        <br/>
+                    
                 <RsuiteButton
-                    disabled={!state.title || !state.description}
                     type="submit"
                     variant="contained"
                     color="primary"
@@ -263,12 +276,14 @@ export default function PictureInventory(props) {
                 <Modal.Body>
 
                     <Uploader
-                        action={`http://sopra-fs21-group-12-server.herokuapp.com/items/${16}/pictures/upload`}
+                        action={`http://sopra-fs21-group-12-server.herokuapp.com/items/${id}/pictures/upload`}
                         draggable
                         onSuccess={close2}
                     >
-                        <div style={dropzone}>Click or Drag files to this area to upload</div>
+                        <div style={dropzone}>Click or Drag files to this area to upload
+                        </div>
                     </Uploader>
+                    <Button onClick={close2}>Cancel</Button>
 
                 </Modal.Body>
                 <Modal.Footer>
@@ -276,10 +291,18 @@ export default function PictureInventory(props) {
             </Modal>
 
             </Grid>
+            <br/>
+            <RsuiteButton
+                    type="open"
+                    variant="contained"
+                    color="primary"
+                    onClick={open}>
+                     Upload More Pictures
+                    </RsuiteButton>
             </Panel>
             </Grid>
             </Grid>
-            </div>
+            
             
         
             )
