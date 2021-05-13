@@ -41,6 +41,17 @@ function DisplayPosition({ map }) {
 
 function RegistrationMap() {
   const [map, setMap] = useState(null)
+
+  useEffect(()=>{
+    console.log(map);
+    const provider = new OpenStreetMapProvider();
+    const searchControl2 = new GeoSearchControl({
+      provider,
+      position: 'topleft',
+    })
+
+    map?.addControl(searchControl2)
+  },[map])
   const displayMap = useMemo(
     () => (
       <MapContainer
