@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback, useRef } from "react";
 import Game from "./game";
 import UnmatchModal from "../modals/unmatchModal"
 import ReportModal from "../modals/reportModal"
+import GoToChat from "../modals/goToChatModal";
 import {
   findChatMessages,
   findChatMessage,
@@ -46,12 +47,15 @@ import {
   const [curremtItem, setCurrentItem] = useState({});
   const [unmatchModal, setUnmatchModal] = useState({show: false, id: undefined});
   const [reportModal, setReportModal] = useState({show: false, id: undefined, itemId:undefined});
+  const [goToChatModal, setGoToChat] = useState({show: false, contact: undefined});
   const stateRef = useRef();
 
   stateRef.current = activeContact;
   const chatRef = useRef();
   chatRef.current = messages;
   const scrollRef = useRef(null);
+  const contactsRef = useRef();
+  contactsRef.current = contacts;
 
   useEffect(() =>{
     loadContacts()
@@ -101,7 +105,15 @@ import {
         setMessages(newMessages);
       });
     } else {
-      alert("Received a new message from " + notification.senderName);
+      contactsRef.current.forEach(contact =>{
+        if(contact.id == notification.senderId){
+          setGoToChat({show: true,
+            contact,
+            title: ("Message from: " + notification.senderName),
+            description: ("Go to the chat of: " + notification.senderName)
+          });
+        }
+      });
     }
   }, []);
 
@@ -159,6 +171,14 @@ import {
     }
   };
 
+  const setContactById = (id) =>{
+    contactsRef.current.forEach(contact =>{
+      if(contact.id == id){
+        setActiveContact(contact)
+      }
+    });
+  }
+
   const loadChats = async () => {
     const contactItems = [];
     const matches = await findItemMatches(idNumber);
@@ -188,6 +208,7 @@ import {
     <>
     <UnmatchModal unmatch={unmatchModal} loadContacts={loadContacts} />
     <ReportModal unmatch={reportModal} loadContacts={loadContacts} />
+    <GoToChat goToChat={goToChatModal} setContact={setActiveContact}/>
     <Grid container justify="center" spacing={4}>
       <Grid item xs={12}/>
       <Grid item xs={12}/>
@@ -282,7 +303,7 @@ import {
             >
               Send
             </Button>
-            <Game stomp={stompClient} id={idNumber} activeContact={stateRef.current} curremtItem={curremtItem} sendMessage={sendMessage}></Game>
+            <Game stomp={stompClient} id={idNumber} activeContact={stateRef.current} curremtItem={curremtItem} sendMessage={sendMessage} setContact={setContactById}></Game>
           </Panel>
         </Grid>
     </Grid>

@@ -84,7 +84,8 @@ function SwipePage(props) {
             setIndex(1)
             //await new Promise(resolve => setTimeout(resolve, 2000));
             //@GetMapping("/items/{itemId}/proposal")
-            const response = await api.get(`/items/${id}/proposal`)
+            const response = await api.get(`/items/${id}/proposal/`)
+            console.log(response.data)
             setItems(response.data)
             setCurrItem(response.data[0])
             setSizeItems(response.data.length)
