@@ -6,6 +6,24 @@ export const api = axios.create({
   headers: { 'Content-Type': 'application/json' }
 });
 
+export const report = async (id, matchid) =>{
+  try {
+    const response = await api.post(`/items/${id}/report`);
+    unmatch(matchid)
+
+  } catch (error) {
+      alert(`Something went wrong during the Item creation: \n${handleError(error)}`);
+  }
+}
+
+export const unmatch = async(id) =>{
+  try {
+    const response = await api.put(`/${id}/unmatch`);
+    } catch (error) {
+      alert(`Something went wrong during the Item creation: \n${handleError(error)}`);
+    }
+}
+
 export const handleError = error => {
   const response = error.response;
 
