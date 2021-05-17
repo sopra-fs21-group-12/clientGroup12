@@ -60,7 +60,7 @@ class MyItemsList extends React.Component {
 
       <Grid item xs={6}>
         <Panel shaded>
-          <Typography variant="h5">Click on an item to go to the chat</Typography>
+          <Typography variant="h5">Choose one of your items to chat with its matches</Typography>
 
           <List
             component="nav"

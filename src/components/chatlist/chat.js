@@ -253,7 +253,6 @@ const Label = styled.label`
                                 className={classes.unmatch}
                                 variant="contained"
                                 size="small"
-                                color="secondary"
                                 onClick={()=> setUnmatchModal({show: true, id: contact.matchId})}
                             >
                               Unmatch
