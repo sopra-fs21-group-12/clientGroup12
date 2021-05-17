@@ -18,6 +18,7 @@ import SwipePage from "../../game/SwipePage";
 import SwipeRouter from "./SwipeRouter";
 import PictureSliderData from "./../../pictures/PictureSliderData";
 import PictureInventory from "./../../pictures/PictureInventory";
+import EditItemRouter from "./EditItemRouter";
 
 /**
  * Main router of your application.
@@ -91,6 +92,12 @@ class AppRouter extends React.Component {
                             <ProfileGuard>
                                 <MyInventory/>
                             </ProfileGuard>
+                        )}
+                    />
+                      <Route
+                        path="/edit"
+                        render={() => (
+                                <EditItemRouter base={"/edit"}/>
                         )}
                     />
                     <Route
