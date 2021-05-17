@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import { withRouter } from 'react-router-dom';
 
-import {Grid, Paper, Typography,} from '@material-ui/core';
+import {Chip, Grid, Paper, Typography,} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {Button, ButtonToolbar, Panel} from 'rsuite';
 import MatchedItemContainer from "../matches/MatchedItemContainer";
@@ -26,12 +26,16 @@ const useStyles = makeStyles((theme) => ({
     userItem:{
         height: "10em"
     },
+
     textLeft:{
         textAlign: 'center',
     },
     textRight:{
         textAlign: 'center',
     }
+    tag: {
+        margin: theme.spacing(0.4),
+    },
 }));
 
 function SwipePage(props) {
@@ -141,11 +145,12 @@ function SwipePage(props) {
                     </Grid>
                     <BackToInventory/>
                 </Grid>
+
             ) : (
                 <Grid container justify="center" spacing={4}>
                     <Grid item xs={12}/>
                     <Grid item xs={12}/>
-
+      
                     <Grid item xs={4}>
                         <Panel shaded>
                             <Paper className={classes.description} elevation={0}>
@@ -162,6 +167,13 @@ function SwipePage(props) {
                                         <Grid item xs={12}>
                                             <h5>{currItem.description}</h5>
                                         </Grid>
+                                        <Grid item xs={12}/>
+                                        {currItem.tagsItem.map(tag => {
+                                          return(
+                                            <div key={tag}>
+                                              <Chip className={classes.tag} label={tag} variant="outlined"/>
+                                            </div>
+                                        )})}
                                     </Grid>
                                 )}
                             </Paper>
