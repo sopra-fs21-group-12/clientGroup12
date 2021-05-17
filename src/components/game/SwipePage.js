@@ -48,7 +48,7 @@ function SwipePage(props) {
     itemsRef.current = items;
 
     const [currItem, setCurrItem] = useState();
-    const [noItems, setNoItmes] = useState(false);
+    const [noItems, setNoItems] = useState(false);
 
     // fetch itemData
     useEffect(() => {
@@ -85,10 +85,8 @@ function SwipePage(props) {
             const response = await api.get(`/items/${id}/proposal`)
             setItems(response.data)
             if(response.data.length === 0){
-                setNoItmes(true)
+                setNoItems(true)
             }
-            console.log(itemsRef.current[itemsRef.current.length-1])
-            console.log(itemsRef.current.length-1)
             setCurrItem(itemsRef.current[itemsRef.current.length-1])
             setIndex([itemsRef.current.length-1])
 
@@ -144,37 +142,40 @@ function SwipePage(props) {
                     <BackToInventory/>
                 </Grid>
             ) : (
-                <div>
-                    {!userItem || !currItem ? (
-                        <Loader/>
-                    ):(
-                        <Grid container justify="center" spacing={4}>
-                            <Grid item xs={12}/>
-                            <Grid item xs={12}/>
+                <Grid container justify="center" spacing={4}>
+                    <Grid item xs={12}/>
+                    <Grid item xs={12}/>
 
-                            <Grid item xs={4}>
-                                <Panel shaded>
-                                    <Paper className={classes.description} elevation={0}>
-                                        <Grid container spacing={3}>
-                                            <Grid item xs={3}>
-                                                <Button appearance="subtle">Report item</Button>
-                                            </Grid>
-                                            <Grid item xs={12}>
-                                                <h2>{currItem.title}</h2>
-                                            </Grid>
-                                            <Grid item xs={12}>
-                                                <h5>{currItem.description}</h5>
-                                            </Grid>
+                    <Grid item xs={4}>
+                        <Panel shaded>
+                            <Paper className={classes.description} elevation={0}>
+                                {!currItem ? (
+                                    <Loader/>
+                                ):(
+                                    <Grid container spacing={3}>
+                                        <Grid item xs={3}>
+                                            <Button appearance="subtle">Report item</Button>
                                         </Grid>
-                                    </Paper>
-                                </Panel>
-                            </Grid>
+                                        <Grid item xs={12}>
+                                            <h2>{currItem.title}</h2>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <h5>{currItem.description}</h5>
+                                        </Grid>
+                                    </Grid>
+                                )}
+                            </Paper>
+                        </Panel>
+                    </Grid>
 
-                            <Grid item xs={6}>
-                                <Grid container spacing={4} justify="center">
-                                    <Grid item xs={12}>
-                                        <Panel shaded>
-                                            <Paper className={classes.swipe} elevation={0}>
+                    <Grid item xs={6}>
+                        <Grid container spacing={4} justify="center">
+                            <Grid item xs={12}>
+                                <Panel shaded>
+                                    <Paper className={classes.swipe} elevation={0}>
+                                            {!currItem ? (
+                                                <Loader/>
+                                            ):(
                                                 <Grid container spacing={4} justify="center" alignItems="center">
                                                     <Grid item xs={12}/>
                                                     <Grid item xs={2}>
@@ -197,19 +198,23 @@ function SwipePage(props) {
                                                         </h5>
                                                     </Grid>
                                                 </Grid>
-                                            </Paper>
-                                        </Panel>
-                                    </Grid>
-
-                                    <Grid item xs={12}>
-                                        <UserItemContainer item={userItem}/>
-                                    </Grid>
-
-                                </Grid>
+                                            )}
+                                    </Paper>
+                                </Panel>
                             </Grid>
+
+                            <Grid item xs={12}>
+                                {!userItem ? (
+                                    <Loader/>
+                                    
+                                ):(
+                                    <UserItemContainer item={userItem}/>
+                                )}
+                            </Grid>
+
                         </Grid>
-                    )}
-                </div>
+                    </Grid>
+                </Grid>
             )}
         </div>
     );
