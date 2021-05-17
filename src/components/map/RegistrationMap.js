@@ -1,17 +1,10 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import "../../leaflet.css";
-import {GeoSearchControl, OpenStreetMapProvider, SearchControl} from "leaflet-geosearch";
+import {GeoSearchControl, OpenStreetMapProvider} from "leaflet-geosearch";
 
 const center = [47.3700, 8.5500]
 const zoom = 13
-
-const searchControl = () => {
-  new SearchControl({
-    provider: new OpenStreetMapProvider(),
-    position: 'topleft',
-  });
-};
 
 function DisplayPosition({ map }) {
   const [position, setPosition] = useState(map.getCenter())
@@ -43,11 +36,9 @@ function RegistrationMap() {
   const [map, setMap] = useState(null)
 
   useEffect(()=>{
-    console.log(map);
     const provider = new OpenStreetMapProvider();
     const searchControl2 = new GeoSearchControl({
       provider,
-      position: 'topleft',
     })
 
     map?.addControl(searchControl2)
