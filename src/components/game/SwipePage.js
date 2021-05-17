@@ -1,7 +1,7 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import { withRouter } from 'react-router-dom';
 
-import {Grid, Paper, Typography,} from '@material-ui/core';
+import {Chip, Grid, Paper, Typography,} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {Button, ButtonToolbar, Panel} from 'rsuite';
 import MatchedItemContainer from "../matches/MatchedItemContainer";
@@ -10,6 +10,7 @@ import Loader from "rsuite/es/Loader";
 import UserItemContainer from "./UserItemContainer";
 import PictureForSwipe from "../pictures/PictureForSwipe";
 import BackToInventory from "../RedirectButtons/BackToInventory";
+import TinderCard from "react-tinder-card";
 
 const useStyles = makeStyles((theme) => ({
     description: {
@@ -25,45 +26,49 @@ const useStyles = makeStyles((theme) => ({
     userItem:{
         height: "10em"
     },
+
+    textLeft:{
+        textAlign: 'center',
+    },
+    textRight:{
+        textAlign: 'center',
+    },
+    tag: {
+        margin: theme.spacing(0.4),
+    },
 }));
-
-
-const loader = (
-    <div>
-        <Loader size="md" backdrop content="loading..." vertical />
-    </div>);
-
-
 
 function SwipePage(props) {
     const {id} = props.match.params
     const classes = useStyles();
     const [userItem, setUserItem] = useState();
-    const [loading, setLoading] = useState(false)
-    const [sizeItems, setSizeItems] = useState(null)
-    const [index, setIndex] = useState(1)
-    const [items, setItems] = useState({})
-    const [currItem, setCurrItem] = useState({
-        id: "",
-        userId: "",
-        description: "",
-        title: "",
-        tagsItem: "",
-    })
+
+    const [index, setIndex] = useState(5)
+    const indexRef = useRef();
+    indexRef.current = index;
+
+    const [items, setItems] = useState([])
+    const itemsRef = useRef();
+    itemsRef.current = items;
+
+    const [currItem, setCurrItem] = useState();
+    const [noItems, setNoItems] = useState(false);
 
     // fetch itemData
-    useEffect(async () => {
-        try {
-            //await new Promise(resolve => setTimeout(resolve, 2000));
+    useEffect(() => {
+        async function fetchItemData(){
+            try {
+                //await new Promise(resolve => setTimeout(resolve, 2000));
 
-            // get matches of item
-            const response = await api.get(`/items/${id}`)
-            setUserItem(response.data);
+                // get matches of item
+                const response = await api.get(`/items/${id}`)
+                setUserItem(response.data);
 
-        } catch (error) {
-            alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
+            } catch (error) {
+                alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
+            }
         }
-
+        fetchItemData()
     }, [])
 
 
@@ -80,15 +85,14 @@ function SwipePage(props) {
 
     async function fetch() {
         try {
-            setLoading(true)
-            setIndex(1)
-            //await new Promise(resolve => setTimeout(resolve, 2000));
-            //@GetMapping("/items/{itemId}/proposal")
+            console.log("fetching data")
             const response = await api.get(`/items/${id}/proposal`)
             setItems(response.data)
-            setCurrItem(response.data[0])
-            setSizeItems(response.data.length)
-            setLoading(false)
+            if(response.data.length === 0){
+                setNoItems(true)
+            }
+            setCurrItem(itemsRef.current[itemsRef.current.length-1])
+            setIndex([itemsRef.current.length-1])
 
         } catch (error) {
             alert(`Something went wrong while fetching the items: \n${handleError(error)}`);
@@ -96,24 +100,35 @@ function SwipePage(props) {
 
     }
 
-    const increment = useCallback(() =>{
-        setIndex(i => i+1)
-    },[])
 
-    async function like(like){
+    async function like(dir, itemId){
         try {
-            setLoading(true)
-            const requestBody = JSON.stringify({
-                "itemIDSwiper": userItem.id,                      
-                "itemIDSwiped": currItem.id,
+            if(!dir.localeCompare("down") || !dir.localeCompare("up")){
+                console.log("nope")
+            }else{
+                let like = false
+                if(!dir.localeCompare("right")){
+                    like = true;
+                }
+
+                const requestBody = JSON.stringify({
+                "itemIDSwiper": id,
+                "itemIDSwiped": itemId,
                 "liked": like
-            })
-            await api.post('/likes', requestBody);
-            setIndex(index+1)
-            setCurrItem(items[index])
-            setLoading(false)
-            if(index == items.length) {
-                fetch();
+                })
+
+                await api.post('/likes', requestBody);
+
+
+                console.log('removing: ' + itemId + " with direction: " + like)
+                setIndex(indexRef.current - 1)
+                console.log("newindex " + indexRef.current)
+                setCurrItem(items[indexRef.current])
+                console.log("itemsleft:" + (itemsRef.current.length - 1 + " vs " + indexRef.current))
+                if(indexRef.current === -1) {
+                    console.log("will fetch data")
+                    fetch();
+                }
             }
         }catch (error){
             alert(`Something went wrong during the like request: \n${handleError(error)}`);
@@ -121,79 +136,100 @@ function SwipePage(props) {
     }
 
     return (
-<div>
-        {!userItem || !currItem ? (
-            !currItem? (
+        <div>
+            {noItems ? (
                 <Grid container justify="center" alignItems="center" spacing={5}>
                     <Grid item xs={12}/>
-                    <Grid item xs={3}>
+                    <Grid item xs={6}>
                         <h1>No items to swipe on left</h1>
                     </Grid>
                     <BackToInventory/>
                 </Grid>
-                ) :
-                <Loader/>
-    ) : (
-        <Grid container justify="center" spacing={4}>
-            <Grid item xs={12}/>
-            <Grid item xs={12}/>
 
-            <Grid item xs={4}>
-                <Panel shaded>
-                    <Paper className={classes.description} elevation={0}>
-                        <Grid container justify="left" spacing={3}>
-                            <Grid item xs={9}/>
-                            <Grid item xs={2}>
-                                <Button
-                                    appearance="subtle"
-                                >
-                                    Report item
-                                </Button>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <h2>
-                                    {currItem.title}
-                                </h2>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <h5>
-                                    {currItem.description}
-                                </h5>
-                            </Grid>
-                        </Grid>
-                    </Paper>
-                </Panel>
-            </Grid>
-            <Grid item xs={6}>
-                <Grid container spacing={4}>
-                    <Grid item xs={12}>
+            ) : (
+                <Grid container justify="center" spacing={4}>
+                    <Grid item xs={12}/>
+                    <Grid item xs={12}/>
+      
+                    <Grid item xs={4}>
                         <Panel shaded>
-                            <Paper className={classes.swipe} elevation={0}>
-                                {loading ? loader :
-                                        <Grid container alignItems="center" justify="center" spacing={4}>
-                                            <Grid item xs={12}>
-                                                <PictureForSwipe itemId={currItem.id}/>
-                                            </Grid>
-                                            <Grid>
-                                                <Button onClick={() => like(false)}> dislike</Button>
-                                                <Button onClick={() => like(true)}> like</Button>
-                                            </Grid>
-
+                            <Paper className={classes.description} elevation={0}>
+                                {!currItem ? (
+                                    <Loader/>
+                                ):(
+                                    <Grid container spacing={3}>
+                                        <Grid item xs={3}>
+                                            <Button appearance="subtle">Report item</Button>
                                         </Grid>
-                                }
+                                        <Grid item xs={12}>
+                                            <h2>{currItem.title}</h2>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <h5>{currItem.description}</h5>
+                                        </Grid>
+                                        <Grid item xs={12}/>
+                                        {currItem.tagsItem.map(tag => {
+                                          return(
+                                            <div key={tag}>
+                                              <Chip className={classes.tag} label={tag} variant="outlined"/>
+                                            </div>
+                                        )})}
+                                    </Grid>
+                                )}
                             </Paper>
                         </Panel>
                     </Grid>
-                    <Grid item xs={12}>
-                        <UserItemContainer item={userItem}/>
+
+                    <Grid item xs={6}>
+                        <Grid container spacing={4} justify="center">
+                            <Grid item xs={12}>
+                                <Panel shaded>
+                                    <Paper className={classes.swipe} elevation={0}>
+                                            {!currItem ? (
+                                                <Loader/>
+                                            ):(
+                                                <Grid container spacing={4} justify="center" alignItems="center">
+                                                    <Grid item xs={12}/>
+                                                    <Grid item xs={2}>
+                                                        <h5 className={classes.textLeft}>Swipe Left for NOPE ❌</h5>
+                                                    </Grid>
+                                                    <Grid item xs={6}>
+                                                        <div className='cardContainer'>
+                                                            {items.map((item, index) =>
+                                                                <TinderCard className='swipe' preventSwipe={["up","down"]} key={item.id} onSwipe={(dir) => like(dir, item.id)}>
+                                                                    <div className='card'>
+                                                                        <PictureForSwipe itemId={item.id}/>
+                                                                    </div>
+                                                                </TinderCard>
+                                                            )}
+                                                        </div>
+                                                    </Grid>
+                                                    <Grid item xs={2}>
+                                                        <h5 className={classes.textRight}>
+                                                            Swipe Right for SWAP ✅
+                                                        </h5>
+                                                    </Grid>
+                                                </Grid>
+                                            )}
+                                    </Paper>
+                                </Panel>
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                {!userItem ? (
+                                    <Loader/>
+                                    
+                                ):(
+                                    <UserItemContainer item={userItem}/>
+                                )}
+                            </Grid>
+
+                        </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
-        </Grid>
-    )}
-</div>
+            )}
+        </div>
     );
-
 }
 
 export default withRouter(SwipePage);

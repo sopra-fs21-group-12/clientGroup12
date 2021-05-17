@@ -1,15 +1,17 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import Game from "./game";
+import UnmatchModal from "../modals/unmatchModal"
+import ReportModal from "../modals/reportModal"
 import {
   findChatMessages,
   findChatMessage,
   findItemMatches,
   getItem,
 } from "./ApiUtil";
-import "./Chat.css";
 import { getDomain } from '../../helpers/getDomain';
 import BackToInventory from "../RedirectButtons/BackToInventory";
 import Picture from "../pictures/Picture";
+import {api, handleError} from "../../helpers/api";
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -42,6 +44,8 @@ import {
   const [activeContact, setActiveContact] = useState(undefined);
   const [messages, setMessages] = useState([]);
   const [curremtItem, setCurrentItem] = useState({});
+  const [unmatchModal, setUnmatchModal] = useState({show: false, id: undefined});
+  const [reportModal, setReportModal] = useState({show: false, id: undefined, itemId:undefined});
   const stateRef = useRef();
 
   stateRef.current = activeContact;
@@ -101,8 +105,30 @@ import {
     }
   }, []);
 
+  const report = async (id, matchid) =>{
+    try {
+      const response = await api.post(`/items/${id}/report`);
+      unmatch(matchid)
+
+    } catch (error) {
+        alert(`Something went wrong during the Item creation: \n${handleError(error)}`);
+    }
+  }
+
+  const unmatch = async(id) =>{
+    try {
+      console.log(stateRef.current.matchId);
+      console.log(id);
+      //const response = await api.put(`/${id}/unmatch`);
+      //loadContacts();
+    } catch (error) {
+        alert(`Something went wrong during the Item creation: \n${handleError(error)}`);
+    }
+  }
+
   const loadContacts =  async() => {
     setMessages([]);
+    setContacts([]);
     stompClient && stompClient.disconnect();
     getItem(id).then((item)=>{
       setCurrentItem(item);
@@ -147,8 +173,8 @@ import {
       const item = await getItem(otherItemId);
       item.name = item.title;
       item.newMessages = 0;
-      contactItems.push(item);
       item.matchId = matches[index].id;
+      contactItems.push(item);
     }
     setContacts(contactItems);
     if (activeContact === undefined && contactItems?.length > 0) {
@@ -160,6 +186,8 @@ import {
 
     return (
     <>
+    <UnmatchModal unmatch={unmatchModal} loadContacts={loadContacts} />
+    <ReportModal unmatch={reportModal} loadContacts={loadContacts} />
     <Grid container justify="center" spacing={4}>
       <Grid item xs={12}/>
       <Grid item xs={12}/>
@@ -183,14 +211,16 @@ import {
                       <Button
                         variant="contained"
                         color="default"
+                        onClick={()=> setUnmatchModal({show: true, id: contact.matchId})}
                       >
                         Unmatch
                       </Button>
                       <Button
                         variant="contained"
                         color="default"
+                        onClick={()=> setReportModal({show: true, id: contact.matchId, itemId: contact.id})}
                       >
-                        Delete
+                        Report
                       </Button>
                     </ListItem>
                 </div>
