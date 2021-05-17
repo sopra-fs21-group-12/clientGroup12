@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     },
     textRight:{
         textAlign: 'center',
-    }
+    },
     tag: {
         margin: theme.spacing(0.4),
     },
