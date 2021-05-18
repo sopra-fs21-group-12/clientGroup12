@@ -141,7 +141,13 @@ class AppRouter extends React.Component {
                             </ProfileGuard>
                         )}
                     />
-                    <Route path="/" exact render={() => <Redirect to={"/inventory"} />} />
+                    <Route
+                      path="/"
+                      exact
+                      render={() =>
+                        <Home/>
+                      }
+                    />
                 </Switch>
             </BrowserRouter>
         );
