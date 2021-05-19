@@ -85,8 +85,20 @@ function SwipePage(props) {
 
     async function fetch() {
         try {
+            let swipeTag = sessionStorage.getItem("swipeTag")
             console.log("fetching data")
-            const response = await api.get(`/items/${id}/proposal`)
+            console.log(swipeTag)
+            let response;
+            console.log(swipeTag === "undefined")
+
+            if(swipeTag === "undefined"){
+                console.log("no Tag")
+                response = await api.get(`/items/${id}/proposal`);
+            }else{
+                console.log("with Tag")
+                response = await api.get(`/items/${id}/proposal/${swipeTag}`)
+            }
+
             setItems(response.data)
             if(response.data.length === 0){
                 setNoItems(true)
