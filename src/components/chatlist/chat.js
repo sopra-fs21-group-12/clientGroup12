@@ -345,7 +345,7 @@ const Label = styled.label`
                   stomp={stompClient}
                   id={idNumber}
                   activeContact={stateRef.current}
-                  curremtItem={currentItem}
+                  currentItem={currentItem}
                   sendMessage={sendMessage}>
               </Game>
               <Button
