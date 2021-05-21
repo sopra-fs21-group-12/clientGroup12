@@ -9,6 +9,8 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { api, handleError } from '../../helpers/api';
 import MyItemsContainer from "./MyItemsContainer";
 import {Panel} from "rsuite";
+import Navbar from "../Navbar/Navbar";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -77,6 +79,8 @@ function MyInventory() {
 
   const classes = useStyles();
   return (
+    <Grid container justify="center" spacing={0}>
+        <Navbar/>
     <Grid
       container
       justify="center"
@@ -153,6 +157,8 @@ function MyInventory() {
         </Panel>
       </Grid>
     </Grid>
+    </Grid>
+
   )
 }
 export default withRouter(MyInventory);

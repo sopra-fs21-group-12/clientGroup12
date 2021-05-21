@@ -4,6 +4,8 @@ import {Avatar, Button, Container, Grid, makeStyles, TextField, Typography, Pape
 import {api, handleError} from "../../helpers/api";
 import User from "../shared/models/User";
 import {Panel} from "rsuite";
+import Navbar from "../Navbar/Navbar";
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -99,6 +101,8 @@ function Registration() {
   }
 
   return (
+    <Grid container justify="center" spacing={0}>
+        <Navbar/>
     <Container
       component="main"
       maxWidth="xs"
@@ -209,6 +213,7 @@ function Registration() {
         Back to Login
       </Button>
     </Container>
+    </Grid>
   )
 }
 
