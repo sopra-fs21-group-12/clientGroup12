@@ -101,7 +101,7 @@ function Registration() {
   }
 
   return (
-    <Grid container justify="center" spacing={0}>
+    <Grid spacing={0}>
         <Navbar/>
     <Container
       component="main"

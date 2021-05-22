@@ -86,7 +86,7 @@ function LoginHooks() {
   return (
       <Grid container justify="center" spacing={0}>
         <Navbar/>
-        <Grid container justify="center" spacing={4}>
+        <Grid container justify="center" spacing={10}>
         <Grid item xs={12}/>
         <Grid item xs={12}/>
           <Grid container justify="flex-end" spacing={1}>
