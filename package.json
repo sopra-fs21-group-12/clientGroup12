@@ -20,6 +20,7 @@
     "react-scroll-to-bottom": "^4.1.0",
     "react-simple-image-slider": "^2.1.0",
     "react-slidy": "^4.1.0",
+    "react-tinder-card": "^1.4.0",
     "react-validation": "^3.0.7",
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",

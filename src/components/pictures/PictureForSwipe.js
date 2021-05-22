@@ -46,7 +46,7 @@ export default function PictureForSwipe(props){
         <img style={{
             width: "300px", height: "300px",
             display: "block",
-            borderRadius: "9px"
+            borderRadius: "20px"
         }}
              src={pictureData?.url} alt=""/>
     );
