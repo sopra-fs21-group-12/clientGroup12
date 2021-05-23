@@ -4,6 +4,7 @@ import {Panel} from "rsuite";
 import {Grid, Button} from "@material-ui/core";
 import styled from 'styled-components';
 import Picture from "../pictures/Picture";
+import PictureSliderItem from "../pictures/PictureSilderItem";
 
 
 const Label = styled.label`
@@ -55,10 +56,10 @@ export default function MatchedItemContainer(props) {
                 <Panel shaded collapsible
                        header={
                            <Grid container justify="flex-start" alignItems="center">
-                               <Grid item xs={2}>
-                                   <Picture itemId={props.item.id}/>
+                               <Grid item xs={4}>
+                                   <PictureSliderItem id={props.item.id}/>
                                </Grid>
-                               <Grid item xs={7}>
+                               <Grid item xs={5}>
                                    <Label>Matched with</Label>
                                    <h3>{props.item.title}</h3>
                                </Grid>
