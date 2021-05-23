@@ -5,6 +5,8 @@ import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
 import { Avatar, Button, CssBaseline, TextField, Link, Grid, Box, Typography, Container, Paper, Card, CardContent } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Navbar from "../Navbar/Navbar";
+
 
 
 class LoginMaterial extends React.Component {
@@ -72,6 +74,7 @@ class LoginMaterial extends React.Component {
   render() {
     return (
 <Container component="main" maxWidth="xs">
+  <Navbar/>
       <CssBaseline />
       <div>
         <Avatar>

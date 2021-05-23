@@ -16,8 +16,10 @@ import Profile from "../../profilepage/Profile";
 import MatchRouter from "./MatchRouter";
 import SwipePage from "../../game/SwipePage";
 import SwipeRouter from "./SwipeRouter";
-import PictureSliderData from "./../../pictures/PictureSliderData";
+import PictureSliderSwiping from "../../pictures/PictureSliderSwiping";
 import PictureInventory from "./../../pictures/PictureInventory";
+import Navbar from "./../../Navbar/Navbar"
+import EditItemRouter from "./EditItemRouter";
 
 /**
  * Main router of your application.
@@ -82,7 +84,7 @@ class AppRouter extends React.Component {
                         path="/test"
                         exact
                         render={() => (
-                            <PictureInventory/>
+                            <Navbar/>
                         )}
                     />
                     <Route
@@ -91,6 +93,12 @@ class AppRouter extends React.Component {
                             <ProfileGuard>
                                 <MyInventory/>
                             </ProfileGuard>
+                        )}
+                    />
+                      <Route
+                        path="/edit"
+                        render={() => (
+                                <EditItemRouter base={"/edit"}/>
                         )}
                     />
                     <Route

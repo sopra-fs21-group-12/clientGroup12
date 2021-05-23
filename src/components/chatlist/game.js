@@ -39,16 +39,7 @@ const Game = (props) => {
       }, []);
 
       useEffect(() => {
-        //setActiveContact(props.activeContact);
         setIdNumber(props.id)
-        /*console.log(props.stomp?.connected)
-        if(props.stomp && props.stomp?.connected && !connected){
-          props.stomp.subscribe(
-            "/user/" + idNumber + "/queue/game",
-            onGameStuff
-          )
-          setConnected(true);
-        }*/
         }, [myStomp?.connected, props.stomp, activeContact, myStomp]);
     
     
@@ -67,8 +58,6 @@ const Game = (props) => {
         if(notification.request){
           if(notification.senderId != stateRef.current.id){
             setOhterchat({show: true , senderName: (notification.senderName), senderId: (notification.senderId)})
-            console.log(notification);
-            //alert("game request from " + notification.senderId)
           } else {
             setModal({show: true});
           }
@@ -87,9 +76,6 @@ const Game = (props) => {
       });
     
       const gameLogic = async() => { 
-        console.log("my choice " + myChoiceRef.current);
-        console.log("your choice " + opChoiceRef.current);
-        console.log("decide who won");
         let decession = false;
         const message = "";
         if(myChoiceRef.current === opChoiceRef.current){
@@ -97,7 +83,6 @@ const Game = (props) => {
           decession = true;
         }
         const mylocalChoice = await myChoiceRef.current
-        console.log(myChoice);
         if((myChoiceRef.current === "Paper" && opChoiceRef.current === "Rock")
         || (myChoiceRef.current === "Scissor" && opChoiceRef.current === "Paper")
         || (myChoiceRef.current === "Rock" && opChoiceRef.current === "Scissor")){
@@ -134,12 +119,10 @@ const Game = (props) => {
       console.log(err);
     };
   const sendGame = () => {
-    console.log(props.curremtItem);
     const message = {
       senderId: idNumber,
       recipientId: activeContact.id,
-      senderId: props.curremtItem.id,
-      senderName: props.curremtItem.title,        
+      //senderId: props.currentItem.id,
       request: true,
     };
     props.stomp.send("/app/game", {}, JSON.stringify(message));
@@ -158,7 +141,6 @@ const Game = (props) => {
 
   const sendType= async(type) => {
     await setMyChoice(type);
-    console.log(myChoiceRef.current)
     const message = {
       senderId: idNumber,
       recipientId: activeContact.id,

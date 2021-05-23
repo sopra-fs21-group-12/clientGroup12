@@ -44,9 +44,11 @@ export default function PictureForSwipe(props){
     const classes = useStyles();
     return(
         <img style={{
+            border: "0.5px solid #dcdbdc",
             width: "300px", height: "300px",
-            display: "block",
-            borderRadius: "9px"
+            borderRadius: "9px",
+            objectFit: "cover",
+            backgroundColor: "#dbdcdb"
         }}
              src={pictureData?.url} alt=""/>
     );

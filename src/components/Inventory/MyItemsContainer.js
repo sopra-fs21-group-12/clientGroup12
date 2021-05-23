@@ -4,6 +4,8 @@ import {Panel} from "rsuite";
 import {Grid, Button, makeStyles} from "@material-ui/core";
 import ItemEdit from "../item/ItemEdit";
 import Picture from "../pictures/Picture";
+import PictureSliderSwiping from "../pictures/PictureSliderSwiping";
+import PictureSliderItem from "../pictures/PictureSilderItem";
 
 const useStyles = makeStyles((theme) => ({
   matchesButton: {
@@ -28,16 +30,22 @@ export default function MyItemsContainer(props) {
           collapsible
           header={
             <Grid container justify="flex-start" alignItems="center" spacing={10}>
-              <Grid container item xs={5} justify="center" alignItems="center" spacing={1}>
+              <Grid container item xs={5} justify="center" alignItems="center" spacing={4}>
                 <Grid item xs={4}>
-                  <Picture itemId={props.item.id}/>
+                  <PictureSliderItem id={props.item.id}/>
                 </Grid>
                 <Grid item xs={8}>
                   <h3>{props.item.title}</h3>
                 </Grid>
               </Grid>
               <Grid item xs={2}>
-                <ItemEdit id={props.item.id}/>
+              <Button
+                variant="contained"
+                className={classes.itemEdit}
+                onClick={() => history.push('/edit/' + props.item.id)}
+              >
+                Edit Item
+              </Button>
               </Grid>
                 <Grid item xs={2}>
               <Button

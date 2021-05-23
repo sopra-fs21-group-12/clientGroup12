@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import Game from "./game";
 import UnmatchModal from "../modals/unmatchModal"
 import ReportModal from "../modals/reportModal"
@@ -18,12 +19,26 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import {Panel} from "rsuite";
-import {
-  Grid,
-  makeStyles,
-  TextField,
-  Button,
-} from "@material-ui/core";
+import { Grid, makeStyles, TextField, Button, Divider } from "@material-ui/core";
+
+import styled from 'styled-components';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+
+const Label = styled.label`
+   position: static;
+   left: 14.95%;
+   right: 75.81%;
+   top: 27.34%;
+   bottom: 60.16%;
+   
+   font-style: normal;
+   font-weight: 600;
+   font-size: 12px;
+   line-height: 16px;
+   /* identical to box height, or 133% */
+   text-align: center;
+   color: #000000;
+ `;
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,7 +48,24 @@ import {
       overflow: 'auto',
       height: 300,
       maxHeight: 300,
-    }
+    },
+    unmatch: {
+      margin: theme.spacing(1),
+      background: "#EB5757",
+    },
+    report: {
+      background: "#EB5757",
+    },
+    swipingButton: {
+      marginTop: theme.spacing(5),
+      background: "#FFBB12",
+    },
+    title:{
+      marginBottom: theme.spacing(2),
+    },
+    matchesButton: {
+      background: "#6FCF97",
+    },
   }));
 
   var stompClient = null;
@@ -44,11 +76,12 @@ import {
   const [contacts, setContacts] = useState();
   const [activeContact, setActiveContact] = useState(undefined);
   const [messages, setMessages] = useState([]);
-  const [curremtItem, setCurrentItem] = useState({});
+  const [currentItem, setCurrentItem] = useState({});
   const [unmatchModal, setUnmatchModal] = useState({show: false, id: undefined});
   const [reportModal, setReportModal] = useState({show: false, id: undefined, itemId:undefined});
   const [goToChatModal, setGoToChat] = useState({show: false, contact: undefined});
   const stateRef = useRef();
+  const history = useHistory();
 
   stateRef.current = activeContact;
   const chatRef = useRef();
@@ -144,7 +177,7 @@ import {
     stompClient && stompClient.disconnect();
     getItem(id).then((item)=>{
       setCurrentItem(item);
-      console.log(curremtItem);
+      console.log(currentItem);
     });
     connect();
     loadChats();
@@ -157,7 +190,7 @@ import {
       const message = {
         senderId: idNumber,
         recipientId: stateRef.current.id,
-        senderName: curremtItem.title,
+        senderName: currentItem.title,
         recipientName: stateRef.current.name,
         matchId: stateRef.current.matchId,
         content: msg,
@@ -214,98 +247,164 @@ import {
       <Grid item xs={12}/>
       <Grid item xs={4}>
           <Panel shaded>
-
-            <List className={classes.rootList}
-              aria-labelledby="nested-list-subheader"
-            >
-              {contacts && contacts.map((contact) => {
-              return (
-                <div key={contact.id}>
-                    <ListItem 
-                      button 
-                      selected={contact.id === stateRef.current?.id}
-                      onClick={(event) =>{
-                        setActiveContact(contact)
-                      }}
-                    >
-                      <ListItemText primary={contact.name} />
-                      <Button
-                        variant="contained"
-                        color="default"
-                        onClick={()=> setUnmatchModal({show: true, id: contact.matchId})}
-                      >
-                        Unmatch
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="default"
-                        onClick={()=> setReportModal({show: true, id: contact.matchId, itemId: contact.id})}
-                      >
-                        Report
-                      </Button>
-                    </ListItem>
-                </div>
-              );
-              })}
-            </List>
+            <div>
+              <h5>Matched Items</h5>
+            {!activeContact ? (
+                <Grid className={classes.rootList} container justify="center" alignItems="center">
+                  <Grid item xs={6}>
+                    <h3 className={classes.title}>No Matches for this item</h3>
+                  </Grid>
+                </Grid>
+            ):(
+                <List className={classes.rootList}
+                      aria-labelledby="nested-list-subheader"
+                >
+                  {contacts && contacts.map((contact) => {
+                    return (
+                        <div key={contact.id}>
+                          <ListItem
+                              button
+                              selected={contact.id === stateRef.current?.id}
+                              onClick={(event) =>{
+                                setActiveContact(contact)
+                              }}
+                          >
+                            <ListItemText primary={contact.name} />
+                            <Button
+                                className={classes.unmatch}
+                                variant="contained"
+                                size="small"
+                                onClick={()=> setUnmatchModal({show: true, id: contact.matchId})}
+                            >
+                              Unmatch
+                            </Button>
+                            <Button
+                                size="small"
+                                color="secondary"
+                                onClick={()=> setReportModal({show: true, id: contact.matchId, itemId: contact.id})}
+                            >
+                              Report
+                            </Button>
+                          </ListItem>
+                        </div>
+                    );
+                  })}
+                </List>
+            )}
+            </div>
           </Panel>
         </Grid>
         <Grid item xs={6}>
           <Panel shaded>
-            <List className={classes.rootList}
-              component="nav"
-            >
-              {messages.map((msg, index) => {
-              return (
-                <div key={index}>
-                  <ListItem ref={scrollRef} >
-                    <ListItemText style={{display:'flex', justifyContent: msg.senderId == idNumber ? 'flex-end' : 'flex-start'}} primary={msg.content}/>
-                  </ListItem>
+            {!activeContact ? (
+                <Grid className={classes.rootList} container justify="center" alignItems="center" spacing={3}>
+                  <Grid item xs={6}>
+                    <h3>Start swiping and create matches first</h3>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Button
+                        variant="contained"
+                        className={classes.swipingButton}
+                        onClick={() => history.push('/swipe/' + idNumber)}
+                    >
+                      Start Swiping
+                    </Button>
+                  </Grid>
+                </Grid>
+            ):(
+                <div>
+                  <h5>Chat with {activeContact.name}</h5>
+                  <Divider />
+                  <List className={classes.rootList}
+                        component="nav"
+                  >
+                    {messages.map((msg, index) => {
+                      return (
+                          <div key={index}>
+                            <ListItem ref={scrollRef} >
+                              <ListItemText style={{display:'flex', justifyContent: msg.senderId == idNumber ? 'flex-end' : 'flex-start'}} primary={msg.content}/>
+                            </ListItem>
+                          </div>
+                      );
+                    })}
+                  </List>
                 </div>
-              );
-              })}
-            </List>
+            )}
           </Panel>
         </Grid>
+
         <Grid item xs={4}>
           <Panel shaded>
-            <div>your current item</div>
-            <div>Title: {curremtItem.title}</div>
-            <div>Description: {curremtItem.description}</div>
-            <Picture itemId={curremtItem.id}/>
+            <Grid container justify="flex-start" alignItems="center">
+              <Grid item xs={4}>
+                {currentItem.id && <Picture itemId={currentItem.id}/>}
+              </Grid>
+              <Grid item xs={6}>
+                <Label>Chatting with your</Label>
+                <h3>{currentItem.title}</h3>
+              </Grid>
+            </Grid>
           </Panel>
         </Grid>
-        <Grid item xs={6}>
-          <Panel shaded>
-            <TextField 
-              margin="normal"
-              required
-              fullWidth
-              placeholder="send text"
-              value={text}
-              autoFocus
-              onChange={(event) => setText(event.target.value)}
-              onKeyPress={(event) => {
-                if (contacts && event.key === "Enter") {
-                  sendMessage(text);
-                  setText("");
-                }
-              }}
-            />
-            <Button
-              variant="contained"
-              onClick={() => {
-                if(contacts) {
-                  sendMessage(text);
-                  setText("");
-                }
-              }}
-            >
-              Send
-            </Button>
-            <Game stomp={stompClient} id={idNumber} activeContact={stateRef.current} curremtItem={curremtItem} sendMessage={sendMessage} setContact={setContactById}></Game>
-          </Panel>
-        </Grid>
+
+      <Grid item xs={6}>
+        {activeContact ? (
+            <Grid container justify="flex-start" alignItems="center" spacing={4}>
+              <Grid item xs={8}>
+                <Panel shaded>
+                  <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      placeholder="send text"
+                      value={text}
+                      autoFocus
+                      onChange={(event) => setText(event.target.value)}
+                      onKeyPress={(event) => {
+                        if (contacts && event.key === "Enter") {
+                          sendMessage(text);
+                          setText("");
+                        }
+                      }}
+                  />
+                  <Button
+                      className={classes.matchesButton}
+                      variant="contained"
+                      disabled={!activeContact}
+                      onClick={() => {
+                        if(contacts) {
+                          sendMessage(text);
+                          setText("");
+                        }
+                      }}
+                  >
+                    Send
+                  </Button>
+                </Panel>
+              </Grid>
+              <Grid item xs={4}>
+                <Game
+                    stomp={stompClient}
+                    id={idNumber}
+                    activeContact={stateRef.current}
+                    currentItem={currentItem}
+                    sendMessage={sendMessage}>
+                    setContact={setContactById}
+                </Game>
+                <Button
+                    size="large"
+                    variant="contained"
+                    className={classes.swipingButton}
+                    endIcon={<ThumbUpIcon>ok</ThumbUpIcon>}
+                >
+                  Confirm Swap
+                </Button>
+              </Grid>
+            </Grid>
+        ):(
+            <div/>
+        )}
+      </Grid>
     </Grid>
     <BackToInventory/>
     </>

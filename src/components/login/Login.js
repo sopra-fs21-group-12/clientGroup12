@@ -5,7 +5,7 @@ import { api, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
-
+import Navbar from "../Navbar/Navbar";
 const FormContainer = styled.div`
   margin-top: 2em;
   display: flex;
@@ -121,6 +121,7 @@ class Login extends React.Component {
   render() {
     return (
       <BaseContainer>
+      <Navbar/>
       <h3 className="center white-text">Login</h3>
         <FormContainer>
           <Form>
