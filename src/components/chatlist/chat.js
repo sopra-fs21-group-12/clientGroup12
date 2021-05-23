@@ -388,8 +388,8 @@ const Label = styled.label`
                     id={idNumber}
                     activeContact={stateRef.current}
                     currentItem={currentItem}
-                    sendMessage={sendMessage}>
-                    setContact={setContactById}
+                    sendMessage={sendMessage}
+                    setContact={setContactById}>
                 </Game>
                 <Button
                     size="large"
