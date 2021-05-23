@@ -11,6 +11,7 @@ import UserItemContainer from "./UserItemContainer";
 import PictureForSwipe from "../pictures/PictureForSwipe";
 import BackToInventory from "../RedirectButtons/BackToInventory";
 import TinderCard from "react-tinder-card";
+import PictureSliderSwiping from "../pictures/PictureSliderSwiping";
 
 const useStyles = makeStyles((theme) => ({
     description: {
@@ -85,8 +86,20 @@ function SwipePage(props) {
 
     async function fetch() {
         try {
+            let swipeTag = sessionStorage.getItem("swipeTag")
             console.log("fetching data")
-            const response = await api.get(`/items/${id}/proposal`)
+            console.log(swipeTag)
+            let response;
+            console.log(swipeTag === "undefined")
+
+            if(swipeTag === "undefined"){
+                console.log("no Tag")
+                response = await api.get(`/items/${id}/proposal`);
+            }else{
+                console.log("with Tag")
+                response = await api.get(`/items/${id}/proposal/${swipeTag}`)
+            }
+
             setItems(response.data)
             if(response.data.length === 0){
                 setNoItems(true)
@@ -162,6 +175,8 @@ function SwipePage(props) {
                                             <Button appearance="subtle">Report item</Button>
                                         </Grid>
                                         <Grid item xs={12}>
+                                        </Grid>
+                                        <Grid item xs={12}>
                                             <h2>{currItem.title}</h2>
                                         </Grid>
                                         <Grid item xs={12}>
@@ -198,7 +213,7 @@ function SwipePage(props) {
                                                             {items.map((item, index) =>
                                                                 <TinderCard className='swipe' preventSwipe={["up","down"]} key={item.id} onSwipe={(dir) => like(dir, item.id)}>
                                                                     <div className='card'>
-                                                                        <PictureForSwipe itemId={item.id}/>
+                                                                        <PictureSliderSwiping id={item.id}/>
                                                                     </div>
                                                                 </TinderCard>
                                                             )}
