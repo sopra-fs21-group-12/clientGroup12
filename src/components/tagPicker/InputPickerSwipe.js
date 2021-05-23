@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react'
-import { TagPicker } from 'rsuite';
+import { InputPicker } from 'rsuite';
 
 
-export default function TagPickerRS(props) {
-    
+export default function InputPickerSwipe(props) {
+
     function handleChange(event) {
-      props.onChange(event);
+        props.onChange(event);
     }
 
     return (
-        <TagPicker
+        <InputPicker
             placeholder="Add Tags"
             size='lg'
             creatable="false"
