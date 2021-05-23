@@ -4,14 +4,14 @@ import { withRouter } from 'react-router-dom';
 import {Chip, Grid, Paper, Typography,} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {Button, ButtonToolbar, Panel} from 'rsuite';
-import MatchedItemContainer from "../matches/MatchedItemContainer";
 import {api, handleError} from "../../helpers/api";
 import Loader from "rsuite/es/Loader";
-import UserItemContainer from "./UserItemContainer";
-import PictureForSwipe from "../pictures/PictureForSwipe";
+import UserItemContainer from "./UserItemContainer"
 import BackToInventory from "../RedirectButtons/BackToInventory";
 import TinderCard from "react-tinder-card";
 import PictureSliderSwiping from "../pictures/PictureSliderSwiping";
+import {useHotkeys} from "react-hotkeys-hook";
+
 
 const useStyles = makeStyles((theme) => ({
     description: {
@@ -30,9 +30,11 @@ const useStyles = makeStyles((theme) => ({
 
     textLeft:{
         textAlign: 'center',
+        cursor: 'pointer',
     },
     textRight:{
         textAlign: 'center',
+        cursor: 'pointer',
     },
     tag: {
         margin: theme.spacing(0.4),
@@ -42,8 +44,7 @@ const useStyles = makeStyles((theme) => ({
 function SwipePage(props) {
     const {id} = props.match.params
     const classes = useStyles();
-    const [userItem, setUserItem] = useState();
-    const [indexCounter, setIndexCounter] = useState(0); 
+    const [userItem, setUserItem] = useState(); 
 
     const [index, setIndex] = useState(5)
     const indexRef = useRef();
@@ -54,7 +55,17 @@ function SwipePage(props) {
     itemsRef.current = items;
 
     const [currItem, setCurrItem] = useState();
+    const currItemRef = useRef();
+    currItemRef.current = currItem;
     const [noItems, setNoItems] = useState(false);
+
+    useHotkeys('left', (e) => {
+        e.preventDefault();
+        buttonLike(false)});
+    useHotkeys('right', (e) => {
+        e.preventDefault();
+        buttonLike(true)
+    });
 
     // fetch itemData
     useEffect(() => {
@@ -65,7 +76,6 @@ function SwipePage(props) {
                 // get matches of item
                 const response = await api.get(`/items/${id}`)
                 setUserItem(response.data);
-                setIndexCounter(0);
 
             } catch (error) {
                 alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
@@ -138,7 +148,7 @@ function SwipePage(props) {
                 console.log('removing: ' + itemId + " with direction: " + like)
                 setIndex(indexRef.current - 1)
                 console.log("newindex " + indexRef.current)
-                setCurrItem(items[indexRef.current])
+                setCurrItem(itemsRef.current[indexRef.current])
                 console.log("itemsleft:" + (itemsRef.current.length - 1 + " vs " + indexRef.current))
                 if(indexRef.current === -1) {
                     console.log("will fetch data")
@@ -151,10 +161,13 @@ function SwipePage(props) {
     }
 
     const buttonLike = (likes) =>{
+        if(itemsRef.current.length <1){
+            return
+        }
         if(likes){
-            like("right", currItem.id);
+            like("right", currItemRef.current.id);
         } else {
-            like("left", currItem.id);
+            like("left", currItemRef.current.id);
         }
     }
 
