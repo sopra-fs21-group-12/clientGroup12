@@ -74,7 +74,7 @@ function Registration() {
     try {
       // What we want to send back to the backend
       const requestBody = JSON.stringify({
-        username: username.toLowerCase(),
+        username: username,
         name: name,
         password: password,
         address: address,
@@ -110,7 +110,6 @@ function Registration() {
       <div className={classes.paper}>
         <Panel shaded>
           <Typography
-            component="h1"
             variant="h5">
             Register to upload your first item and start swiping
           </Typography>
