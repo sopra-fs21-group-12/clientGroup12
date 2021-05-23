@@ -69,7 +69,6 @@ function Profile() {
             <Grid
               container
               justify="center"
-              component="main"
             >
                 <Panel
                   shaded
@@ -79,7 +78,7 @@ function Profile() {
                     elevation={0}
                     className={classes.root}
                     >
-                        <Typography component="h1" variant="h5">
+                        <Typography variant="h5">
                         {loading ? loader :
                             <div>
                                 <Grid
