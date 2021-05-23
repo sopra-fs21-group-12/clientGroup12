@@ -16,7 +16,7 @@ import Profile from "../../profilepage/Profile";
 import MatchRouter from "./MatchRouter";
 import SwipePage from "../../game/SwipePage";
 import SwipeRouter from "./SwipeRouter";
-import PictureSliderData from "./../../pictures/PictureSliderData";
+import PictureSliderSwiping from "../../pictures/PictureSliderSwiping";
 import PictureInventory from "./../../pictures/PictureInventory";
 import Navbar from "./../../Navbar/Navbar"
 import EditItemRouter from "./EditItemRouter";

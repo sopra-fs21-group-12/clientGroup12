@@ -166,8 +166,6 @@ export default function PictureInventory() {
     return (
         <Grid container justify="center" spacing={1}>
              <Grid item xs={12}/>
-            <Grid item xs={12}/>
-            <Grid item xs={6}>
             <Panel shaded>
              <Typography variant="h5">Item Edit Page</Typography> 
              <Typography variant="h6">Change your Items title, description or upload new pictures</Typography>
@@ -301,7 +299,7 @@ export default function PictureInventory() {
                     </RsuiteButton>
             </Panel>
             </Grid>
-            </Grid>
+        
             
             
         
