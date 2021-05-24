@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import Game from "./game";
 import UnmatchModal from "../modals/unmatchModal"
 import ReportModal from "../modals/reportModal"
+import GoToChat from "../modals/goToChatModal";
 import {
   findChatMessages,
   findChatMessage,
@@ -78,6 +79,7 @@ const Label = styled.label`
   const [currentItem, setCurrentItem] = useState({});
   const [unmatchModal, setUnmatchModal] = useState({show: false, id: undefined});
   const [reportModal, setReportModal] = useState({show: false, id: undefined, itemId:undefined});
+  const [goToChatModal, setGoToChat] = useState({show: false, contact: undefined});
   const stateRef = useRef();
   const history = useHistory();
 
@@ -85,6 +87,8 @@ const Label = styled.label`
   const chatRef = useRef();
   chatRef.current = messages;
   const scrollRef = useRef(null);
+  const contactsRef = useRef();
+  contactsRef.current = contacts;
 
   useEffect(() =>{
     loadContacts()
@@ -134,7 +138,15 @@ const Label = styled.label`
         setMessages(newMessages);
       });
     } else {
-      alert("Received a new message from " + notification.senderName);
+      contactsRef.current.forEach(contact =>{
+        if(contact.id == notification.senderId){
+          setGoToChat({show: true,
+            contact,
+            title: ("Message from: " + notification.senderName),
+            description: ("Go to the chat of: " + notification.senderName)
+          });
+        }
+      });
     }
   }, []);
 
@@ -192,6 +204,14 @@ const Label = styled.label`
     }
   };
 
+  const setContactById = (id) =>{
+    contactsRef.current.forEach(contact =>{
+      if(contact.id == id){
+        setActiveContact(contact)
+      }
+    });
+  }
+
   const loadChats = async () => {
     const contactItems = [];
     const matches = await findItemMatches(idNumber);
@@ -221,6 +241,7 @@ const Label = styled.label`
     <>
     <UnmatchModal unmatch={unmatchModal} loadContacts={loadContacts} />
     <ReportModal unmatch={reportModal} loadContacts={loadContacts} />
+    <GoToChat goToChat={goToChatModal} setContact={setActiveContact}/>
     <Grid container justify="center" spacing={4}>
       <Grid item xs={12}/>
       <Grid item xs={12}/>
@@ -367,7 +388,8 @@ const Label = styled.label`
                     id={idNumber}
                     activeContact={stateRef.current}
                     currentItem={currentItem}
-                    sendMessage={sendMessage}>
+                    sendMessage={sendMessage}
+                    setContact={setContactById}>
                 </Game>
                 <Button
                     size="large"

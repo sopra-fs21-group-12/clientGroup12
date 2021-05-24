@@ -11,7 +11,7 @@ import BackToInventory from "../RedirectButtons/BackToInventory";
 import TinderCard from "react-tinder-card";
 import PictureSliderSwiping from "../pictures/PictureSliderSwiping";
 import {useHotkeys} from "react-hotkeys-hook";
-
+import ReportButton from "./ReportButton";
 
 const useStyles = makeStyles((theme) => ({
     description: {
@@ -194,10 +194,9 @@ function SwipePage(props) {
                                     <Loader/>
                                 ):(
                                     <Grid container spacing={3}>
-                                        <Grid item xs={3}>
-                                            <Button appearance="subtle">Report item</Button>
-                                        </Grid>
-                                        <Grid item xs={12}>
+                                        <Grid item xs={4}>
+                                            <ReportButton itemId={currItem.id} dislike={like}>
+                                            </ReportButton>
                                         </Grid>
                                         <Grid item xs={12}>
                                             <h2>{currItem.title}</h2>

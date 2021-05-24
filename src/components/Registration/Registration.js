@@ -110,7 +110,6 @@ function Registration() {
       <div className={classes.paper}>
         <Panel shaded>
           <Typography
-            component="h1"
             variant="h5">
             Register to upload your first item and start swiping
           </Typography>

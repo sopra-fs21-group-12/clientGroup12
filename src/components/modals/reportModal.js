@@ -1,11 +1,18 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { report } from "../../helpers/api";
 import { Modal} from 'rsuite'
-import { Button } from "@material-ui/core";
+import {Button, makeStyles} from "@material-ui/core";
 
+const useStyles = makeStyles((theme) => ({
+  report: {
+    margin: theme.spacing(1),
+    background: "#EB5757",
+  },
+}));
   
 const ReportModal = (props) => {
   const [unmatchModal, setUnmatchModal] = useState({show: false});
+  const classes = useStyles();
 
 
   useEffect(() =>{
@@ -22,8 +29,9 @@ const ReportModal = (props) => {
         <p>Are you sure you want to report this item?</p>
         <p>The item will also get unmatched</p>
         <Button
-          variant="outlined"
-          color="default"
+            className={classes.report}
+            variant="contained"
+            size="small"
           onClick={async() => {
             await report(props.unmatch.itemId ,props.unmatch.id, );
             setUnmatchModal({show: false})
@@ -33,8 +41,9 @@ const ReportModal = (props) => {
           Report
         </Button>
         <Button
-          variant="outlined"
-          color="default"
+            variant="contained"
+            color="default"
+            size="small"
           onClick={() => setUnmatchModal({show: false})}
         > 
           Cancel
