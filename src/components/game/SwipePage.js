@@ -233,13 +233,11 @@ function SwipePage(props) {
                                                     </Grid>
                                                     <Grid item xs={6}>
                                                         <div className='cardContainer'>
-                                                            {items.map((item, index) =>
-                                                                <TinderCard onCardLeftScreen={() =>console.log(item.id)}  className='swipe' preventSwipe={["up","down"]} key={item.id} onSwipe={(dir) => like(dir, item.id)}>
-                                                                    <div onKeyPress={(event) => {console.log(item.id)}} className='card'>
-                                                                        <PictureSliderSwiping id={item.id}/>
-                                                                    </div>
-                                                                </TinderCard>
-                                                            )}
+                                                            <TinderCard className='swipe' preventSwipe={["up","down"]} key={currItem.id} onSwipe={(dir) => like(dir, currItem.id)}>
+                                                                <div className='card'>
+                                                                    <PictureSliderSwiping id={currItem.id}/>
+                                                                </div>
+                                                            </TinderCard>
                                                         </div>
                                                     </Grid>
                                                     <Grid item xs={2}>
