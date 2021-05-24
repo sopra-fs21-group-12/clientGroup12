@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Route } from "react-router-dom";
-import PictureInventory from "../../pictures/PictureInventory";
+import EditItemPictures from "../../item/EditItemPictures";
 
 const Container = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ class EditItemRouter extends React.Component {
             <Container>
                 <Route
                     exact
-                    path={`${this.props.base}/:id`} component={PictureInventory}   
+                    path={`${this.props.base}/:id`} component={EditItemPictures}
                 />
             </Container>
         );
