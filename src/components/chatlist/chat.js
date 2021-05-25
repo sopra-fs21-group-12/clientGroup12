@@ -391,14 +391,6 @@ const Label = styled.label`
                     sendMessage={sendMessage}
                     setContact={setContactById}>
                 </Game>
-                <Button
-                    size="large"
-                    variant="contained"
-                    className={classes.swipingButton}
-                    endIcon={<ThumbUpIcon>ok</ThumbUpIcon>}
-                >
-                  Confirm Swap
-                </Button>
               </Grid>
             </Grid>
         ):(
