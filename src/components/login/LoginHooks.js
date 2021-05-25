@@ -4,6 +4,8 @@ import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
 import Registration from "../Registration/Registration";
 import { useHistory } from "react-router-dom";
+import Navbar from "../Navbar/Navbar";
+
 
 import { Button, TextField, Link, Grid, Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -82,11 +84,12 @@ function LoginHooks() {
 
 
   return (
-      <Grid container justify="center" spacing={4}>
+      <Grid container justify="center" spacing={0}>
+        <Navbar/>
+        <Grid container justify="center" spacing={10}>
         <Grid item xs={12}/>
         <Grid item xs={12}/>
-
-        <Grid container justify="flex-end" spacing={1}>
+          <Grid container justify="flex-end" spacing={1}>
           <Grid item xs={6}/>
           <Grid item xs={3}>
             <img src={FinderLogo}/>
@@ -145,6 +148,7 @@ function LoginHooks() {
         </Panel>
       </Grid>
 
+    </Grid>
     </Grid>
   );
 }

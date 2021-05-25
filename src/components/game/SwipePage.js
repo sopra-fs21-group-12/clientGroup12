@@ -1,16 +1,17 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState, useMemo} from 'react';
 import { withRouter } from 'react-router-dom';
 
 import {Chip, Grid, Paper, Typography,} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {Button, ButtonToolbar, Panel} from 'rsuite';
-import MatchedItemContainer from "../matches/MatchedItemContainer";
 import {api, handleError} from "../../helpers/api";
 import Loader from "rsuite/es/Loader";
-import UserItemContainer from "./UserItemContainer";
-import PictureForSwipe from "../pictures/PictureForSwipe";
+import UserItemContainer from "./UserItemContainer"
 import BackToInventory from "../RedirectButtons/BackToInventory";
 import TinderCard from "react-tinder-card";
+import PictureSliderSwiping from "../pictures/PictureSliderSwiping";
+import {useHotkeys} from "react-hotkeys-hook";
+import ReportButton from "./ReportButton";
 
 const useStyles = makeStyles((theme) => ({
     description: {
@@ -29,9 +30,11 @@ const useStyles = makeStyles((theme) => ({
 
     textLeft:{
         textAlign: 'center',
+        cursor: 'pointer',
     },
     textRight:{
         textAlign: 'center',
+        cursor: 'pointer',
     },
     tag: {
         margin: theme.spacing(0.4),
@@ -41,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 function SwipePage(props) {
     const {id} = props.match.params
     const classes = useStyles();
-    const [userItem, setUserItem] = useState();
+    const [userItem, setUserItem] = useState(); 
 
     const [index, setIndex] = useState(5)
     const indexRef = useRef();
@@ -52,7 +55,17 @@ function SwipePage(props) {
     itemsRef.current = items;
 
     const [currItem, setCurrItem] = useState();
+    const currItemRef = useRef();
+    currItemRef.current = currItem;
     const [noItems, setNoItems] = useState(false);
+
+    useHotkeys('left', (e) => {
+        e.preventDefault();
+        buttonLike(false)});
+    useHotkeys('right', (e) => {
+        e.preventDefault();
+        buttonLike(true)
+    });
 
     // fetch itemData
     useEffect(() => {
@@ -85,8 +98,20 @@ function SwipePage(props) {
 
     async function fetch() {
         try {
+            let swipeTag = sessionStorage.getItem("swipeTag")
             console.log("fetching data")
-            const response = await api.get(`/items/${id}/proposal`)
+            console.log(swipeTag)
+            let response;
+            console.log(swipeTag === "undefined")
+
+            if(swipeTag === "undefined"){
+                console.log("no Tag")
+                response = await api.get(`/items/${id}/proposal`);
+            }else{
+                console.log("with Tag")
+                response = await api.get(`/items/${id}/proposal/${swipeTag}`)
+            }
+
             setItems(response.data)
             if(response.data.length === 0){
                 setNoItems(true)
@@ -123,7 +148,7 @@ function SwipePage(props) {
                 console.log('removing: ' + itemId + " with direction: " + like)
                 setIndex(indexRef.current - 1)
                 console.log("newindex " + indexRef.current)
-                setCurrItem(items[indexRef.current])
+                setCurrItem(itemsRef.current[indexRef.current])
                 console.log("itemsleft:" + (itemsRef.current.length - 1 + " vs " + indexRef.current))
                 if(indexRef.current === -1) {
                     console.log("will fetch data")
@@ -132,6 +157,17 @@ function SwipePage(props) {
             }
         }catch (error){
             alert(`Something went wrong during the like request: \n${handleError(error)}`);
+        }
+    }
+
+    const buttonLike = (likes) =>{
+        if(itemsRef.current.length <1){
+            return
+        }
+        if(likes){
+            like("right", currItemRef.current.id);
+        } else {
+            like("left", currItemRef.current.id);
         }
     }
 
@@ -158,8 +194,9 @@ function SwipePage(props) {
                                     <Loader/>
                                 ):(
                                     <Grid container spacing={3}>
-                                        <Grid item xs={3}>
-                                            <Button appearance="subtle">Report item</Button>
+                                        <Grid item xs={4}>
+                                            <ReportButton itemId={currItem.id} dislike={like}>
+                                            </ReportButton>
                                         </Grid>
                                         <Grid item xs={12}>
                                             <h2>{currItem.title}</h2>
@@ -191,21 +228,19 @@ function SwipePage(props) {
                                                 <Grid container spacing={4} justify="center" alignItems="center">
                                                     <Grid item xs={12}/>
                                                     <Grid item xs={2}>
-                                                        <h5 className={classes.textLeft}>Swipe Left for NOPE ❌</h5>
+                                                        <h5 onClick={()=>buttonLike(false)} className={classes.textLeft}>Swipe Left for NOPE ❌</h5>
                                                     </Grid>
                                                     <Grid item xs={6}>
                                                         <div className='cardContainer'>
-                                                            {items.map((item, index) =>
-                                                                <TinderCard className='swipe' preventSwipe={["up","down"]} key={item.id} onSwipe={(dir) => like(dir, item.id)}>
-                                                                    <div className='card'>
-                                                                        <PictureForSwipe itemId={item.id}/>
-                                                                    </div>
-                                                                </TinderCard>
-                                                            )}
+                                                            <TinderCard className='swipe' preventSwipe={["up","down"]} key={currItem.id} onSwipe={(dir) => like(dir, currItem.id)}>
+                                                                <div className='card'>
+                                                                    <PictureSliderSwiping id={currItem.id}/>
+                                                                </div>
+                                                            </TinderCard>
                                                         </div>
                                                     </Grid>
                                                     <Grid item xs={2}>
-                                                        <h5 className={classes.textRight}>
+                                                        <h5 className={classes.textRight} onClick={()=>buttonLike(true)}>
                                                             Swipe Right for SWAP ✅
                                                         </h5>
                                                     </Grid>

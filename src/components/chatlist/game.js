@@ -8,7 +8,7 @@ const Game = (props) => {
     const [myChoice, setMyChoice] = useState(null);
     const [idNumber, setIdNumber] = useState(props.id);
     const [activeContact, setActiveContact] = useState(undefined);
-    const [connected, setConnected] = useState(false);
+    
     
     const opChoiceRef = useRef();
     opChoiceRef.current = oponentChoice;
@@ -16,6 +16,8 @@ const Game = (props) => {
     myChoiceRef.current = myChoice;
     const [modal, setModal] = useState({show: false});
     const [gameModal, setGameModal] = useState({show: false});
+    const [gameSetupModal, setGameSetupModal] = useState({show: false});
+    const [otherChat, setOhterchat] = useState({show: false});
     const [myStomp, setStromp] = useState(props.stomp)
     
     const stateRef = useRef();
@@ -37,16 +39,7 @@ const Game = (props) => {
       }, []);
 
       useEffect(() => {
-        //setActiveContact(props.activeContact);
         setIdNumber(props.id)
-        /*console.log(props.stomp?.connected)
-        if(props.stomp && props.stomp?.connected && !connected){
-          props.stomp.subscribe(
-            "/user/" + idNumber + "/queue/game",
-            onGameStuff
-          )
-          setConnected(true);
-        }*/
         }, [myStomp?.connected, props.stomp, activeContact, myStomp]);
     
     
@@ -64,7 +57,7 @@ const Game = (props) => {
 
         if(notification.request){
           if(notification.senderId != stateRef.current.id){
-            alert("game request from " + notification.senderId)
+            setOhterchat({show: true , senderName: (notification.senderName), senderId: (notification.senderId)})
           } else {
             setModal({show: true});
           }
@@ -83,25 +76,21 @@ const Game = (props) => {
       });
     
       const gameLogic = async() => { 
-        console.log("my choice " + myChoiceRef.current);
-        console.log("your choice " + opChoiceRef.current);
-        console.log("decide who won");
         let decession = false;
         const message = "";
         if(myChoiceRef.current === opChoiceRef.current){
-          message = message + "no winner"
+          message = message + ": no winner"
           decession = true;
         }
         const mylocalChoice = await myChoiceRef.current
-        console.log(myChoice);
         if((myChoiceRef.current === "Paper" && opChoiceRef.current === "Rock")
         || (myChoiceRef.current === "Scissor" && opChoiceRef.current === "Paper")
         || (myChoiceRef.current === "Rock" && opChoiceRef.current === "Scissor")){
-          message = message + "i won, you sucker";
+          message = message + ": i won";
           decession = true;
         }
         if(!decession){
-          message = message + "you won, you fucking cheater";
+          message = message + ": you won";
         }
 
         props.sendMessage(myChoiceRef.current + " vs " + opChoiceRef.current + " " + message);
@@ -133,16 +122,16 @@ const Game = (props) => {
     const message = {
       senderId: idNumber,
       recipientId: activeContact.id,
-      senderId: props.curremtItem.id,        
+      //senderId: props.currentItem.id,
       request: true,
     };
     props.stomp.send("/app/game", {}, JSON.stringify(message));
   };
 
-  const sendAccept = () => {
+  const sendAccept = (id) => {
     const message = {
       senderId: idNumber,
-      recipientId: activeContact.id,
+      recipientId: id,
       accept: true,
     };
     props.stomp.send("/app/game", {}, JSON.stringify(message));
@@ -152,7 +141,6 @@ const Game = (props) => {
 
   const sendType= async(type) => {
     await setMyChoice(type);
-    console.log(myChoiceRef.current)
     const message = {
       senderId: idNumber,
       recipientId: activeContact.id,
@@ -162,6 +150,7 @@ const Game = (props) => {
     if(opChoiceRef.current) {   
       gameLogic();
     }
+    setGameModal({show: false});
   }
 
   function close() {
@@ -170,7 +159,11 @@ const Game = (props) => {
 
   return (
     <>
-    <Modal show={gameModal.show} onHide={() => {setGameModal({show: false})}} backdrop="static">
+    <Modal show={gameModal.show} onHide={() => {
+      setGameModal({show: false});
+      //setMyChoice(undefined);
+      ///setOpChoice(undefined);
+      }} backdrop="static">
       <Modal.Header>
           <Modal.Title>Rock paper scissor</Modal.Title>
       </Modal.Header>
@@ -202,7 +195,7 @@ const Game = (props) => {
     </Modal>
     <Modal show={modal.show} onHide={close} backdrop="static">
       <Modal.Header>
-          <Modal.Title>Set picture for your item (required)</Modal.Title>
+          <Modal.Title>You got asked for to play a game of rock paper scissor</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Button
@@ -215,9 +208,69 @@ const Game = (props) => {
         <Button
           variant="outlined"
           color="default"
-          onClick={sendAccept}
+          onClick={()=>sendAccept(activeContact.id)}
         > 
           Accept
+        </Button>
+      </Modal.Body>
+      <Modal.Footer>
+      </Modal.Footer>
+    </Modal>
+    <Modal show={gameSetupModal.show} onHide={() => {setGameSetupModal({show: false})}} backdrop="static">
+      <Modal.Header>
+          <Modal.Title>Play Rock Paper Sciccor</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <p>The idea is who wins, decides where the swap will be executed</p>
+        <p>Winner will be anounced directly in the chat</p>
+        <p>You can play several times</p>
+        <p>Clicking on "request" will close this window, as soon as your opponent accepts a new game window will be oponed</p>
+        <Button
+          variant="outlined"
+          color="default"
+          onClick={() => {setGameSetupModal({show: false})}}
+        > 
+          Close
+        </Button>
+        <Button
+          variant="outlined"
+          color="default"
+          onClick={()=> {
+              sendGame();
+              setGameSetupModal({show: false});
+            }
+          }
+        > 
+          Request
+        </Button>
+      </Modal.Body>
+      <Modal.Footer>
+      </Modal.Footer>
+    </Modal>
+    <Modal show={otherChat.show} onHide={() => setOhterchat({show: true})} backdrop="static">
+      <Modal.Header>
+          <Modal.Title>You got asked to play a game of rock paper scissor from: {otherChat.senderName}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <p>To play a round of rock paper Siccors click on "Accept"</p>
+        <Button
+          variant="outlined"
+          color="default"
+          onClick={() => setOhterchat({show: false})}
+        > 
+          close
+        </Button>
+        <Button
+          variant="outlined"
+          color="default"
+          onClick={() => {
+            setOhterchat({show: false});
+            props.setContact(otherChat.senderId);
+            sendAccept(otherChat.senderId);
+            }
+          }
+        > 
+          Go To Chat And Accept
         </Button>
       </Modal.Body>
       <Modal.Footer>
@@ -226,7 +279,7 @@ const Game = (props) => {
     <Button
           variant="outlined"
           color="default"
-          onClick={sendGame}
+          onClick={() => {setGameSetupModal({show: true})}}
         > 
           Game
         </Button>

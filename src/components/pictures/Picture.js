@@ -40,13 +40,24 @@ export default function Picture(props){
         <div>
             <img src={pictureData.url} alt=""/>
         </div>
+        <Box column={6} paddingX={2}>
+  <Image
+    alt="Tropic greens: The taste of Petrol and Porcelain | Interior design, Vintage Sets and Unique Pieces agave"
+    color="rgb(231, 186, 176)"
+    naturalHeight={496}
+    naturalWidth={496}
+    src="https://i.ibb.co/FY2MKr5/stock6.jpg"
+    loading="lazy"
+  />
+</Box>
  */
     const classes = useStyles();
     return(
                     <img style={{
                         width: "96px", height: "96px",
-                        display: "block",
-                        borderRadius: "9px"
+                        borderRadius: "9px",
+                        objectFit: "cover",
+                        backgroundColor: "#dbdcdb"
                     }}
                          src={pictureData?.url} alt=""/>
     );

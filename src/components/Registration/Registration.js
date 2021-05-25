@@ -4,6 +4,8 @@ import {Avatar, Button, Container, Grid, makeStyles, TextField, Typography, Pape
 import {api, handleError} from "../../helpers/api";
 import User from "../shared/models/User";
 import {Panel} from "rsuite";
+import Navbar from "../Navbar/Navbar";
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -99,6 +101,8 @@ function Registration() {
   }
 
   return (
+    <Grid spacing={0}>
+        <Navbar/>
     <Container
       component="main"
       maxWidth="xs"
@@ -106,7 +110,6 @@ function Registration() {
       <div className={classes.paper}>
         <Panel shaded>
           <Typography
-            component="h1"
             variant="h5">
             Register to upload your first item and start swiping
           </Typography>
@@ -209,6 +212,7 @@ function Registration() {
         Back to Login
       </Button>
     </Container>
+    </Grid>
   )
 }
 

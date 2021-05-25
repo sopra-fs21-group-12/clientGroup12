@@ -1,11 +1,19 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import {unmatch} from "../../helpers/api";
 import { Modal, Paragraph} from 'rsuite'
-import { Button } from "@material-ui/core";
+import {Button, makeStyles} from "@material-ui/core";
 
-  
+
+const useStyles = makeStyles((theme) => ({
+  unmatch: {
+    margin: theme.spacing(1),
+    background: "#EB5757",
+  },
+}));
+
 const UnmatchModal = (props) => {
   const [unmatchModal, setUnmatchModal] = useState({show: false});
+  const classes = useStyles();
 
 
   useEffect(() =>{
@@ -19,10 +27,11 @@ const UnmatchModal = (props) => {
           <Modal.Title>Unmatch</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Are you sure you want to unamacht this item?</p>
+        <p>Are you sure you want to unmatch this item?</p>
         <Button
-          variant="outlined"
-          color="default"
+            className={classes.unmatch}
+            variant="contained"
+            size="small"
           onClick={async() => {
             await unmatch(props.unmatch.id);
             setUnmatchModal({show: false})
@@ -32,8 +41,9 @@ const UnmatchModal = (props) => {
           Unmatch
         </Button>
         <Button
-          variant="outlined"
-          color="default"
+            variant="contained"
+            color="default"
+            size="small"
           onClick={() => setUnmatchModal({show: false})}
         > 
           Cancel
