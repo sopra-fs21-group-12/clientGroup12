@@ -10,6 +10,8 @@ import {
     CardMedia,
     Typography
   } from "@material-ui/core";
+  import Navbar from "../Navbar/Navbar"
+  import GitHubIcon from '@material-ui/icons/GitHub';
 
 
   const useStyles = makeStyles(theme => ({
@@ -17,8 +19,14 @@ import {
         flexGrow: 2,
         padding: theme.spacing(2),
         maxWidth: 340
+    },
+    Card: {
+      width: 300,
+      margin: 'auto'
     }
 }))
+
+
   
 
 
@@ -26,44 +34,131 @@ export default function Teampage() {
     const classes = useStyles();
 
     return (
+      <Grid
+      alignItems="flex start"
+      spacing={0} 
+      xs={12}>
+        <Navbar/>
+        <Grid xs={12}>
         <Grid
+        spacing={0}
         container
-        spacing={3}
-        xs={12}
         justify="center"
-        component="main"
       >
           <header> The finder. Team </header>
         <Grid container
-                spacing={4}
+                spacing={0}
                 direction="row"
                 justify="center"
                 alignItems="center">
         <Card className={classes.root}>
       <CardActionArea>
         <CardMedia
-          component="img"
-          alt="Dennis"
-          height="140"
-          image=""
-          title="Dennis"
+          style={{height: 0, paddingTop: '70%'}}
+          alt="Joel"
+          image="https://mypicturegallerydshush.s3.eu-central-1.amazonaws.com/0/Joel.jpeg"
+          title="Joel"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+            Joël
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            Lorem IPSUM....... Please add some text here Joël
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+      <Button size="small" 
+        color="primary"
+        startIcon={<GitHubIcon />}
+        href="https://github.com/joelruettimann"
+        >
+         Github
+        </Button>
+      </CardActions>
+    </Card>
+    <Card className={classes.root}>
+      <CardActionArea>
+        <CardMedia
+          style={{height: 0, paddingTop: '70%'}}
+          alt="Contemplative Reptile"
+          image="https://mypicturegallerydshush.s3.eu-central-1.amazonaws.com/0/Mauro.jpeg"
+          title="Contemplative Reptile"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+            Mauro
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+           Lorem IPSUM....... Please add some text here Mauro
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+        <Button size="small" 
+        color="primary"
+        startIcon={<GitHubIcon />}
+        href="https://github.com/messias-des-coden"
+        >
+         Github
+        </Button>
+        
+      </CardActions>
+    </Card>
+    <Card className={classes.root}>
+      <CardActionArea>
+        <CardMedia
+          style={{height: 0, paddingTop: '70%'}}
+          alt="Contemplative Reptile"
+          image="https://mypicturegallerydshush.s3.eu-central-1.amazonaws.com/0/dennis.jpg"
+          title="Contemplative Reptile"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             Dennis
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Hey there :D Hope you are enjoying our Finder. application. I have mainly been
-            working on the backend of the project, making sure the Logic works.
+          Lorem IPSUM....... Please add some text here Dennis
+
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Share
+      <Button size="small" 
+        color="primary"
+        startIcon={<GitHubIcon />}
+        href="https://github.com/dennisshushack"
+        >
+         Github
         </Button>
-        <Button size="small" color="primary">
-          Learn More
+      </CardActions>
+    </Card>
+    <Card className={classes.root}>
+      <CardActionArea>
+        <CardMedia
+          style={{height: 0, paddingTop: '70%'}}
+          alt="Contemplative Reptile"
+          image="https://mypicturegallerydshush.s3.eu-central-1.amazonaws.com/0/filip.jpeg"
+          title="Contemplative Reptile"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+            Filip
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+          Lorem IPSUM....... Please add some text here Filip
+
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+      <Button size="small" 
+        color="primary"
+        startIcon={<GitHubIcon />}
+        href="https://github.com/filiptrenuzh"
+        >
+         Github
         </Button>
       </CardActions>
     </Card>
@@ -73,112 +168,31 @@ export default function Teampage() {
           component="img"
           alt="Contemplative Reptile"
           height="140"
+          // Please send me foto  Onur
           image=""
           title="Contemplative Reptile"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Dennis
+            Onur
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Hey there :D Hope you are enjoying our Finder. application. I have mainly been
-            working on the backend of the project, making sure the Logic works.
+          Lorem IPSUM....... Please add some text here Onur
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
-      </CardActions>
-    </Card>
-    <Card className={classes.root}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          alt="Contemplative Reptile"
-          height="140"
-          image=""
-          title="Contemplative Reptile"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            Dennis
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Hey there :D Hope you are enjoying our Finder. application. I have mainly been
-            working on the backend of the project, making sure the Logic works.
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
+      <Button size="small" 
+        color="primary"
+        startIcon={<GitHubIcon />}
+        href="https://github.com/otopalak"
+        >
+         Github
         </Button>
       </CardActions>
     </Card>
-    <Card className={classes.root}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          alt="Contemplative Reptile"
-          height="140"
-          image=""
-          title="Contemplative Reptile"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            Dennis
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Hey there :D Hope you are enjoying our Finder. application. I have mainly been
-            working on the backend of the project, making sure the Logic works.
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
-      </CardActions>
-    </Card>
-    <Card className={classes.root}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          alt="Contemplative Reptile"
-          height="140"
-          image=""
-          title="Contemplative Reptile"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            Dennis
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Hey there :D Hope you are enjoying our Finder. application. I have mainly been
-            working on the backend of the project, making sure the Logic works.
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
-      </CardActions>
-    </Card>
+        </Grid>
+        </Grid>
         </Grid>
         </Grid>
     )

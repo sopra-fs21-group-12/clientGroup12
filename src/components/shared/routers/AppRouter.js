@@ -89,6 +89,13 @@ class AppRouter extends React.Component {
                         )}
                     />
                     <Route
+                        path="/team"
+                        exact
+                        render={() => (
+                            <Teampage/>
+                        )}
+                    />
+                    <Route
                         path="/inventory"
                         render={() => (
                             <ProfileGuard>

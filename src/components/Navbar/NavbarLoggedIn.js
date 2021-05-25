@@ -141,9 +141,9 @@ export function NavbarLoggedIn() {
     }
   }
 
-
-
-
+  const handleTeam = () => {
+    history.push("/team")
+  }
 
   const handleProfile = () => {
     history.push("/profile")
@@ -166,7 +166,7 @@ export function NavbarLoggedIn() {
   return (
     <div className={classes.root}>
     <CssBaseline />
-      <AppBar  position="fixed" color="white"
+      <AppBar position="flex"  color="white"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: openDrawer,
         })}>
@@ -240,9 +240,9 @@ export function NavbarLoggedIn() {
         <List>
             <ListItem>
               <ListItemIcon style={{minWidth: '30px'}}>
-                  <GroupIcon/> 
+                  <GroupIcon onClick={handleTeam}/> 
              </ListItemIcon>
-             <ListItemText >Team</ListItemText>
+             <ListItemText onClick={handleTeam} >Team</ListItemText>
             </ListItem>
             <ListItem>
               <ListItemIcon style={{minWidth: '30px'}}>

@@ -101,13 +101,12 @@ function Registration() {
   }
 
   return (
-    <Grid spacing={0}>
-        <Navbar/>
-    <Container
-      component="main"
-      maxWidth="xs"
+    <Grid container justify="center" spacing={0}>
+    <Navbar/>
+    <Grid container justify="center" spacing={10}>
+    <Grid item xs={12}/>
+    <Container maxWidth="xs"
     >
-      <div className={classes.paper}>
         <Panel shaded>
           <Typography
             variant="h5">
@@ -188,31 +187,11 @@ function Registration() {
           >
           </TextField>
         </Panel>
-      </div>
-      <Button
-        disabled={!username || !name || !password}
-        className={classes.submit}
-        size="medium"
-        type="submit"
-        variant="contained"
-        color="primary"
-        onClick={handleRegistration}
-      >
-        Register
-      </Button>
-      <Button
-        disabled={!username || !name || !password}
-        className={classes.submit}
-        size="medium"
-        type="submit"
-        variant="contained"
-        color="primary"
-        onClick={() => history.push('/login')}
-      >
-        Back to Login
-      </Button>
     </Container>
     </Grid>
+    </Grid>
+    
+    
   )
 }
 
