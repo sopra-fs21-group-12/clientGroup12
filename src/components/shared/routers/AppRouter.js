@@ -20,6 +20,7 @@ import PictureSliderData from "./../../pictures/PictureSliderData";
 import PictureInventory from "./../../pictures/PictureInventory";
 import Navbar from "./../../Navbar/Navbar"
 import EditItemRouter from "./EditItemRouter";
+import Teampage from "../../team/Teampage";
 
 /**
  * Main router of your application.
@@ -84,7 +85,7 @@ class AppRouter extends React.Component {
                         path="/test"
                         exact
                         render={() => (
-                            <Navbar/>
+                            <Teampage/>
                         )}
                     />
                     <Route
