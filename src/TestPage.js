@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ItemEdit from "./components/item/ItemEdit";
 import SwipePanel from "./components/SwipePanel/SwipePanel";
 import {Panel} from "rsuite";
+import GoogleMapRegistration from "./components/map/GoogleMapRegistration";
 /*
 
 
@@ -109,9 +110,9 @@ const ItemImages = ({id}) => {
 
 function TestPage(){
   return (
-        <SwipePanel/>
+        <GoogleMapRegistration/>
   )
-};
+}
 
 
 export default withRouter(TestPage);
