@@ -187,6 +187,17 @@ function Registration() {
           >
           </TextField>
         </Panel>
+        <Button
+        disabled={!username || !name || !password}
+        className={classes.submit}
+        size="medium"
+        type="submit"
+        variant="contained"
+        color="primary"
+        onClick={handleRegistration}
+      >
+        Register
+      </Button>
     </Container>
     </Grid>
     </Grid>
