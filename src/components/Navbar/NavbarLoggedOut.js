@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
 
   menuButton: {
     marginRight: theme.spacing(1),
-    fontFamily: "Newsreader",
+    fontFamily: "Montserrat",
 
 
   },
@@ -121,7 +121,7 @@ export function NavbarLoggedOut() {
   return (
     <div className={classes.root}>
     <CssBaseline />
-      <AppBar position="flex" color="white"
+      <AppBar position="flex" color="transparent"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: openDrawer,
         })}>

@@ -90,7 +90,7 @@ function MyMatches(props) {
                     </Grid>
                     <Grid item xs={8}>
                         {!matchedItems.length ? (
-                            <h2>No Matches with this item</h2>
+                            <noMatch>No Matches with this item</noMatch>
                         ) : (
                             matchedItems.map(item => {
                                     return (
