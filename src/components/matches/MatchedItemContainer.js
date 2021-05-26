@@ -73,10 +73,8 @@ export default function MatchedItemContainer(props) {
 
     useEffect(async () => {
         try {
-            // see if item already swap confirmed
-            // own item is props.chatId
-            // swap/check/${ownItem}/${matchedItem}
-            // setSwap accordingly
+            const response = false //await api.get(`/swap/check/${props.chatId}/${props.item.id}`)
+            setSwap(response);
 
         } catch (error) {
             alert(`Something went wrong while fetching the matches: \n${handleError(error)}`);
@@ -86,7 +84,11 @@ export default function MatchedItemContainer(props) {
 
     async function swapConfirm(){
         try {
-            //await api.put(`/swap/confirm/${props.chatId}/${props.item.id}`)
+            const requestBody = JSON.stringify({
+                itemID1: props.chatId,
+                itemID2: props.item.id,
+            });
+            await api.post(`/swap`, requestBody)
             setSwap(true);
             close();
 
