@@ -2,7 +2,6 @@ import React  from 'react'
 import { useHistory } from "react-router-dom";
 import {Panel} from "rsuite";
 import {Grid, Button, makeStyles} from "@material-ui/core";
-import ItemEdit from "../item/ItemEdit";
 import Picture from "../pictures/Picture";
 import PictureSliderSwiping from "../pictures/PictureSliderSwiping";
 import PictureSliderItem from "../pictures/PictureSilderItem";

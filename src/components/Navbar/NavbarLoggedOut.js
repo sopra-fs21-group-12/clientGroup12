@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import FinderLogo from '../../views/design/logo.svg';
+import { useHistory } from "react-router-dom";
+
 
 // App Drawer
 import clsx from 'clsx';
@@ -83,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
 
   menuButton: {
     marginRight: theme.spacing(1),
-    fontFamily: "Newsreader",
+    fontFamily: "Montserrat",
 
 
   },
@@ -101,6 +103,7 @@ const useStyles = makeStyles((theme) => ({
 export function NavbarLoggedOut() {
   const classes = useStyles();
   const theme = useTheme();
+  const history = useHistory();
   const [openDrawer, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
@@ -111,12 +114,14 @@ export function NavbarLoggedOut() {
     setOpen(false);
   };
 
-
+  const handleTeam = () => {
+    history.push("/team")
+  }
 
   return (
     <div className={classes.root}>
     <CssBaseline />
-      <AppBar position="fixed" color="white"
+      <AppBar position="flex" color="transparent"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: openDrawer,
         })}>
@@ -154,9 +159,9 @@ export function NavbarLoggedOut() {
         <List>
             <ListItem>
               <ListItemIcon style={{minWidth: '30px'}}>
-                  <GroupIcon/> 
-             </ListItemIcon>
-             <ListItemText >Team</ListItemText>
+                  <GroupIcon onClick={handleTeam} /> 
+             </ListItemIcon >
+             <ListItemText onClick={handleTeam} >Team</ListItemText>
             </ListItem>
             <ListItem>
               <ListItemIcon style={{minWidth: '30px'}}>

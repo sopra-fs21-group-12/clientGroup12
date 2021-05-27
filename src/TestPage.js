@@ -7,7 +7,6 @@ import ReactSlidy from 'react-slidy';
 import 'react-slidy/lib/styles.css';
 import { Avatar, Button, CssBaseline, TextField, Link, Grid, Box, Typography, Container, Paper, Card, CardContent } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import ItemEdit from "./components/item/ItemEdit";
 import SwipePanel from "./components/SwipePanel/SwipePanel";
 import {Panel} from "rsuite";
 import GoogleMapRegistration from "./components/map/GoogleMapRegistration";

@@ -17,10 +17,10 @@ import MatchRouter from "./MatchRouter";
 import SwipePage from "../../game/SwipePage";
 import SwipeRouter from "./SwipeRouter";
 import PictureSliderSwiping from "../../pictures/PictureSliderSwiping";
-import PictureInventory from "./../../pictures/PictureInventory";
+import EditItemPictures from "../../item/EditItemPictures";
 import Navbar from "./../../Navbar/Navbar"
 import EditItemRouter from "./EditItemRouter";
-import Home from "../../HomeScreen/Home";
+import Teampage from "../../team/Teampage";
 
 /**
  * Main router of your application.
@@ -93,7 +93,14 @@ class AppRouter extends React.Component {
                         path="/test"
                         exact
                         render={() => (
-                            <Navbar/>
+                            <Teampage/>
+                        )}
+                    />
+                    <Route
+                        path="/team"
+                        exact
+                        render={() => (
+                            <Teampage/>
                         )}
                     />
                   <Route

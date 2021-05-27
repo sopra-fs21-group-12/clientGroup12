@@ -1,20 +1,17 @@
-import {React,useState,useEffect} from 'react';
+import {React, useState} from 'react';
 import { useHistory } from "react-router-dom";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import FinderLogo from '../../views/design/logo.svg';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { api, handleError } from '../../helpers/api';
 import ForumIcon from '@material-ui/icons/Forum';
-import HomeIcon from '@material-ui/icons/Home';
+import AllInboxIcon from '@material-ui/icons/AllInbox';
+
 
 
 // App Drawer
@@ -30,7 +27,6 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
 import InfoIcon from '@material-ui/icons/Info';
 import GroupIcon from '@material-ui/icons/Group';
 
@@ -98,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 2,
-    fontFamily: "Monserat",
+    fontFamily: "Montserrat",
     },
 }));
 
@@ -141,9 +137,9 @@ export function NavbarLoggedIn() {
     }
   }
 
-
-
-
+  const handleTeam = () => {
+    history.push("/team")
+  }
 
   const handleProfile = () => {
     history.push("/profile")
@@ -166,7 +162,7 @@ export function NavbarLoggedIn() {
   return (
     <div className={classes.root}>
     <CssBaseline />
-      <AppBar  position="fixed" color="white"
+      <AppBar position="flex"  color="transparent"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: openDrawer,
         })}>
@@ -183,13 +179,13 @@ export function NavbarLoggedIn() {
           <img src={FinderLogo} height="30px" width="100px" onClick={()=>{handleHome()}} />
           </Typography>
           <IconButton aria-label="Show me the inventory" color="inherit">
-            <HomeIcon onClick={()=>{handleHome()}} style={{ fontSize: 28 }} onClick={()=>{handleChat()}}/>
-            <Typography onClick={()=>{handleHome()}} variant="body2">Home</Typography>
+            <AllInboxIcon onClick={()=>{handleHome()}} style={{ fontSize: 28 }} onClick={()=>{handleChat()}}/>
+            <Typography onClick={()=>{handleHome()}}><navbarIcon>Inventory</navbarIcon></Typography>
           </IconButton>
         
           <IconButton aria-label="show me the chat" color="inherit">
             <ForumIcon style={{ fontSize: 28 }} onClick={()=>{handleChat()}}/>
-            <Typography onClick={()=>{handleChat()}} variant="body2">Chat</Typography>
+            <Typography onClick={()=>{handleChat()}}><navbarIcon>Chat</navbarIcon></Typography>
           </IconButton>
           <IconButton
                 aria-label="account of current user"
@@ -199,7 +195,7 @@ export function NavbarLoggedIn() {
                 color="inherit"
               >
                 <AccountCircle style={{ fontSize: 28 }} />
-                <Typography variant="body2">Profile</Typography>
+                <Typography><navbarIcon>Profile</navbarIcon></Typography>
 
               </IconButton>
               <Menu
@@ -240,9 +236,9 @@ export function NavbarLoggedIn() {
         <List>
             <ListItem>
               <ListItemIcon style={{minWidth: '30px'}}>
-                  <GroupIcon/> 
+                  <GroupIcon onClick={handleTeam}/> 
              </ListItemIcon>
-             <ListItemText >Team</ListItemText>
+             <ListItemText onClick={handleTeam} >Team</ListItemText>
             </ListItem>
             <ListItem>
               <ListItemIcon style={{minWidth: '30px'}}>

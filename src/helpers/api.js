@@ -9,7 +9,7 @@ export const api = axios.create({
 export const report = async (id, matchid) =>{
   try {
     const response = await api.post(`/items/${id}/report`);
-    unmatch(matchid)
+    await unmatch(matchid)
 
   } catch (error) {
       alert(`Something went wrong during the Item creation: \n${handleError(error)}`);

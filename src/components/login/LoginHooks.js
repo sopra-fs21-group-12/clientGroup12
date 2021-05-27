@@ -88,7 +88,6 @@ function LoginHooks() {
         <Navbar/>
         <Grid container justify="center" spacing={10}>
         <Grid item xs={12}/>
-        <Grid item xs={12}/>
           <Grid container justify="flex-end" spacing={1}>
           <Grid item xs={6}/>
           <Grid item xs={3}>
@@ -101,7 +100,6 @@ function LoginHooks() {
             <Typography variant="body1">find and swap items with the community</Typography>
           </Grid>
         </Grid>
-        <Grid item xs={12}/>
 
       <Grid item xs={6}>
         <Panel shaded>
