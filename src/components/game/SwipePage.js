@@ -177,7 +177,7 @@ function SwipePage(props) {
                 <Grid container justify="center" alignItems="center" spacing={5}>
                     <Grid item xs={12}/>
                     <Grid item xs={6}>
-                        <h1>No items to swipe on left</h1>
+                        <header>No items to swipe on left</header>
                     </Grid>
                     <BackToInventory/>
                 </Grid>
@@ -199,7 +199,7 @@ function SwipePage(props) {
                                             </ReportButton>
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <h2>{currItem.title}</h2>
+                                            <titleSwap>{currItem.title}</titleSwap>
                                         </Grid>
                                         <Grid item xs={12}>
                                             <h5>{currItem.description}</h5>
