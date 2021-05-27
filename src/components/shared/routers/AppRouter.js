@@ -3,8 +3,6 @@ import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import ChatRouter from "./chatRouter"
 import {RegistrationGuard} from "../routeProtectors/RegistrationGuard";
 import {LoginGuard} from "../routeProtectors/LoginGuard";
-
-
 import LoginHooks from "../../login/LoginHooks";
 import { ProfileGuard } from "../routeProtectors/ProfileGuard";
 import TestPage from "../../../TestPage";
@@ -14,13 +12,10 @@ import ItemUpload from "../../item/ItemUpload";
 import MyItemsList from "../../chatlist/myItems";
 import Profile from "../../profilepage/Profile";
 import MatchRouter from "./MatchRouter";
-import SwipePage from "../../game/SwipePage";
 import SwipeRouter from "./SwipeRouter";
-import PictureSliderSwiping from "../../pictures/PictureSliderSwiping";
-import EditItemPictures from "../../item/EditItemPictures";
-import Navbar from "./../../Navbar/Navbar"
 import EditItemRouter from "./EditItemRouter";
-import Teampage from "../../team/Teampage";
+import TeamPage from "../../team/Teampage";
+import HomePage from "../../HomeScreen/Home";
 
 /**
  * Main router of your application.
@@ -38,15 +33,6 @@ class AppRouter extends React.Component {
             <BrowserRouter>
                 {/* Gives the reference of the navigation*/}
                 <Switch>
-                  <Route
-                    path="/home"
-                    exact
-                    render={() => (
-                      <Home/>
-                    )}
-                  >
-                  </Route>
-
                     <Route
                         path="/login"
                         exact
@@ -93,14 +79,14 @@ class AppRouter extends React.Component {
                         path="/test"
                         exact
                         render={() => (
-                            <Teampage/>
+                            <TeamPage/>
                         )}
                     />
                     <Route
                         path="/team"
                         exact
                         render={() => (
-                            <Teampage/>
+                            <TeamPage/>
                         )}
                     />
                   <Route
@@ -153,7 +139,7 @@ class AppRouter extends React.Component {
                       path="/"
                       exact
                       render={() =>
-                        <Home/>
+                        <HomePage/>
                       }
                     />
                 </Switch>

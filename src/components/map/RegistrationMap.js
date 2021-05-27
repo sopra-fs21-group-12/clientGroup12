@@ -1,3 +1,4 @@
+/**
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import { MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import "../../leaflet.css";
@@ -72,3 +73,4 @@ function RegistrationMap() {
 }
 
 export default RegistrationMap;
+*/

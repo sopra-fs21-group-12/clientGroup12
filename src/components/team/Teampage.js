@@ -12,6 +12,7 @@ import {
   } from "@material-ui/core";
   import Navbar from "../Navbar/Navbar"
   import GitHubIcon from '@material-ui/icons/GitHub';
+import {withRouter} from "react-router-dom";
 
 
   const useStyles = makeStyles(theme => ({
@@ -27,16 +28,16 @@ import {
 }))
 
 
-  
 
 
-export default function Teampage() {
+
+function TeamPage() {
     const classes = useStyles();
 
     return (
       <Grid
       alignItems="flex start"
-      spacing={0} 
+      spacing={0}
       xs={12}>
         <Navbar/>
         <Grid xs={12}>
@@ -69,7 +70,7 @@ export default function Teampage() {
         </CardContent>
       </CardActionArea>
       <CardActions>
-      <Button size="small" 
+      <Button size="small"
         color="primary"
         startIcon={<GitHubIcon />}
         href="https://github.com/joelruettimann"
@@ -96,14 +97,14 @@ export default function Teampage() {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" 
+        <Button size="small"
         color="primary"
         startIcon={<GitHubIcon />}
         href="https://github.com/messias-des-coden"
         >
          Github
         </Button>
-        
+
       </CardActions>
     </Card>
     <Card className={classes.root}>
@@ -125,7 +126,7 @@ export default function Teampage() {
         </CardContent>
       </CardActionArea>
       <CardActions>
-      <Button size="small" 
+      <Button size="small"
         color="primary"
         startIcon={<GitHubIcon />}
         href="https://github.com/dennisshushack"
@@ -153,7 +154,7 @@ export default function Teampage() {
         </CardContent>
       </CardActionArea>
       <CardActions>
-      <Button size="small" 
+      <Button size="small"
         color="primary"
         startIcon={<GitHubIcon />}
         href="https://github.com/filiptrenuzh"
@@ -182,7 +183,7 @@ export default function Teampage() {
         </CardContent>
       </CardActionArea>
       <CardActions>
-      <Button size="small" 
+      <Button size="small"
         color="primary"
         startIcon={<GitHubIcon />}
         href="https://github.com/otopalak"
@@ -197,3 +198,4 @@ export default function Teampage() {
         </Grid>
     )
 }
+export default withRouter(TeamPage);

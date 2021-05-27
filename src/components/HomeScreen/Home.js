@@ -13,7 +13,7 @@ import GameSection from "./sections/GameSection";
 import Footer from "./sections/Footer";
 import SwipeSection from "./sections/SwipeSection";
 
-function Home() {
+function HomePage() {
 
   const history = useHistory();
 
@@ -47,4 +47,4 @@ function Home() {
     </div>
   )
 }
-export default withRouter(Home);
+export default withRouter(HomePage);

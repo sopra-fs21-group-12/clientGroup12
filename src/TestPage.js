@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import SwipePanel from "./components/SwipePanel/SwipePanel";
 import {Panel} from "rsuite";
 import GoogleMapRegistration from "./components/map/GoogleMapRegistration";
+import Map from "./components/map/RegistrationMap";
 /*
 
 
