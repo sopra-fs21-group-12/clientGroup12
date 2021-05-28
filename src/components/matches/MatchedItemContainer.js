@@ -49,18 +49,18 @@ const ItemTitle = styled.title`
 
 const useStyles = makeStyles((theme) => ({
     swipingButton: {
-        marginLeft: theme.spacing(4),
+        marginLeft: theme.spacing(3),
         background: "#FFBB12",
     },
     cancel: {
-        marginLeft: theme.spacing(4),
+        marginLeft: theme.spacing(2),
     },
     matchesButton: {
         background: "#6FCF97",
     },
     confirmedButton: {
         background: "#6FCF97",
-        marginLeft: theme.spacing(4),
+        marginLeft: theme.spacing(3),
     },
 }));
 
@@ -73,8 +73,8 @@ export default function MatchedItemContainer(props) {
 
     useEffect(async () => {
         try {
-            const response = false //await api.get(`/swap/check/${props.chatId}/${props.item.id}`)
-            setSwap(response);
+            const response = await api.get(`/swap/check/${props.chatId}/${props.item.id}`)
+            setSwap(response.data);
 
         } catch (error) {
             alert(`Something went wrong while fetching the matches: \n${handleError(error)}`);
@@ -126,7 +126,7 @@ export default function MatchedItemContainer(props) {
                                    <Label>Matched with</Label>
                                    <h3>{props.item.title}</h3>
                                </Grid>
-                               <Grid item xs={5}>
+                               <Grid item xs={1}>
                                    <Button
                                        variant="contained"
                                        color="primary"
@@ -134,6 +134,8 @@ export default function MatchedItemContainer(props) {
                                    >
                                        Chat
                                    </Button>
+                               </Grid>
+                               <Grid item xs={4}>
                                    {swap ? (
                                        <Button
                                            variant="contained"

@@ -89,7 +89,7 @@ function MyMatches(props) {
                         </Grid>
                         </Panel>
                     </Grid>
-                    <Grid item xs={11}>
+                    <Grid item xs={10}>
                         {!matchedItems.length ? (
                             <h2>No Matches with this item</h2>
                         ) : (
