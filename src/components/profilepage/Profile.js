@@ -6,6 +6,7 @@ import { Grid, makeStyles, Paper, TextField, Typography} from "@material-ui/core
 import { Panel} from 'rsuite';
 import Edit from "./Edit";
 import BackToInventory from "../RedirectButtons/BackToInventory";
+import Navbar from "../Navbar/Navbar";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -58,8 +59,10 @@ function Profile() {
 
     return (
         <div>
+           <Grid container justify="center" spacing={0}>
+           <Navbar/>
             <Grid container>
-                <Grid item xs={10}>
+                <Grid item xs={12}>
                     <header> Your Profile Page </header>
                 </Grid>
                 <Grid item xs={2}>
@@ -188,6 +191,7 @@ function Profile() {
                         </Typography>
                     </Paper>
                 </Panel>
+            </Grid>
             </Grid>
         </div>
     );

@@ -16,6 +16,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { Grid } from '@material-ui/core'
 import { Modal, Panel, Uploader, Notification} from 'rsuite'
+import Navbar from "../Navbar/Navbar";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -200,7 +201,9 @@ export default function EditItemPictures() {
     }
 
     return (
-        <Grid container justify="center" spacing={1}>
+        <Grid justify="center" spacing={0}>
+            <Navbar/>
+        <Grid container justify="center" spacing={3}>
             <Grid item xs={12}/>
             <Panel shaded>
                 <Typography variant="h5">Item Edit Page</Typography>
@@ -374,6 +377,7 @@ export default function EditItemPictures() {
                 </Modal>
 
             </Panel>
+        </Grid>
         </Grid>
     )
 } 
