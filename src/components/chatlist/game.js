@@ -1,9 +1,35 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { Modal, Panel, Uploader} from 'rsuite'
-import { Grid, Typography, TextField, Button } from '@material-ui/core'
+import {Grid, Typography, TextField, Button, makeStyles} from '@material-ui/core'
 import { getDomain } from '../../helpers/getDomain';
+import {FaRegHandPaper, FaRegHandRock, FaRegHandScissors} from "react-icons/all";
 var stompClient2 = null;
+
+const useStyles = makeStyles((theme) => ({
+    red: {
+        margin: theme.spacing(1),
+        background: "#EB5757",
+    },
+    yellow: {
+        margin: theme.spacing(2),
+        background: "#FFBB12",
+    },
+    green: {
+        margin: theme.spacing(1),
+        background: "#6FCF97",
+    },
+    game: {
+        margin: theme.spacing(1),
+        marginLeft: theme.spacing(3),
+        marginRight: theme.spacing(3),
+        background: "#FFBB12",
+        boxShadow: "0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)"
+
+    },
+}));
+
 const Game = (props) => {
+    const classes = useStyles();
     const [oponentChoice, setOpChoice] = useState(null);
     const [myChoice, setMyChoice] = useState(null);
     const [idNumber, setIdNumber] = useState(props.id);
@@ -77,7 +103,8 @@ const Game = (props) => {
     
       const gameLogic = async() => { 
         let decession = false;
-        const message = "";
+        //const message = "";
+        let message = "";
         if(myChoiceRef.current === opChoiceRef.current){
           message = message + ": no winner"
           decession = true;
@@ -165,29 +192,32 @@ const Game = (props) => {
       ///setOpChoice(undefined);
       }} backdrop="static">
       <Modal.Header>
-          <Modal.Title>Rock paper scissor</Modal.Title>
+          <Modal.Title>Choose Wisely</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Button
-          variant="outlined"
-          color="default"
+            className={classes.yellow}
+            variant="contained"
+            endIcon={<FaRegHandRock/>}
           onClick={() => sendType("Rock")}
         > 
           Rock
         </Button>
         <Button
-          variant="outlined"
-          color="default"
+            className={classes.yellow}
+            variant="contained"
+            endIcon={<FaRegHandPaper/>}
           onClick={() => sendType("Paper")}
         > 
           Paper
         </Button>
         <Button
-          variant="outlined"
-          color="default"
+            className={classes.yellow}
+            variant="contained"
+            endIcon={<FaRegHandScissors/>}
           onClick={() => sendType("Scissor")}
         > 
-          Scissor
+          Scissors
         </Button>
       </Modal.Body>
       <Modal.Footer>
@@ -195,93 +225,118 @@ const Game = (props) => {
     </Modal>
     <Modal show={modal.show} onHide={close} backdrop="static">
       <Modal.Header>
-          <Modal.Title>You got asked for to play a game of rock paper scissor</Modal.Title>
+          <Modal.Title>You got asked to play a game of Rock Paper Scissors</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Button
-          variant="outlined"
-          color="default"
-          onClick={close}
-        > 
-          Cancel
-        </Button>
-        <Button
-          variant="outlined"
-          color="default"
-          onClick={()=>sendAccept(activeContact.id)}
-        > 
-          Accept
-        </Button>
+          <p>Winner decides where and how the exchange of the items will happen.</p>
+          <p>Winner will be announced directly in the chat.</p>
+          <br/>
+          <p>To start the game click on ACCEPT</p>
       </Modal.Body>
       <Modal.Footer>
+          <Button
+              variant="contained"
+              color="default"
+              onClick={close}
+          >
+              Cancel
+          </Button>
+          <Button
+              className={classes.green}
+              variant="contained"
+              onClick={()=>sendAccept(activeContact.id)}
+          >
+              Accept
+          </Button>
       </Modal.Footer>
     </Modal>
     <Modal show={gameSetupModal.show} onHide={() => {setGameSetupModal({show: false})}} backdrop="static">
       <Modal.Header>
-          <Modal.Title>Play Rock Paper Sciccor</Modal.Title>
+          <Modal.Title>Play Rock Paper Scissors</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        <p>The idea is who wins, decides where the swap will be executed</p>
-        <p>Winner will be anounced directly in the chat</p>
-        <p>You can play several times</p>
-        <p>Clicking on "request" will close this window, as soon as your opponent accepts a new game window will be oponed</p>
-        <Button
-          variant="outlined"
-          color="default"
-          onClick={() => {setGameSetupModal({show: false})}}
-        > 
-          Close
-        </Button>
-        <Button
-          variant="outlined"
-          color="default"
-          onClick={()=> {
-              sendGame();
-              setGameSetupModal({show: false});
-            }
-          }
-        > 
-          Request
-        </Button>
+        <Modal.Body>
+            <p>Winner decides where and how the exchange of the items will happen.</p>
+            <p>Winner will be announced directly in the chat.</p>
+            <br/>
+            <p>The other user has to be in the chat window, so communicate before sending the request!</p>
+            <p>Clicking on "request" will close this window, as soon as your opponent accepts a new game window will be opened</p>
       </Modal.Body>
       <Modal.Footer>
+          <Button
+              variant="contained"
+              color="default"
+              onClick={() => {setGameSetupModal({show: false})}}
+          >
+              Close
+          </Button>
+          <Button
+              className={classes.green}
+              variant="contained"
+              onClick={()=> {
+                  sendGame();
+                  setGameSetupModal({show: false});
+              }
+              }
+          >
+              Send Request
+          </Button>
       </Modal.Footer>
     </Modal>
     <Modal show={otherChat.show} onHide={() => setOhterchat({show: true})} backdrop="static">
       <Modal.Header>
-          <Modal.Title>You got asked to play a game of rock paper scissor from: {otherChat.senderName}</Modal.Title>
+          <Modal.Title>You got asked to play a game of Rock Paper Scissors from: {otherChat.senderName}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>To play a round of rock paper Siccors click on "Accept"</p>
-        <Button
-          variant="outlined"
-          color="default"
-          onClick={() => setOhterchat({show: false})}
-        > 
-          close
-        </Button>
-        <Button
-          variant="outlined"
-          color="default"
-          onClick={() => {
-            setOhterchat({show: false});
-            props.setContact(otherChat.senderId);
-            sendAccept(otherChat.senderId);
-            }
-          }
-        > 
-          Go To Chat And Accept
-        </Button>
+          <p>Winner decides where and how the exchange of the items will happen.</p>
+          <p>Winner will be announced directly in the chat.</p>
+          <br/>
+          <p>Click on ACCEPT if you want to switch to the chat and play.</p>
       </Modal.Body>
       <Modal.Footer>
+          <Button
+              variant="contained"
+              color="default"
+              onClick={() => setOhterchat({show: false})}
+          >
+              close
+          </Button>
+          <Button
+              className={classes.green}
+              variant="contained"
+              onClick={() => {
+                  setOhterchat({show: false});
+                  props.setContact(otherChat.senderId);
+                  sendAccept(otherChat.senderId);}
+              }
+          >
+              Accept
+          </Button>
       </Modal.Footer>
     </Modal>
-    <Button
-          variant="outlined"
-          color="default"
-          onClick={() => {setGameSetupModal({show: true})}}
-        > 
-          Game
+        <Button
+            className={classes.game}
+            onClick={() => {setGameSetupModal({show: true})}}
+        >
+            <Grid container justify="center">
+                <Grid item xs={12}>
+                    <h5>Rock</h5>
+                </Grid>
+                <Grid item xs={12}>
+                    <h5>Paper</h5>
+                </Grid>
+                <Grid item xs={12}>
+                    <h5>Scissors</h5>
+                </Grid>
+                <Grid item xs={3}>
+                    <FaRegHandRock/>
+                </Grid>
+                <Grid item xs={3}>
+                    <FaRegHandPaper/>
+                </Grid>
+                <Grid item xs={3}>
+                    <FaRegHandScissors/>
+                </Grid>
+            </Grid>
         </Button>
     </>
 

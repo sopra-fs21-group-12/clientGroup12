@@ -125,7 +125,6 @@ function SwipePanel() {
                         {items.map((item, index) =>
                             <TinderCard className='swipe' key={item.id} onSwipe={(dir) => like(dir, item.title)}>
                                 <div className='card'>
-                                    <PictureForSwipe itemId={item.id}/>
                                 </div>
                             </TinderCard>
                         )}

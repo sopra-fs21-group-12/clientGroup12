@@ -28,28 +28,29 @@ const ReportModal = (props) => {
       <Modal.Body>
         <p>Are you sure you want to report this item?</p>
         <p>The item will also get unmatched</p>
+      </Modal.Body>
+      <Modal.Footer>
         <Button
             className={classes.report}
             variant="contained"
+            color="secondary"
             size="small"
-          onClick={async() => {
-            await report(props.unmatch.itemId ,props.unmatch.id, );
-            setUnmatchModal({show: false})
-            props.loadContacts();
-          }}
-        > 
+            onClick={async() => {
+              await report(props.unmatch.itemId ,props.unmatch.id, );
+              setUnmatchModal({show: false})
+              props.loadContacts();
+            }}
+        >
           Report
         </Button>
         <Button
             variant="contained"
             color="default"
             size="small"
-          onClick={() => setUnmatchModal({show: false})}
-        > 
+            onClick={() => setUnmatchModal({show: false})}
+        >
           Cancel
         </Button>
-      </Modal.Body>
-      <Modal.Footer>
       </Modal.Footer>
     </Modal>
     </>

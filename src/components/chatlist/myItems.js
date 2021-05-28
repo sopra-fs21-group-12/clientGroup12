@@ -1,57 +1,48 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import { BaseContainer } from '../../helpers/layout';
 import { api, handleError } from '../../helpers/api';
-import { withRouter } from 'react-router-dom';
+import {useHistory, withRouter} from 'react-router-dom';
 import {Button as RsuiteButton, Modal, Panel, Uploader} from 'rsuite'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Grid, Typography, TextField, Button, Link } from '@material-ui/core'
+import {Grid, Typography, TextField, Button, Link, makeStyles} from '@material-ui/core'
+import PictureAvatar from "../pictures/PictureAvatar";
 
 
-class MyItemsList extends React.Component {
-  
-  constructor(props) {
-    super(props);
-    this.state = {
-      id: null,
-      items: undefined,
-      matches: []
-    };
-  }
+const useStyles = makeStyles((theme) => ({
+  list: {
+    whiteSpace: "nowrap",
+    width: "100%",
+    overflow: "hidden",
+    textOverflow: "clip ellipsis",
+    marginLeft: theme.spacing(1)
+  },
+  listMargin: {
+    paddingLeft: theme.spacing(1)
+  },
+}));
 
-  handleInputChange(key, value) {
-    this.setState({ [key]: value });
-  }
-  async getMyitems() {
-    try {
-      const response = await api.get(`/users/${this.state.id}/items`);
-      const myItems = response.data;
-      this.setState({ 
-          items: myItems
-        });
-    } catch (error) {
-      alert(`Something went wrong during the login: \n${handleError(error)}`);
-    }
-  }
-
-  
-  handleClick() {
-
-  }
-  async componentDidMount() {
-    // add try catch
-    const id = localStorage.getItem("id");
-    const response = await api.get(`/users/${id}/items`);
-      const myItems = response.data;
-      this.setState({ 
-        items: myItems
-    });
-  }
+function MyItemsList() {
+  const history = useHistory();
+  const classes = useStyles();
+  const [state, setState] = useState({id: null, items: undefined, matches: []});
 
 
-  render() {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const id = localStorage.getItem("id");
+        const response = await api.get(`/users/${id}/items`);
+        const myItems = response.data;
+        setState({items: myItems});
+      } catch (error) {
+        alert(`Something went wrong, make sure you have an item stored or try again later: \n${handleError(error)}`)
+      }}
+    fetchData();
+  }, []);
+
     return (
       <>
       <Grid container justify="center" spacing={4}>
@@ -66,18 +57,19 @@ class MyItemsList extends React.Component {
             component="nav"
             aria-labelledby="nested-list-subheader"
           >
-            {this.state.items && this.state.items.map(user => {
+            {state.items && state.items.map(user => {
             return (
                 <>
                   <ListItem button onClick={() =>{
-                    this.props.history.push(`/chat/${user.id}`)
+                    history.push(`/chat/${user.id}`)
                   }}>
-                    <ListItemText primary={user.title} />
+                    <PictureAvatar itemId={user.id}/>
+                    <ListItemText className={classes.list} primary={user.title} />
                   </ListItem>
               </>
             );
             })}
-            {!this.state.items &&
+            {!state.items &&
               <ListItem button>
                 <ListItemText primary="You have no items" />
               </ListItem>
@@ -88,7 +80,6 @@ class MyItemsList extends React.Component {
   </Grid>
   </>
     );
-  }
 }
 
 export default withRouter(MyItemsList);
