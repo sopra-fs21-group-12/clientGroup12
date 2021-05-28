@@ -8,15 +8,15 @@ import {makeStyles} from "@material-ui/core/styles";
 
 
 const useStyles = makeStyles((theme) => ({
-    image: {
-        width: 1,
-        height: 96
+    small: {
+        width: theme.spacing(4),
+        height: theme.spacing(4),
     },
 }));
 
 
 // You need to hand the id as props, otherwise it will not work!
-export default function PictureForSwipe(props){
+export default function PictureAvatar(props){
 
     const [pictureData,setPictureData] = useState([]);
     // This function firstly does a GET Request to the backend and grabs all the pictures under
@@ -43,13 +43,6 @@ export default function PictureForSwipe(props){
      */
     const classes = useStyles();
     return(
-        <img style={{
-            border: "0.5px solid #dcdbdc",
-            width: "300px", height: "300px",
-            borderRadius: "9px",
-            objectFit: "cover",
-            backgroundColor: "#dbdcdb"
-        }}
-             src={pictureData?.url} alt=""/>
+        <Avatar className={classes.small} src={pictureData?.url} alt=""/>
     );
 }
