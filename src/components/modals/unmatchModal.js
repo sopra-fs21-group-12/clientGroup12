@@ -28,28 +28,29 @@ const UnmatchModal = (props) => {
       </Modal.Header>
       <Modal.Body>
         <p>Are you sure you want to unmatch this item?</p>
+      </Modal.Body>
+      <Modal.Footer>
         <Button
             className={classes.unmatch}
             variant="contained"
             size="small"
-          onClick={async() => {
-            await unmatch(props.unmatch.id);
-            setUnmatchModal({show: false})
-            props.loadContacts();
-          }}
-        > 
+            color="secondary"
+            onClick={async() => {
+              await unmatch(props.unmatch.id);
+              setUnmatchModal({show: false})
+              props.loadContacts();
+            }}
+        >
           Unmatch
         </Button>
         <Button
             variant="contained"
             color="default"
             size="small"
-          onClick={() => setUnmatchModal({show: false})}
-        > 
+            onClick={() => setUnmatchModal({show: false})}
+        >
           Cancel
         </Button>
-      </Modal.Body>
-      <Modal.Footer>
       </Modal.Footer>
     </Modal>
     </>

@@ -49,10 +49,13 @@ export default function ReportButton(props) {
                 </Modal.Header>
                 <Modal.Body>
                     <p>Are you sure you want to report this item?</p>
+                </Modal.Body>
+                <Modal.Footer>
                     <Button
                         className={classes.report}
                         variant="contained"
                         size="small"
+                        color="secondary"
                         onClick={report}
                     >
                         Report
@@ -65,8 +68,6 @@ export default function ReportButton(props) {
                     >
                         Cancel
                     </Button>
-                </Modal.Body>
-                <Modal.Footer>
                 </Modal.Footer>
             </Modal>
         </div>
