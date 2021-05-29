@@ -23,6 +23,7 @@ import { Grid, makeStyles, TextField, Button, Divider } from "@material-ui/core"
 
 import styled from 'styled-components';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import PictureAvatar from "../pictures/PictureAvatar";
 
 const Label = styled.label`
    position: static;
@@ -52,6 +53,8 @@ const Label = styled.label`
     unmatch: {
       margin: theme.spacing(1),
       background: "#EB5757",
+        paddingLeft: theme.spacing(3),
+        paddingRight: theme.spacing(3)
     },
     report: {
       background: "#EB5757",
@@ -66,6 +69,16 @@ const Label = styled.label`
     matchesButton: {
       background: "#6FCF97",
     },
+      list: {
+          whiteSpace: "nowrap",
+          width: "100%",
+          overflow: "hidden",
+          textOverflow: "clip ellipsis",
+          marginLeft: theme.spacing(1)
+      },
+      listMargin: {
+          paddingLeft: theme.spacing(1)
+      },
   }));
 
   var stompClient = null;
@@ -263,17 +276,19 @@ const Label = styled.label`
                     return (
                         <div key={contact.id}>
                           <ListItem
+                              className={classes.listMargin}
                               button
                               selected={contact.id === stateRef.current?.id}
                               onClick={(event) =>{
                                 setActiveContact(contact)
                               }}
-                          >
-                            <ListItemText primary={contact.name} />
+                          ><PictureAvatar itemId={contact.id}/>
+                            <ListItemText className={classes.list} primary={contact.name}/>
                             <Button
                                 className={classes.unmatch}
                                 variant="contained"
                                 size="small"
+                                color="secondary"
                                 onClick={()=> setUnmatchModal({show: true, id: contact.matchId})}
                             >
                               Unmatch
@@ -313,8 +328,8 @@ const Label = styled.label`
                 </Grid>
             ):(
                 <div>
-                  <h5>Chat with {activeContact.name}</h5>
-                  <Divider />
+                    <h5>Chat with: {activeContact.name}</h5>
+                    <Divider/>
                   <List className={classes.rootList}
                         component="nav"
                   >
@@ -350,7 +365,7 @@ const Label = styled.label`
       <Grid item xs={6}>
         {activeContact ? (
             <Grid container justify="flex-start" alignItems="center" spacing={4}>
-              <Grid item xs={8}>
+              <Grid item xs={9}>
                 <Panel shaded>
                   <TextField
                       margin="normal"
@@ -382,7 +397,7 @@ const Label = styled.label`
                   </Button>
                 </Panel>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Game
                     stomp={stompClient}
                     id={idNumber}
@@ -391,14 +406,6 @@ const Label = styled.label`
                     sendMessage={sendMessage}
                     setContact={setContactById}>
                 </Game>
-                <Button
-                    size="large"
-                    variant="contained"
-                    className={classes.swipingButton}
-                    endIcon={<ThumbUpIcon>ok</ThumbUpIcon>}
-                >
-                  Confirm Swap
-                </Button>
               </Grid>
             </Grid>
         ):(
