@@ -84,6 +84,18 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+
+## Roadmap
+As a new developer here are some suggestions, that could be added to our project:
+* We would like to implement a proper Userpage, that can be seen by other users and interacted with.
+* We would like to implement statistics on users and their items. These data would be used to develop a more sophisticated item Proposal, so that the match percentage of a user with a given item ca be increased
+* implement a User rating, where you can rate the other user in terms of the swap process. This would increase trustworthyness of users.
+* A swap History with all items you haved swapped so far should be displayed for every item.
+* Further Google Maps implementations for a match, so that the route and route time is calculated to make the swap.   
+
+
+
+
 # some Notes
 Link to mockups: https://balsamiq.cloud/sxutwm7/pc0hokj/r9C75
 
