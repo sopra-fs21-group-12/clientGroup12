@@ -20,6 +20,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import {Panel} from "rsuite";
 import { Grid, makeStyles, TextField, Button, Divider } from "@material-ui/core";
+import Navbar from "../Navbar/Navbar";
 
 import styled from 'styled-components';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
@@ -252,6 +253,8 @@ const Label = styled.label`
 
     return (
     <>
+     <Grid container justify="center" spacing={0}>
+        <Navbar/>
     <UnmatchModal unmatch={unmatchModal} loadContacts={loadContacts} />
     <ReportModal unmatch={reportModal} loadContacts={loadContacts} />
     <GoToChat goToChat={goToChatModal} setContact={setActiveContact}/>
@@ -412,6 +415,7 @@ const Label = styled.label`
             <div/>
         )}
       </Grid>
+    </Grid>
     </Grid>
     <BackToInventory/>
     </>

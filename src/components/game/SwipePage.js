@@ -12,6 +12,7 @@ import TinderCard from "react-tinder-card";
 import PictureSliderSwiping from "../pictures/PictureSliderSwiping";
 import {useHotkeys} from "react-hotkeys-hook";
 import ReportButton from "./ReportButton";
+import Navbar from "../Navbar/Navbar";
 
 const useStyles = makeStyles((theme) => ({
     description: {
@@ -174,15 +175,20 @@ function SwipePage(props) {
     return (
         <div>
             {noItems ? (
+                <Grid>
+              <Navbar/>
                 <Grid container justify="center" alignItems="center" spacing={5}>
                     <Grid item xs={12}/>
                     <Grid item xs={6}>
                         <header>No items to swipe on left</header>
                     </Grid>
                     <BackToInventory/>
-                </Grid>
+                    </Grid>
+                    </Grid>
 
             ) : (
+                <Grid>
+                 <Navbar justify="center" spacing={0}/>
                 <Grid container justify="center" spacing={4}>
                     <Grid item xs={12}/>
                     <Grid item xs={12}/>
@@ -262,6 +268,8 @@ function SwipePage(props) {
                         </Grid>
                     </Grid>
                 </Grid>
+                </Grid>
+                
             )}
         </div>
     );
