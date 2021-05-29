@@ -31,7 +31,14 @@ https://developers.google.com/maps/documentation/javascript/overview?hl=en
 
 ## High-Level components
 
-### 
+### App-Router
+This is the main component for the routing 
+
+### Swipe-Router with Swipepage
+These is the main component for swipping and has a specific subrouting for each Item
+
+### Chat-Router and Chat component
+
 
 
 # some Notes
