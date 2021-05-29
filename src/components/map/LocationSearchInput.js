@@ -14,7 +14,7 @@ function LocationSearchInput() {
   function handleChange (val) {
     setAddress(val);
   }
-
+//TODO: setLat, setLng is not set right, needs to be send back to backend and be fetched in MyMatches page to display markers
   function handleSelect(val) {
     setAddress(val);
     geocodeByAddress(address)

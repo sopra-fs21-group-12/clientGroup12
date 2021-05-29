@@ -8,7 +8,7 @@ import 'react-slidy/lib/styles.css';
 import { Avatar, Button, CssBaseline, TextField, Link, Grid, Box, Typography, Container, Paper, Card, CardContent } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {Panel} from "rsuite";
-import GoogleMapRegistration from "./components/map/RegistrationMap";
+import RegistrationMap from "./components/map/RegistrationMap";
 import LocationSearchInput from "./components/map/LocationSearchInput";
 /*
 
@@ -109,7 +109,7 @@ const ItemImages = ({id}) => {
 
 function TestPage(){
   return (
-    <GoogleMapRegistration/>
+    <RegistrationMap/>
   )
 }
 
