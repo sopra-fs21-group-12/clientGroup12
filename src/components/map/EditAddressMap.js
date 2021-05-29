@@ -1,18 +1,18 @@
-import React, {useRef} from "react";
-import {useCallback, useState, useEffect} from "react";
-import {GoogleMap, Autocomplete, InfoWindow, Marker, useLoadScript, useJsApiLoader} from "@react-google-maps/api";
-import SearchBox from "react-google-maps/lib/components/places/SearchBox";
+import React from "react";
+import {useCallback, useState} from "react";
+import {GoogleMap, useJsApiLoader} from "@react-google-maps/api";
 import {withRouter} from "react-router-dom";
+import LocationSearchInput from "./LocationSearchInput";
 require('dotenv').config();
 
 const containerStyle = {
-  width: '50%',
-  height: '800px'
+  width: '510px',
+  height: '400px'
 };
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
-function GoogleMapRegistration() {
+function EditAddressMap() {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: API_KEY,
@@ -32,18 +32,18 @@ function GoogleMapRegistration() {
     setMap(null)
   }, []);
 
-
-
   return isLoaded ? (
-    <GoogleMap
-      center={center}
-      mapContainerStyle={containerStyle}
-      zoom={12}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-    >
-    </GoogleMap>
+    <div>
+      <LocationSearchInput/>
+      <GoogleMap
+        center={center}
+        mapContainerStyle={containerStyle}
+        zoom={12}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+      />
+    </div>
   ) : <></>
 }
 
-export default withRouter(GoogleMapRegistration)
+export default withRouter(EditAddressMap)

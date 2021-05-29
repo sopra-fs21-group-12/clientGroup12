@@ -5,7 +5,7 @@ import {api, handleError} from "../../helpers/api";
 import User from "../shared/models/User";
 import {Panel} from "rsuite";
 import Navbar from "../Navbar/Navbar";
-
+import RegistrationMap from "../map/RegistrationMap";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -105,7 +105,7 @@ function Registration() {
     <Navbar/>
     <Grid container justify="center" spacing={10}>
     <Grid item xs={12}/>
-    <Container maxWidth="xs"
+    <Container maxWidth="sm"
     >
         <Panel shaded>
           <Typography
@@ -138,36 +138,6 @@ function Registration() {
           <TextField
             id="outlined-basic"
             margin="normal"
-            label="City"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={onChangeCity}
-          >
-          </TextField>
-          <TextField
-            id="outlined-basic"
-            margin="normal"
-            label="Address"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={onChangeAddress}
-          >
-          </TextField>
-          <TextField
-            id="outlined-basic"
-            margin="normal"
-            label="Postale Code"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={onChangePostCode}
-          >
-          </TextField>
-          <TextField
-            id="outlined-basic"
-            margin="normal"
             label="Password"
             type="password"
             variant= "outlined"
@@ -186,6 +156,7 @@ function Registration() {
             required
           >
           </TextField>
+          <RegistrationMap/>
         </Panel>
         <Button
         disabled={!username || !name || !password}
@@ -201,8 +172,8 @@ function Registration() {
     </Container>
     </Grid>
     </Grid>
-    
-    
+
+
   )
 }
 

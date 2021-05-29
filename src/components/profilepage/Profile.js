@@ -7,6 +7,8 @@ import { Panel} from 'rsuite';
 import Edit from "./Edit";
 import BackToInventory from "../RedirectButtons/BackToInventory";
 
+//TODO: adapt to new latlng style and reverse geocoding address display
+
 const useStyles = makeStyles((theme) => ({
     root: {
         margin: 20

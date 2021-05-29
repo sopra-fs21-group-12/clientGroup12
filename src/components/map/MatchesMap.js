@@ -1,18 +1,18 @@
-import React from "react";
-import {useCallback, useState} from "react";
-import {GoogleMap, useJsApiLoader} from "@react-google-maps/api";
+import React, {useRef} from "react";
+import {useCallback, useState, useEffect} from "react";
+import {GoogleMap, InfoWindow, Marker, useJsApiLoader} from "@react-google-maps/api";
 import {withRouter} from "react-router-dom";
 import LocationSearchInput from "./LocationSearchInput";
 require('dotenv').config();
 
 const containerStyle = {
-  width: '510px',
+  width: '400px',
   height: '400px'
 };
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
-function RegistrationMap() {
+function MatchesMap() {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: API_KEY,
@@ -32,9 +32,9 @@ function RegistrationMap() {
     setMap(null)
   }, []);
 
+
   return isLoaded ? (
     <div>
-      <LocationSearchInput/>
       <GoogleMap
         center={center}
         mapContainerStyle={containerStyle}
@@ -46,4 +46,4 @@ function RegistrationMap() {
   ) : <></>
 }
 
-export default withRouter(RegistrationMap)
+export default withRouter(MatchesMap)

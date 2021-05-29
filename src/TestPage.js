@@ -9,8 +9,8 @@ import { Avatar, Button, CssBaseline, TextField, Link, Grid, Box, Typography, Co
 import { makeStyles } from '@material-ui/core/styles';
 import SwipePanel from "./components/SwipePanel/SwipePanel";
 import {Panel} from "rsuite";
-import GoogleMapRegistration from "./components/map/GoogleMapRegistration";
-import Map from "./components/map/RegistrationMap";
+import GoogleMapRegistration from "./components/map/RegistrationMap";
+import LocationSearchInput from "./components/map/LocationSearchInput";
 /*
 
 
@@ -110,7 +110,7 @@ const ItemImages = ({id}) => {
 
 function TestPage(){
   return (
-        <GoogleMapRegistration/>
+    <GoogleMapRegistration/>
   )
 }
 
