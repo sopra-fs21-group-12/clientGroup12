@@ -2,8 +2,6 @@ import React  from 'react'
 import { useHistory } from "react-router-dom";
 import {Panel} from "rsuite";
 import {Grid, Button, makeStyles} from "@material-ui/core";
-import Picture from "../pictures/Picture";
-import PictureSliderSwiping from "../pictures/PictureSliderSwiping";
 import PictureSliderItem from "../pictures/PictureSilderItem";
 
 const useStyles = makeStyles((theme) => ({
@@ -16,8 +14,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MyItemsContainer(props) {
-  const itemId = props.item.id;
-
   const history = useHistory();
   const classes = useStyles();
 
@@ -40,7 +36,6 @@ export default function MyItemsContainer(props) {
               <Grid item xs={2}>
               <Button
                 variant="contained"
-                className={classes.itemEdit}
                 onClick={() => history.push('/edit/' + props.item.id)}
               >
                 Edit Item

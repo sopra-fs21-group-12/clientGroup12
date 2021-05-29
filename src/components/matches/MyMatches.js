@@ -1,15 +1,21 @@
-import React, {useEffect, useState} from "react";
-import {useHistory, withRouter} from "react-router-dom";
-import {api, handleError} from "../../helpers/api";
+import React, {useCallback, useEffect, useState} from "react";
+import {withRouter} from "react-router-dom";
+import {api} from "../../helpers/api";
 import Loader from "rsuite/es/Loader";
-import Player from "../../views/Player";
 import MatchedItemContainer from "./MatchedItemContainer";
-import {Button, Grid} from "@material-ui/core";
+import {Grid} from "@material-ui/core";
 import {Panel} from "rsuite";
 import styled from "styled-components";
 import Picture from "../pictures/Picture";
 import BackToInventory from "../RedirectButtons/BackToInventory";
+import {GoogleMap, useJsApiLoader, Marker} from "@react-google-maps/api";
+require('dotenv').config();
+const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
+const containerStyle = {
+    width: '700px',
+    height: '400px'
+};
 
 const Label = styled.label`
   position: static;
@@ -30,45 +36,88 @@ const Label = styled.label`
 `;
 
 function MyMatches(props) {
+
+    const { isLoaded } = useJsApiLoader({
+        id: 'google-map-script',
+        googleMapsApiKey: API_KEY,
+    });
+
     const {id} = props.match.params
-    const [matchedItems, setMatchedItems] = useState([]);
     const [itemData, setItemData] = useState();
+    const [matchedItems, setMatchedItems] = useState();
+    const [usersOfMatchedItem, setUsersOfMatchedItem] = useState();
+    const [uniqueUsers, setUniqueUsers] = useState();
+    const [map, setMap] = useState(null);
+    const center = {lat: 47.36667, lng: 8.55}
 
     useEffect(async () => {
         try {
+            // fetching item that has been clicked to show matches with
+            const matchedItemsList = []
+            const getOwnItem = await api.get(/items/ + id)
+            setItemData(getOwnItem.data)
 
-            const response = await api.get(/items/ + id)
-            setItemData(response.data)
-
-        } catch (error) {
-            alert(`Something went wrong while fetching the item: \n${handleError(error)}`);
-        }
-
-    }, [])
-
-    useEffect(async () => {
-        try {
-            //await new Promise(resolve => setTimeout(resolve, 2000));
-
-            // get matches of item
-            const response1 = await api.get(`/${id}/showmatches`)
+            const getMatchesOfItem = await api.get(`/${id}/showmatches`)
 
             // extract id of matched items
-            let arr = response1.data.map(id => id.itemIdTwo);
-
+            let arr = getMatchesOfItem.data.map(id => id.itemIdTwo);
             for (const i in arr) {
                 const response2 = await api.get(`/items/${arr[i]}/`)
-                setMatchedItems(matchedItems => [...matchedItems, response2.data])
+                matchedItemsList.push(response2.data);
             }
-
+            await setMatchedItems(matchedItemsList);
         } catch (error) {
-            alert(`Something went wrong while fetching the matches: \n${handleError(error)}`);
+            alert(error);
+            console.log(error);
         }
-
     }, [])
 
+    useEffect(async () => {
+        if(matchedItems){
+            let arr2 = matchedItems.map(id => id.userId);
+            const usersList = []
+            for (const i in arr2) {
+                const response3 = await api.get(`users/${arr2[i]}`)
+                usersList.push(response3.data)
+            }
+            setUsersOfMatchedItem(usersList);
+        }
 
-    return (
+    }, [matchedItems])
+
+    useEffect(async () => {
+        if(usersOfMatchedItem){
+            const uniqueUsersArr = [];
+            let doNotAdd = false;
+            for (const user of usersOfMatchedItem) {
+                doNotAdd = false;
+                for ( const uniqueUser of uniqueUsersArr) {
+                    if (uniqueUser.id == user.id) {
+                        doNotAdd = true;
+                    }
+                }
+                uniqueUsersArr.forEach(uniqueUser => {
+                    if (uniqueUser.id == user.id) {
+                        doNotAdd = true;
+                    }
+                })
+                if(!doNotAdd) {
+                    uniqueUsersArr.push(user);
+                }
+            }
+            setUniqueUsers(uniqueUsersArr);
+            }
+    }, [usersOfMatchedItem])
+
+    const onLoad = useCallback(function callback(map) {
+        setMap(map)
+    }, []);
+
+    const onUnmount = useCallback(function callback(map) {
+        setMap(null)
+    }, []);
+
+    return isLoaded ?(
         <div>
             <BackToInventory/>
             {!matchedItems ||!itemData ? (
@@ -103,9 +152,25 @@ function MyMatches(props) {
                                 })
                         )}
                     </Grid>
+                    {uniqueUsers && <GoogleMap
+                      center={center}
+                      mapContainerStyle={containerStyle}
+                      zoom={2}
+                      onLoad={onLoad}
+                      onUnmount={onUnmount}
+                    >
+                        {
+                            uniqueUsers && uniqueUsers.map(user => {
+                                return (
+                                  <Marker key={user.name} position={{lat: user.latitude, lng: user.longitude}} title={user.username}/>
+                                )
+                            })
+                        }
+                    </GoogleMap>}
                 </Grid>
             )}
         </div>
-    );
+    ): <></>;
 }
+
 export default withRouter(MyMatches);

@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState} from 'react';
 import {useHistory, withRouter} from 'react-router-dom';
 import {Avatar, Button, Container, Grid, makeStyles, TextField, Typography, Paper} from "@material-ui/core";
 import {api, handleError} from "../../helpers/api";
@@ -36,9 +36,6 @@ function Registration() {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [postcode, setPostCode] = useState();
 
   const onChangeUsername = (input) => {
     const username = input.target.value;
@@ -55,33 +52,19 @@ function Registration() {
     setPassword(password);
   }
 
-  const onChangeAddress = (input) => {
-    const address = input.target.value;
-    setAddress(address);
-  }
-
-  const onChangeCity = (input) => {
-    const city = input.target.value;
-    setCity(city);
-  }
-
-  const onChangePostCode = (input) => {
-    const postcode = input.target.value;
-    setPostCode(postcode);
-  }
-
   const handleRegistration = async () => {
     try {
       // What we want to send back to the backend
+      const location = JSON.parse(localStorage.getItem("latLng"))
       const requestBody = JSON.stringify({
         username: username,
         name: name,
         password: password,
-        address: address,
-        city: city,
-        postcode: postcode,
+        longitude: location.lng,
+        latitude: location.lat,
       });
       // Post request to the backend with given data
+      console.log(requestBody);
       const response = await api.post('/users', requestBody);
 
       // Get the returned user and update a new object.

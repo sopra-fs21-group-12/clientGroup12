@@ -1,15 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import styled from 'styled-components';
-import { BaseContainer } from '../../helpers/layout';
 import { api, handleError } from '../../helpers/api';
 import {useHistory, withRouter} from 'react-router-dom';
-import {Button as RsuiteButton, Modal, Panel, Uploader} from 'rsuite'
+import { Panel } from 'rsuite'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import {Grid, Typography, TextField, Button, Link, makeStyles} from '@material-ui/core'
+import {Grid, Typography, makeStyles} from '@material-ui/core'
 import PictureAvatar from "../pictures/PictureAvatar";
-
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -29,18 +26,15 @@ function MyItemsList() {
   const classes = useStyles();
   const [state, setState] = useState({id: null, items: undefined, matches: []});
 
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const id = localStorage.getItem("id");
-        const response = await api.get(`/users/${id}/items`);
-        const myItems = response.data;
-        setState({items: myItems});
-      } catch (error) {
-        alert(`Something went wrong, make sure you have an item stored or try again later: \n${handleError(error)}`)
-      }}
-    fetchData();
+  useEffect(async() => {
+    try {
+      const id = localStorage.getItem("id");
+      const response = await api.get(`/users/${id}/items`);
+      const myItems = response.data;
+      setState({items: myItems});
+    } catch (error) {
+      alert(`Something went wrong, make sure you have an item stored or try again later: \n${handleError(error)}`)
+    }
   }, []);
 
     return (
@@ -76,7 +70,7 @@ function MyItemsList() {
             }
           </List>
         </Panel>
-      </Grid>      
+      </Grid>
   </Grid>
   </>
     );

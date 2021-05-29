@@ -9,7 +9,6 @@ import { Avatar, Button, CssBaseline, TextField, Link, Grid, Box, Typography, Co
 import { makeStyles } from '@material-ui/core/styles';
 import {Panel} from "rsuite";
 import RegistrationMap from "./components/map/RegistrationMap";
-import LocationSearchInput from "./components/map/LocationSearchInput";
 /*
 
 
