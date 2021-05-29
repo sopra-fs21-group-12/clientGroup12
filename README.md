@@ -10,7 +10,7 @@ The goal of this project was to create a trading plattform, however with a twist
 
 
 ## How to use this application?
-To use the application you don't need to install anything. You can access it through your browser [here](http://sopra-fs21-group-12-client.herokuapp.com/) (We strongly suggest Google Chrome). If you want to run the application locally, we suggest to download this Repo and the Server Repo, to get it up and running.
+To use the application you don't need to install anything. You can access it through your browser [here](http://sopra-fs21-group-12-client.herokuapp.com/) (We strongly suggest Google Chrome). If you want to run the application locally, we suggest to download this Repo and the Server Repo [(here)](https://github.com/sopra-fs21-group-12/serverGroup12), to get it up and running.
 
 ## Technologies
 ### Programming language and enviroment
