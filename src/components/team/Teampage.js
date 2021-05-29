@@ -65,7 +65,7 @@ function TeamPage() {
             Joël
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Lorem IPSUM....... Please add some text here Joël
+            I am the Boss of the crew. I decide what has to be done. If I don't like it, it will be changed!
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -84,7 +84,7 @@ function TeamPage() {
         <CardMedia
           style={{height: 0, paddingTop: '70%'}}
           alt="Contemplative Reptile"
-          image="https://mypicturegallerydshush.s3.eu-central-1.amazonaws.com/0/Mauro.jpeg"
+          image="https://mypicturegallerydshush.s3.eu-central-1.amazonaws.com/0/Bildschirmfoto+2021-05-29+um+23.14.25.png"
           title="Contemplative Reptile"
         />
         <CardContent>
@@ -92,7 +92,7 @@ function TeamPage() {
             Mauro
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-           Lorem IPSUM....... Please add some text here Mauro
+           The photo was taken after a hard day of integration testing. May the bugs be destroyed for ever!
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -120,7 +120,7 @@ function TeamPage() {
             Dennis
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-          Lorem IPSUM....... Please add some text here Dennis
+          I don't care as much as how the application looks, but rather that it works. The logic is what matters !
 
           </Typography>
         </CardContent>
@@ -148,8 +148,7 @@ function TeamPage() {
             Filip
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-          Lorem IPSUM....... Please add some text here Filip
-
+          I don't like dirty code. I want to have it clean. Some may call me the Code-Cleaner.
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -166,11 +165,10 @@ function TeamPage() {
     <Card className={classes.root}>
       <CardActionArea>
         <CardMedia
-          component="img"
-          alt="Contemplative Reptile"
-          height="140"
+         style={{height: 0, paddingTop: '70%'}}
+         alt="Contemplative Reptile"
           // Please send me foto  Onur
-          image=""
+          image="https://mypicturegallerydshush.s3.eu-central-1.amazonaws.com/0/Bildschirmfoto+2021-05-29+um+23.05.11.png"
           title="Contemplative Reptile"
         />
         <CardContent>
@@ -178,7 +176,8 @@ function TeamPage() {
             Onur
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-          Lorem IPSUM....... Please add some text here Onur
+            I am Onur the great. My supreme styling makes the difference in the application. Style matters
+            !
           </Typography>
         </CardContent>
       </CardActionArea>

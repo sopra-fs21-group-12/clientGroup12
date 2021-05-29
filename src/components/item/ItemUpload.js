@@ -9,6 +9,7 @@ import { Modal, Panel, Uploader} from 'rsuite'
 import TagPickerRS from '../tagPicker/TagPickerRS'
 import {api, handleError} from "../../helpers/api";
 import BackToInventory from "../RedirectButtons/BackToInventory";
+import Navbar from "../Navbar/Navbar";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -117,6 +118,8 @@ function ItemUpload() {
     }
 
     return (
+      <Grid  justify="center" spacing={0}>
+      <Navbar/>
         <Grid container justify="center" spacing={4}>
             <Grid item xs={12}/>
             <Grid item xs={12}/>
@@ -196,7 +199,7 @@ function ItemUpload() {
                 <Modal.Footer>
                 </Modal.Footer>
             </Modal>
-
+      </Grid>
       </Grid>
     )
 }

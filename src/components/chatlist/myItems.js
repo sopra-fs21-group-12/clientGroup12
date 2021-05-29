@@ -7,6 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import {Grid, Typography, makeStyles} from '@material-ui/core'
 import PictureAvatar from "../pictures/PictureAvatar";
+import Navbar from "../Navbar/Navbar";
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -39,9 +40,12 @@ function MyItemsList() {
 
     return (
       <>
+       <Grid container justify="center" spacing={0}>
+        <Navbar/>
       <Grid container justify="center" spacing={4}>
       <Grid item xs={12}/>
       <Grid item xs={12}/>
+   
 
       <Grid item xs={6}>
         <Panel shaded>
@@ -71,6 +75,7 @@ function MyItemsList() {
           </List>
         </Panel>
       </Grid>
+  </Grid>
   </Grid>
   </>
     );
