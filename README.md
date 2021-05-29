@@ -93,12 +93,26 @@ As a new developer here are some suggestions, that could be added to our project
 * A swap History with all items you haved swapped so far should be displayed for every item.
 * Further Google Maps implementations for a match, so that the route and route time is calculated to make the swap.   
 
+# Authors & Acknowledgment
+## Developers
+* Joel Ruettimann
+* Onur Topalak
+* Filip Trendafilv
+* Dennis Shushack
+* Mauro Dörig
+    
+We would like to extend our thanks to anyone who has supported us through this challenging but experience-filled project. Also, we'd like to especially mention our TA  Remy Egloff whose advice and guidance was very valuable to us.
+
+# License
+Copyright (c) 2021 Finder.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-
-# some Notes
+# some further usefull links
 Link to mockups: https://balsamiq.cloud/sxutwm7/pc0hokj/r9C75
-
-Leaflet for maps JS API?: https://leafletjs.com/
-
-User Stories Report: https://docs.google.com/document/d/1u1ehNyZr-bR-K5GJ65GThVHZn6MtxBHXY5daQ7ILqI0/edit
+Link to Server: https://github.com/sopra-fs21-group-12/serverGroup12/blob/master/README.md
