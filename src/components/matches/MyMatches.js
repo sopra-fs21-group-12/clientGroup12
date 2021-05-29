@@ -9,6 +9,7 @@ import {Panel} from "rsuite";
 import styled from "styled-components";
 import Picture from "../pictures/Picture";
 import BackToInventory from "../RedirectButtons/BackToInventory";
+import PictureSliderItem from "../pictures/PictureSilderItem";
 
 
 const Label = styled.label`
@@ -75,20 +76,20 @@ function MyMatches(props) {
                 <Loader/>
             ) : (
                 <Grid container justify="center" spacing={10}>
-                    <Grid item xs={7}>
+                    <Grid item xs={6}>
                         <Panel shaded>
-                        <Grid container justify="flex-start"  alignItems="center" spacing={1}>
-                                <Grid item xs={2}>
-                                    <Picture itemId={itemData.id}/>
+                        <Grid container justify="center" alignItems="center" spacing={4}>
+                                <Grid item xs={4}>
+                                    <PictureSliderItem id={itemData.id}/>
                                 </Grid>
-                                <Grid item xs={10}>
+                                <Grid item xs={8}>
                                         <Label>Matches with your</Label>
                                         <h3>{itemData.title}</h3>
                                 </Grid>
                         </Grid>
                         </Panel>
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item xs={10}>
                         {!matchedItems.length ? (
                             <noMatch>No Matches with this item</noMatch>
                         ) : (
