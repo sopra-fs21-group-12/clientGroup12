@@ -56,6 +56,7 @@ function Registration() {
     try {
       // What we want to send back to the backend
       const location = JSON.parse(localStorage.getItem("latLng"))
+      console.log(location)
       const requestBody = JSON.stringify({
         username: username,
         name: name,
