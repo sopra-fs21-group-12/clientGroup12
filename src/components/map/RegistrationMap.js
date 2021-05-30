@@ -13,7 +13,7 @@ const containerStyle = {
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
-function RegistrationMap() {
+function RegistrationMap(props) {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: API_KEY,
@@ -47,6 +47,9 @@ function RegistrationMap() {
 
   useEffect(() =>{
     if(center){
+      if(address){
+        props.onChange(true);
+      }
       localStorage.setItem("latLng", JSON.stringify(center))
     }
 

@@ -78,6 +78,7 @@ export default function MyItemsContainer(props) {
                 </Grid>
             </Grid>
             }>
+          <h6>Item Description:</h6>
            <h6>{props.item.description}</h6>
           <br/>
           <Divider/>

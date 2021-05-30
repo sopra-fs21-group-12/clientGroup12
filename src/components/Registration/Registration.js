@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(3, 0, 0)
   },
 }))
 
@@ -36,6 +36,7 @@ function Registration() {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [address, setAddress] = useState(false);
 
   const onChangeUsername = (input) => {
     setUsername(input.target.value);
@@ -81,21 +82,20 @@ function Registration() {
     }
   }
 
+  function handleAddress(newValue){
+    setAddress(newValue);
+  }
+
   return (
     <Grid container justify="center" spacing={0}>
     <Navbar/>
-    <Grid container justify="center" spacing={10}>
+    <Grid container justify="center" spacing={12}>
     <Grid item xs={12}/>
-    <Container maxWidth="sm"
-    >
         <Panel shaded>
           <Typography
             variant="h5">
             Register to upload your first item and start swiping
           </Typography>
-        <Avatar
-          className={classes.avatar}
-        />
           <TextField
             id=""
             margin="normal"
@@ -127,20 +127,19 @@ function Registration() {
             onChange={onChangePassword}
           >
           </TextField>
-          <RegistrationMap/>
+          <RegistrationMap onChange={handleAddress}/>
+          <Button
+              disabled={!username || !name || !password || !address}
+              className={classes.submit}
+              size="medium"
+              type="submit"
+              variant="contained"
+              color="primary"
+              onClick={handleRegistration}
+          >
+            Register
+          </Button>
         </Panel>
-        <Button
-        disabled={!username || !name || !password}
-        className={classes.submit}
-        size="medium"
-        type="submit"
-        variant="contained"
-        color="primary"
-        onClick={handleRegistration}
-      >
-        Register
-      </Button>
-    </Container>
     </Grid>
     </Grid>
 

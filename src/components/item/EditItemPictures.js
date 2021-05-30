@@ -50,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         background: "#EB5757",
     },
+    cancel:{
+        margin: theme.spacing(1),
+    }
   }));
 
   const dropzone = {
@@ -184,6 +187,10 @@ export default function EditItemPictures() {
         });
     }
 
+    function cancel(){
+          history.push("/inventory")
+    }
+
     async function handleDeleteItem() {
         try {
             await api.delete(`/items/${id}`);
@@ -204,9 +211,7 @@ export default function EditItemPictures() {
         <Grid justify="center" spacing={0}>
             <Navbar/>
         <Grid container justify="center" spacing={3}>
-            <Grid item xs={12}/>
             <Panel shaded>
-                <Typography variant="h5">Item Edit Page</Typography>
                 <Typography variant="h6">Change your Items title, description or upload new pictures</Typography>
 
                 <br/>
@@ -249,6 +254,13 @@ export default function EditItemPictures() {
                     color="primary"
                     onClick={handleSave}>
                     Save Changes
+                </Button>
+                <Button
+                    className={classes.cancel}
+                    variant="contained"
+                    color="default"
+                    onClick={cancel}>
+                    Cancel
                 </Button>
                 <br/>
                 <br/>
@@ -298,6 +310,7 @@ export default function EditItemPictures() {
                                 Delete
                             </Button>
                             <Button
+                                className={classes.cancel}
                                 variant="contained"
                                 color="default"
                                 onClick={close}
