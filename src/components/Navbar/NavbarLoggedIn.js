@@ -153,7 +153,10 @@ export function NavbarLoggedIn() {
     history.push("/itemsToChat")
   }
 
-
+  const handleInfo = () => {
+    window.location.replace("https://landingonsopra.herokuapp.com/");
+  }
+  
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -244,7 +247,7 @@ export function NavbarLoggedIn() {
               <ListItemIcon style={{minWidth: '30px'}}>
                   <InfoIcon/> 
              </ListItemIcon>
-             <ListItemText >Info</ListItemText>
+             <ListItemText onClick={handleInfo}>Info</ListItemText>
             </ListItem>
         </List>
         <Divider />

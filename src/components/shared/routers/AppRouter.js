@@ -139,7 +139,7 @@ class AppRouter extends React.Component {
                       path="/"
                       exact
                       render={() =>
-                        <HomePage/>
+                        window.location.replace("https://landingonsopra.herokuapp.com/")
                       }
                     />
                 </Switch>
