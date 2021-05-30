@@ -104,4 +104,5 @@ function RegistrationMap() {
     </div>
   ) : <></>
 }
+
 export default withRouter(RegistrationMap)
