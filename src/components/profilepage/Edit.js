@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Modal, ButtonToolbar, Button} from "rsuite";
 import {TextField} from "@material-ui/core";
 import {api, handleError} from "../../helpers/api";
@@ -13,20 +13,17 @@ export default function Edit(props) {
     const [modal, setModal] = useState({show: false})
     const [edit, setEdit] = useState({
         username: props.userdata.username,
-        name: props.userdata.name,
         password: props.userdata.password,
-        address: props.userdata.address,
-        city: props.userdata.city,
-        postcode: props.userdata.postcode,
+        latitude: props.userdata.latitude,
+        longitude: props.userdata.longitude,
     });
+    const [address, setAddress] = useState();
+    const [newLocation, setNewLocation] = useState();
 
     const {isLoaded} = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: API_KEY,
     });
-
-    const [address, setAddress] = useState();
-    const [newLocation, setNewLocation] = useState();
 
     function handleInput(val) {
         setAddress(val);
@@ -35,13 +32,9 @@ export default function Edit(props) {
     function handleSelect(val) {
         setAddress(val);
         geocodeByAddress(address)
-          .then(results => {
-              getLatLng(results[0])
-              console.log(results)
-          })
+          .then(results => getLatLng(results[0]))
           .then(latLng => setNewLocation(latLng))
           .catch(error => console.error('Error', error));
-        console.log(newLocation);
         // api call set lng lat
     }
     const handleChange = (e) => {
@@ -54,11 +47,9 @@ export default function Edit(props) {
             // What we send back to the backend
             const requestBody = JSON.stringify({
                 username: edit.username,
-                name: edit.name,
                 password: edit.password,
-                address: edit.address,
-                city: edit.city,
-                postcode: edit.postcode,
+                latitude: newLocation.lat,
+                longitude: newLocation.lng,
             });
             // We create a Put Request to the backend to /users/{id}
             await api.put('/users/' + id, requestBody);
@@ -80,9 +71,11 @@ export default function Edit(props) {
     return isLoaded ? (
         <div className="modal-container">
             <ButtonToolbar>
-                <Button onClick={open}> Edit Profile</Button>
+                <Button
+                  onClick={open}>
+                    Edit Profile
+                </Button>
             </ButtonToolbar>
-
             <Modal show={modal.show} onHide={close}>
                 <Modal.Header>
                     <Modal.Title>Edit your Profile</Modal.Title>
@@ -98,17 +91,6 @@ export default function Edit(props) {
                         label="username"
                         name="username"
                         autoFocus
-                        onChange={handleChange}
-                    />
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="name"
-                        defaultValue={edit.name}
-                        label="name"
-                        id="name"
                         onChange={handleChange}
                     />
                     <TextField
@@ -174,7 +156,7 @@ export default function Edit(props) {
                         color="primary"
                         onClick={handleEdit}
                         appearance="primary"
-                        disabled={!edit.password}
+                        disabled={!edit.password || !newLocation}
                     >
                         Ok
                     </Button>

@@ -21,6 +21,7 @@
     "react-hotkeys-hook": "^3.3.1",
     "react-icons": "^4.2.0",
     "react-leaflet": "^3.1.0",
+    "react-native-geocoding": "^0.5.0",
     "react-places-autocomplete": "^7.3.0",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
