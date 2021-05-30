@@ -188,6 +188,7 @@ const Label = styled.label`
   const loadContacts =  async() => {
     setMessages([]);
     setContacts([]);
+    setActiveContact(undefined);
     stompClient && stompClient.disconnect();
     getItem(id).then((item)=>{
       setCurrentItem(item);
@@ -244,7 +245,7 @@ const Label = styled.label`
       contactItems.push(item);
     }
     setContacts(contactItems);
-    if (activeContact === undefined && contactItems?.length > 0) {
+    if (contactItems?.length > 0) {
       setActiveContact(contactItems[0]);
     }
 

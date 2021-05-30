@@ -149,6 +149,7 @@ const Game = (props) => {
     const message = {
       senderId: idNumber,
       recipientId: activeContact.id,
+      senderName: props.currentItem.title,
       //senderId: props.currentItem.id,
       request: true,
     };
