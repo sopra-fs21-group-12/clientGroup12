@@ -11,11 +11,12 @@ import BackToInventory from "../RedirectButtons/BackToInventory";
 import PictureSliderItem from "../pictures/PictureSilderItem";
 import Navbar from "../Navbar/Navbar";
 
-import {GoogleMap, useJsApiLoader, Marker} from "@react-google-maps/api";
+import MarkerWithLabel from "react-google-maps/lib/components/addons/MarkerWithLabel";
+
+import {GoogleMap, useJsApiLoader, Marker, InfoWindow} from "@react-google-maps/api";
 require('dotenv').config();
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 const containerStyle = {
-    width: '700px',
     height: '400px'
 };
 
@@ -60,6 +61,7 @@ function MyMatches(props) {
             setItemData(getOwnItem.data)
 
             const getMatchesOfItem = await api.get(`/${id}/showmatches`)
+
 
             // extract id of matched items
             let arr = getMatchesOfItem.data.map(id => id.itemIdTwo);
@@ -128,7 +130,7 @@ function MyMatches(props) {
                 <Loader/>
             ) : (
                 <Grid container justify="center" spacing={10}>
-                    <Grid item xs={6}>
+                    <Grid item xs={5}>
                         <Panel shaded>
                         <Grid container justify="center" alignItems="center" spacing={4}>
                                 <Grid item xs={4}>
@@ -141,7 +143,7 @@ function MyMatches(props) {
                         </Grid>
                         </Panel>
                     </Grid>
-                    <Grid item xs={10}>
+                    <Grid item xs={9}>
                         {!matchedItems.length ? (
                             <no-match>No Matches with this item</no-match>
                         ) : (
@@ -155,22 +157,36 @@ function MyMatches(props) {
                                     );
                                 })
                         )}
+                        <br/>
+                        <Panel shaded
+                               collapsible
+                               header={<h4>Locations on Map</h4>}>
+                            {uniqueUsers && <GoogleMap
+                                center={center}
+                                mapContainerStyle={containerStyle}
+                                zoom={6}
+                                onLoad={onLoad}
+                                onUnmount={onUnmount}
+                            >
+                                {
+                                    uniqueUsers && uniqueUsers.map(user => {
+                                        return (
+                                            <div>
+                                                <InfoWindow
+                                                    key={user.name}
+                                                    position={{lat: user.latitude, lng: user.longitude}}
+                                                >
+                                                    <div>
+                                                        <h6>{user.username}</h6>
+                                                    </div>
+                                                </InfoWindow>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </GoogleMap>}
+                        </Panel>
                     </Grid>
-                    {uniqueUsers && <GoogleMap
-                      center={center}
-                      mapContainerStyle={containerStyle}
-                      zoom={2}
-                      onLoad={onLoad}
-                      onUnmount={onUnmount}
-                    >
-                        {
-                            uniqueUsers && uniqueUsers.map(user => {
-                                return (
-                                  <Marker key={user.name} position={{lat: user.latitude, lng: user.longitude}} title={user.username}/>
-                                )
-                            })
-                        }
-                    </GoogleMap>}
                 </Grid>
             )}
         </div>

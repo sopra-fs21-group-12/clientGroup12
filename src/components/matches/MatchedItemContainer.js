@@ -8,6 +8,7 @@ import PictureSliderItem from "../pictures/PictureSilderItem";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import {DoneOutline} from "@material-ui/icons";
 import {api, handleError} from "../../helpers/api";
+import Divider from "@material-ui/core/Divider";
 
 
 
@@ -71,10 +72,17 @@ export default function MatchedItemContainer(props) {
     const [modalConfirm, setModalConfirm] = useState({show: false})
     const [swap, setSwap] = useState();
 
+    const [user, setUser] = useState("");
+
+
     useEffect(async () => {
         try {
             const response = await api.get(`/swap/check/${props.chatId}/${props.item.id}`)
             setSwap(response.data);
+
+            const userResponse = await api.get(`/users/${props.item.userId}`)
+            console.log(userResponse.data)
+            setUser(userResponse.data);
 
         } catch (error) {
             alert(`Something went wrong while fetching the matches: \n${handleError(error)}`);
@@ -123,7 +131,7 @@ export default function MatchedItemContainer(props) {
                                    <PictureSliderItem id={props.item.id}/>
                                </Grid>
                                <Grid item xs={5}>
-                                   <Label>Matched with</Label>
+                                   {user&&<Label>Matched with item of: {user.username}</Label>}
                                    <h3>{props.item.title}</h3>
                                </Grid>
                                <Grid item xs={1}>
@@ -220,6 +228,7 @@ export default function MatchedItemContainer(props) {
 
                            </Grid>
                        }>
+                    <h6>Item Description:</h6>
                     <h6>{props.item.description}</h6>
                 </Panel>
             </Grid>
