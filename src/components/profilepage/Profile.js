@@ -38,7 +38,6 @@ function Profile() {
         password: "",
         address: "",
         city: "",
-        postcode: 0,
     })
 
     useEffect(async () => {
