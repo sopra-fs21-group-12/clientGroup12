@@ -53,6 +53,13 @@ The correlation of these components is mainly based on the item. The user is red
 ### How to get things up and running 
 To get things up and running as a developer in the fronted, there are a couple of steps that need to be done. Firstly a good IDE is recommended. We as a Team mainly used Visual Studio Code, but another IDE, such as WebStorm by Jetbrains works to.
 
+If you are new to React/Javascript/HTML and CSS : Here are some good resources to get you up and started:
+1) Javascript ES6 about 1 hour: [Youtube-Video](https://www.youtube.com/watch?v=NCwa_xi0Uuc)
+2) Javascript Nuggets helpfull for React JS: [Youtube Playlist](https://www.youtube.com/watch?v=80KX6aD9R7M&list=PLnHJACx3NwAfRUcuKaYhZ6T5NRIpzgNGJ)
+3) HTML & CSS Basics Tutorial: [Playlist](https://www.youtube.com/watch?v=hu-q2zYwEYs&list=PL4cUxeGkcC9ivBf_eKCPIAYXWzLlPAm6G)
+4) Material UI for React: [Playlist](https://www.youtube.com/watch?v=0KEpWHtG10M&list=PL4cUxeGkcC9gjxLvV4VEkZ6H6H4yWuS58)
+5) React: [Playlist](https://www.youtube.com/watch?v=j942wKiXFu8&list=PL4cUxeGkcC9gZD-Tvwfod2gaISzfRiP9d)
+
 For your local development environment you'll need Node.js >= 8.10. You can download it [here](https://nodejs.org). All other dependencies including React get installed with:
 
 ### `npm install`
