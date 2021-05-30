@@ -165,7 +165,7 @@ function SwipePage(props) {
     }
 
     const buttonLike = (likes) =>{
-        if(itemsRef.current.length <1){
+        if(itemsRef.current.length <1 || !currItemRef.current?.id){
             return
         }
         if(likes){
