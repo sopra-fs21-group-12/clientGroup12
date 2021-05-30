@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {useCallback, useState} from "react";
 import {GoogleMap, useJsApiLoader, Marker} from "@react-google-maps/api";
 import {withRouter} from "react-router-dom";
@@ -43,8 +43,14 @@ function RegistrationMap() {
       .then(results => getLatLng(results[0]))
       .then(latLng => setCenter(latLng))
       .catch(error => console.error('Error', error));
-    localStorage.setItem("latLng", JSON.stringify(center))
   }
+
+  useEffect(() =>{
+    if(center){
+      localStorage.setItem("latLng", JSON.stringify(center))
+    }
+
+  },[center])
 
   return isLoaded ? (
     <div>
