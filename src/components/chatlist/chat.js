@@ -418,7 +418,6 @@ const Label = styled.label`
       </Grid>
     </Grid>
     </Grid>
-    <BackToInventory/>
     </>
 
   );
