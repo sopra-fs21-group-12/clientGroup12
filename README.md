@@ -93,7 +93,21 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## Illustrations/Screenshots of the APP
 
+### My Inventory
+Here you can find the Inventory Page of the application. It represents the homepage of the application. 
+![MyInventory](https://mypicturegallerydshush.s3.eu-central-1.amazonaws.com/0/MyInventoryPage.jpeg)
 
+### Swipe Page
+This is one of the most important screens, to properly swap your item for another item. Here you decide if you want to swap your item for the other item or not:
+![SwipePage](https://mypicturegallerydshush.s3.eu-central-1.amazonaws.com/0/MySwipePage.jpeg)
+
+### Matches Page
+Here you can see all the matches, that you have with this item (Two likes = 1 Match)
+![MatchPage](https://mypicturegallerydshush.s3.eu-central-1.amazonaws.com/0/MyMatchesPage.jpeg)
+
+### Chat Page 
+Here you can find the Chat Page. When two items have a match, they can start chatting with eachother. Here you can a sample chat 
+![Chat](https://mypicturegallerydshush.s3.eu-central-1.amazonaws.com/0/MyChatPage.jpeg)
 
 ## Roadmap
 As a new developer here are some suggestions, that could be added to our project:
