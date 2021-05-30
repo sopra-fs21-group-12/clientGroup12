@@ -8,6 +8,8 @@ import Edit from "./Edit";
 import BackToInventory from "../RedirectButtons/BackToInventory";
 import Navbar from "../Navbar/Navbar";
 
+//TODO: adapt to new latlng style and reverse geocoding address display
+
 const useStyles = makeStyles((theme) => ({
     root: {
         margin: 20

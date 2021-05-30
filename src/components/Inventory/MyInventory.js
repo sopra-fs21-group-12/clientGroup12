@@ -8,7 +8,6 @@ import {
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { api, handleError } from '../../helpers/api';
 import MyItemsContainer from "./MyItemsContainer";
-import {Panel} from "rsuite";
 import Navbar from "../Navbar/Navbar";
 import InputPickerSwipe from "../tagPicker/InputPickerSwipe";
 
@@ -130,7 +129,8 @@ function MyInventory() {
                 <MyItemsContainer item={item}/>
               </Grid>
             </div>
-          )})}
+          )
+        })}
       </Grid>
     </Grid>
       <Grid item xs={2}>

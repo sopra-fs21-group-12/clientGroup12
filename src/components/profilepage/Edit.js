@@ -3,6 +3,7 @@ import {Modal, ButtonToolbar, Button} from "rsuite";
 import {TextField} from "@material-ui/core";
 import {api, handleError} from "../../helpers/api";
 
+//TODO: change the edit modal to fetch latLng from LocationSearchInput
 
 export default function Edit(props) {
     const id = localStorage.getItem("id")
@@ -83,39 +84,6 @@ export default function Edit(props) {
                         label="name"
                         id="name"
                         onChange={handleChange}
-                    />
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      name="address"
-                      defaultValue={edit.address}
-                      label="address"
-                      id="address"
-                      onChange={handleChange}
-                    />
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      name="city"
-                      defaultValue={edit.city}
-                      label="city"
-                      id="city"
-                      onChange={handleChange}
-                    />
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      name="Postale Code"
-                      defaultValue={edit.postcode}
-                      label="Postale Code"
-                      id="postcode"
-                      onChange={handleChange}
                     />
                     <TextField
                       variant="outlined"

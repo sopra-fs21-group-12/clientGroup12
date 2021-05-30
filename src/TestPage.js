@@ -8,6 +8,7 @@ import 'react-slidy/lib/styles.css';
 import { Avatar, Button, CssBaseline, TextField, Link, Grid, Box, Typography, Container, Paper, Card, CardContent } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {Panel} from "rsuite";
+import RegistrationMap from "./components/map/RegistrationMap";
 /*
 
 
@@ -107,9 +108,9 @@ const ItemImages = ({id}) => {
 
 function TestPage(){
   return (
-      <div>h</div>
+    <RegistrationMap/>
   )
-};
+}
 
 
 export default withRouter(TestPage);
