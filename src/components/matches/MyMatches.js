@@ -10,6 +10,7 @@ import styled from "styled-components";
 import Picture from "../pictures/Picture";
 import BackToInventory from "../RedirectButtons/BackToInventory";
 import PictureSliderItem from "../pictures/PictureSilderItem";
+import Navbar from "../Navbar/Navbar";
 
 
 const Label = styled.label`
@@ -71,7 +72,9 @@ function MyMatches(props) {
 
     return (
         <div>
-            <BackToInventory/>
+            <Navbar/>
+            <br/>
+            <br/>
             {!matchedItems ||!itemData ? (
                 <Loader/>
             ) : (
@@ -91,7 +94,7 @@ function MyMatches(props) {
                     </Grid>
                     <Grid item xs={10}>
                         {!matchedItems.length ? (
-                            <noMatch>No Matches with this item</noMatch>
+                            <no-match>No Matches with this item</no-match>
                         ) : (
                             matchedItems.map(item => {
                                     return (

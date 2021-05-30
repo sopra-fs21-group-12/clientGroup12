@@ -12,7 +12,6 @@ export default function InputPickerSwipe(props) {
         <InputPicker
             placeholder="Add Tags"
             size='lg'
-            creatable="false"
             data={props.tags}
             style={{ width: 300 }}
             onChange={handleChange}

@@ -41,33 +41,27 @@ function Registration() {
   const [postcode, setPostCode] = useState();
 
   const onChangeUsername = (input) => {
-    const username = input.target.value;
-    setUsername(username);
+    setUsername(input.target.value);
   };
 
   const onChangeName = (input) => {
-    const name = input.target.value;
-    setName(name);
+    setName(input.target.value);
   };
 
   const onChangePassword = (input) => {
-    const password = input.target.value;
-    setPassword(password);
+    setPassword(input.target.value);
   }
 
   const onChangeAddress = (input) => {
-    const address = input.target.value;
-    setAddress(address);
+    setAddress(input.target.value);
   }
 
   const onChangeCity = (input) => {
-    const city = input.target.value;
-    setCity(city);
+    setCity(input.target.value);
   }
 
   const onChangePostCode = (input) => {
-    const postcode = input.target.value;
-    setPostCode(postcode);
+    setPostCode(input.target.value);
   }
 
   const handleRegistration = async () => {
@@ -174,16 +168,6 @@ function Registration() {
             fullWidth
             required
             onChange={onChangePassword}
-          >
-          </TextField>
-          <TextField
-            id="outlined-basic"
-            margin="normal"
-            label="Password verification"
-            variant="outlined"
-            type="password"
-            fullWidth
-            required
           >
           </TextField>
         </Panel>
