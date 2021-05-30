@@ -19,6 +19,10 @@ const useStyles = makeStyles((theme) => ({
       paddingTop: 30,
       justifyItems: "center",
     },
+    transparent:{
+      margin: 20,
+      backgroundColor: "transparent"
+    }
   })
 )
 const loader = (
@@ -72,8 +76,10 @@ function Profile() {
     <div>
        <Grid container justify="center" spacing={0}>
        <Navbar/>
-        <Grid container>
-            <Grid item xs={12}>
+       <br/>
+       <br/>
+        <Grid container justify="center">
+            <Grid item xs={6}>
                 <header> Your Profile Page </header>
             </Grid>
         </Grid>
@@ -88,7 +94,7 @@ function Profile() {
             >
                 <Paper
                 elevation={0}
-                className={classes.root}
+                className={classes.transparent}
                 >
                     <Typography variant="h5">
                     {loading ? loader :

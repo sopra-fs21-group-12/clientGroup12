@@ -119,6 +119,9 @@ export function NavbarLoggedOut() {
   const handleTeam = () => {
     history.push("/team")
   }
+  const handleInfo = () => {
+    window.location.replace("https://landingonsopra.herokuapp.com/");
+  }
 
   return (
     <div className={classes.root}>
@@ -169,7 +172,7 @@ export function NavbarLoggedOut() {
               <ListItemIcon style={{minWidth: '30px'}}>
                   <InfoIcon/> 
              </ListItemIcon>
-             <ListItemText >Info</ListItemText>
+             <ListItemText onClick={handleInfo}>Info</ListItemText>
             </ListItem>
         </List>
         <Divider />
