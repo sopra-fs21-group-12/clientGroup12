@@ -9,6 +9,8 @@ import styled from "styled-components";
 import Picture from "../pictures/Picture";
 import BackToInventory from "../RedirectButtons/BackToInventory";
 import PictureSliderItem from "../pictures/PictureSilderItem";
+import Navbar from "../Navbar/Navbar";
+
 import {GoogleMap, useJsApiLoader, Marker} from "@react-google-maps/api";
 require('dotenv').config();
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
@@ -119,7 +121,9 @@ function MyMatches(props) {
 
     return isLoaded ?(
         <div>
-            <BackToInventory/>
+            <Navbar/>
+            <br/>
+            <br/>
             {!matchedItems ||!itemData ? (
                 <Loader/>
             ) : (
@@ -139,7 +143,7 @@ function MyMatches(props) {
                     </Grid>
                     <Grid item xs={10}>
                         {!matchedItems.length ? (
-                            <noMatch>No Matches with this item</noMatch>
+                            <no-match>No Matches with this item</no-match>
                         ) : (
                             matchedItems.map(item => {
                                     return (

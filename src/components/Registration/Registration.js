@@ -38,18 +38,15 @@ function Registration() {
   const [password, setPassword] = useState("");
 
   const onChangeUsername = (input) => {
-    const username = input.target.value;
-    setUsername(username);
+    setUsername(input.target.value);
   };
 
   const onChangeName = (input) => {
-    const name = input.target.value;
-    setName(name);
+    setName(input.target.value);
   };
 
   const onChangePassword = (input) => {
-    const password = input.target.value;
-    setPassword(password);
+    setPassword(input.target.value);
   }
 
   const handleRegistration = async () => {
@@ -128,16 +125,6 @@ function Registration() {
             fullWidth
             required
             onChange={onChangePassword}
-          >
-          </TextField>
-          <TextField
-            id="outlined-basic"
-            margin="normal"
-            label="Password verification"
-            variant="outlined"
-            type="password"
-            fullWidth
-            required
           >
           </TextField>
           <RegistrationMap/>

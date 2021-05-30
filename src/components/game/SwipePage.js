@@ -20,13 +20,16 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         paddingTop: 0,
         padding: 20,
-        height: "40em"
+        height: "40em",
+        backgroundColor: "transparent"
     },
     swipe: {
-        height: "29em"
+        height: "29em",
+        backgroundColor: "transparent"
     },
     userItem:{
-        height: "10em"
+        height: "10em",
+        backgroundColor: "transparent"
     },
 
     textLeft:{
@@ -205,7 +208,7 @@ function SwipePage(props) {
                                             </ReportButton>
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <titleSwap>{currItem.title}</titleSwap>
+                                            <title-swap>{currItem.title}</title-swap>
                                         </Grid>
                                         <Grid item xs={12}>
                                             <h5>{currItem.description}</h5>
@@ -236,7 +239,7 @@ function SwipePage(props) {
                                                     <Grid item xs={2}>
                                                         <h5 onClick={()=>buttonLike(false)} className={classes.textLeft}>Swipe Left for NOPE ❌</h5>
                                                     </Grid>
-                                                    <Grid item xs={6}>
+                                                    <Grid className='cardContainer' item xs={6}>
                                                         <div className='cardContainer'>
                                                             <TinderCard className='swipe' preventSwipe={["up","down"]} key={currItem.id} onSwipe={(dir) => like(dir, currItem.id)}>
                                                                 <div className='card'>

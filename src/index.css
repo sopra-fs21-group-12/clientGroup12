@@ -20,7 +20,7 @@ header {
   line-height: 73px;
 }
 
-titleSwap {
+title-swap {
   margin: 0;
   font-family: 'Montserrat', sans-serif;
   font-style: normal;
@@ -28,7 +28,7 @@ titleSwap {
   font-size: 35px;
 }
 
-noMatch {
+no-match {
   margin: 0;
   font-family: 'Montserrat', sans-serif;
   font-style: normal;
@@ -36,7 +36,7 @@ noMatch {
   font-size: 40px;
 }
 
-navbarIcon {
+navbar-icon {
   margin-left: 5px;
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;

@@ -92,8 +92,10 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 2,
     fontFamily: "Newsreader"
-
-}
+  },
+  test:{
+    backgroundColor: "white"
+  }
 }));
 
 
@@ -121,7 +123,7 @@ export function NavbarLoggedOut() {
   return (
     <div className={classes.root}>
     <CssBaseline />
-      <AppBar position="flex" color="transparent"
+      <AppBar elevation={0} position="relative" color="transparent"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: openDrawer,
         })}>

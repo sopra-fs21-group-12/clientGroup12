@@ -162,7 +162,7 @@ export function NavbarLoggedIn() {
   return (
     <div className={classes.root}>
     <CssBaseline />
-      <AppBar position="flex"  color="transparent"
+      <AppBar style={{ background: 'transparent', boxShadow: 'none'}} elevation={0} position="relative" color="transparent"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: openDrawer,
         })}>
@@ -180,12 +180,12 @@ export function NavbarLoggedIn() {
           </Typography>
           <IconButton aria-label="Show me the inventory" color="inherit">
             <AllInboxIcon onClick={()=>{handleHome()}} style={{ fontSize: 28 }} onClick={()=>{handleChat()}}/>
-            <Typography onClick={()=>{handleHome()}}><navbarIcon>Inventory</navbarIcon></Typography>
+            <Typography onClick={()=>{handleHome()}}><navbar-icon>Inventory</navbar-icon></Typography>
           </IconButton>
         
           <IconButton aria-label="show me the chat" color="inherit">
             <ForumIcon style={{ fontSize: 28 }} onClick={()=>{handleChat()}}/>
-            <Typography onClick={()=>{handleChat()}}><navbarIcon>Chat</navbarIcon></Typography>
+            <Typography onClick={()=>{handleChat()}}><navbar-icon>Chat</navbar-icon></Typography>
           </IconButton>
           <IconButton
                 aria-label="account of current user"
@@ -195,7 +195,7 @@ export function NavbarLoggedIn() {
                 color="inherit"
               >
                 <AccountCircle style={{ fontSize: 28 }} />
-                <Typography><navbarIcon>Profile</navbarIcon></Typography>
+                <Typography><navbar-icon>Profile</navbar-icon></Typography>
 
               </IconButton>
               <Menu
