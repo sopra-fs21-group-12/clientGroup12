@@ -53,7 +53,6 @@ export default function MyItemsContainer(props) {
               <Grid item xs={2}>
               <Button
                 variant="contained"
-                className={classes.itemEdit}
                 onClick={() => history.push('/edit/' + props.item.id)}
               >
                 Edit Item
